@@ -40,6 +40,7 @@ import org.maloi.evolvo.expressiontree.operators.scalar.Exponent;
 import org.maloi.evolvo.expressiontree.operators.scalar.Floor;
 import org.maloi.evolvo.expressiontree.operators.scalar.Ifs;
 import org.maloi.evolvo.expressiontree.operators.scalar.Invert;
+import org.maloi.evolvo.expressiontree.operators.scalar.Magnitude;
 import org.maloi.evolvo.expressiontree.operators.scalar.Mandel;
 import org.maloi.evolvo.expressiontree.operators.scalar.Maximum;
 import org.maloi.evolvo.expressiontree.operators.scalar.Minimum;
@@ -52,10 +53,15 @@ import org.maloi.evolvo.expressiontree.operators.scalar.Remainder;
 import org.maloi.evolvo.expressiontree.operators.scalar.Rint;
 import org.maloi.evolvo.expressiontree.operators.scalar.Sine;
 import org.maloi.evolvo.expressiontree.operators.scalar.Subtraction;
-import org.maloi.evolvo.expressiontree.operators.scalar.Magnitude;
 import org.maloi.evolvo.expressiontree.operators.scalar.Xor;
+import org.maloi.evolvo.expressiontree.operators.triplet.CartesianToSpherical;
 import org.maloi.evolvo.expressiontree.operators.triplet.CrossProduct;
+import org.maloi.evolvo.expressiontree.operators.triplet.Gradient;
+import org.maloi.evolvo.expressiontree.operators.triplet.HSVtoRGB;
+import org.maloi.evolvo.expressiontree.operators.triplet.Normalize;
 import org.maloi.evolvo.expressiontree.operators.triplet.Scale;
+import org.maloi.evolvo.expressiontree.operators.triplet.SphereMux;
+import org.maloi.evolvo.expressiontree.operators.triplet.SphericalToCartesian;
 import org.maloi.evolvo.expressiontree.operators.triplet.TripletAdd;
 import org.maloi.evolvo.expressiontree.operators.triplet.TripletSubtract;
 
@@ -70,7 +76,7 @@ public class OperatorList
 {
    static HashMap operatorHash;
    static OperatorInterface scalarList[] = new OperatorInterface[30];
-   static OperatorInterface tripletList[] = new OperatorInterface[4];
+   static OperatorInterface tripletList[] = new OperatorInterface[10];
    static OperatorInterface completeList[];
 
    static {
@@ -113,7 +119,13 @@ public class OperatorList
       tripletList[1] = new TripletSubtract();
       tripletList[2] = new Scale();
       tripletList[3] = new CrossProduct();
-
+      tripletList[4] = new Normalize();
+      tripletList[5] = new CartesianToSpherical();
+      tripletList[6] = new SphericalToCartesian();
+      tripletList[7] = new Gradient();
+      tripletList[8] = new HSVtoRGB();
+      tripletList[9] = new SphereMux();
+      
       int count = 0;
 
       // Perform any initialization code the operator might need,
