@@ -154,11 +154,6 @@ public class QuickTimeExporter
       {
          return false;
       }
-      catch (QTException e)
-      {
-         e.printStackTrace();
-         return false;
-      }
 
       return true;
    }
@@ -225,9 +220,6 @@ public class QuickTimeExporter
          available = false;
          e.printStackTrace();
       }
-      catch (ClassNotFoundException e)
-      {
-         available = false;
-      }
+
    }
 }
