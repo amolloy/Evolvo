@@ -41,8 +41,8 @@ public class Tools
    public static int[] masks;
    public static int[] offsets;
 
-   static final double map_height = Math.pow(0.5, 2);
-   static final double PI_OVER_TWO = Math.PI / 2.0;
+   static final double map_height = 2;
+   public static final double PI_OVER_TWO = Math.PI / 2.0;
 
    static {
       SinglePixelPackedSampleModel tempSM =
@@ -233,5 +233,30 @@ public class Tools
       double translated = (PI_OVER_TWO - Math.abs(angle)) / PI_OVER_TWO;
 
       return translated;
+   }
+   
+   public static double magnitude(double[] a)
+   {
+      return Math.sqrt(a[0] * a[0] + a[1] * a[1] + a[2] * a[2]);
+   }
+   
+   public static double magnitude2(double[] a)
+   {
+      return a[0] * a[0] + a[1] * a[1] + a[2] * a[2];
+   }
+   
+   public static double[] normalize(double[] a)
+   {
+      double m = magnitude(a);
+      
+      if (Math.abs(m) == 0.0) return a;
+      
+      double[] b = new double[3];
+      
+      b[0] = a[0] / m;
+      b[1] = a[1] / m;
+      b[2] = a[2] / m;
+      
+      return b;
    }
 }

@@ -30,8 +30,6 @@ import java.lang.reflect.Method;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
-import org.apache.log4j.*;
-
 import org.maloi.evolvo.gui.SystemConsole;
 import org.maloi.evolvo.io.exporters.v1.ExporterInterface;
 import org.maloi.evolvo.localization.MessageStrings;
@@ -56,8 +54,6 @@ public class Exporter
    static SystemConsole console = SystemConsole.getInstance();
 
    static boolean available = false;
-
-   static Logger logger = null;
 
    static {
       init();
@@ -205,14 +201,6 @@ public class Exporter
    public static void write(RenderedImage i, int which, File f)
       throws IOException
    {
-      if (logger == null)
-      {
-         logger = Logger.getLogger("org.maloi.evolvo"); //$NON-NLS-1$
-      }
-
-      logger.setLevel(Level.DEBUG);
-      logger.debug("--- BEGINNING IMAGE EXPORT ---"); //$NON-NLS-1$
-
       if (available)
       {
          try
@@ -223,13 +211,9 @@ public class Exporter
          }
          catch (Exception e)
          {
-            logger.debug("Exporter Exception...", e); //$NON-NLS-1$
             console.printStackTrace(e);
          }
       }
-
-      logger.debug("--- FINISHED IMAGE EXPORT ---"); //$NON-NLS-1$
-      logger.setLevel(Level.WARN);
    }
 
    static Vector checkPlugins(Vector pluginVector)

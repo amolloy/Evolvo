@@ -44,8 +44,6 @@ import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 import javax.swing.UIManager;
 
-import org.apache.log4j.*;
-
 import org.maloi.evolvo.expressiontree.ExpressionTree;
 import org.maloi.evolvo.expressiontree.mutator.Mutator;
 import org.maloi.evolvo.expressiontree.renderer.RendererInterface;
@@ -78,8 +76,6 @@ public class Evolvo extends JFrame implements ActionListener
    Object macHandler = null; // Only used when run on a mac
    SystemConsole console;
 
-	static Logger logger = null;
-
    static {
       // Set some OS X specific settings (has no affect on other platforms)
       System.setProperty("apple.laf.useScreenMenuBar", "true"); //$NON-NLS-1$ //$NON-NLS-2$
@@ -111,9 +107,6 @@ public class Evolvo extends JFrame implements ActionListener
       logSystemInfo();
 
 		console.println("Setting up system logger..."); //$NON-NLS-1$
-		PropertyConfigurator.configure("evolvoLogger.ini"); //$NON-NLS-1$				
-		logger = Logger.getLogger("org.maloi.evolvo"); //$NON-NLS-1$
-   	logger.setLevel(Level.WARN);
 
       console.println(MessageStrings.getString("Evolvo.Creating_splash_screen_6")); //$NON-NLS-1$
 
@@ -242,7 +235,7 @@ public class Evolvo extends JFrame implements ActionListener
       menuitem.addActionListener(this);
       fileMenu.add(menuitem);
 
-      if (!Constants.isMac)
+      if (!Constants.isMac || true) // disable mac menu for now
       {
          // On Mac, these are handled elsewhere
 
