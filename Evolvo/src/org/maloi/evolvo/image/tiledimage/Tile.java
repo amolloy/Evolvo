@@ -130,7 +130,7 @@ public class Tile
 
    public void setPixel(int x, int y, int value)
    {
-      data[(x - xloc) + ((y - yloc) * TILE_SIZE)] = value;
+      data[(x - xloc) + ((y - yloc) * TILE_SIZE)] = fixPixel(value);
    }
 
    public void setPixels(
@@ -161,7 +161,8 @@ public class Tile
 
          for (x = startX; x < endX; x++)
          {
-            data[dstYOffset + x - xloc] = src[srcYOffset + (x - startX)];
+            data[dstYOffset + x - xloc] =
+               fixPixel(src[srcYOffset + (x - startX)]);
          }
       }
       else if (w == 1)
@@ -171,7 +172,7 @@ public class Tile
             srcYOffset = (y - startY) * srcScansize + off;
             dstYOffset = (y - yloc) * TILE_SIZE + startX - xloc;
 
-            data[dstYOffset] = src[srcYOffset];
+            data[dstYOffset] = fixPixel(src[srcYOffset]);
          }
       }
       else
@@ -183,7 +184,8 @@ public class Tile
 
             for (x = startX; x < endX; x++)
             {
-               data[dstYOffset + x - xloc] = src[srcYOffset + (x - startX)];
+               data[dstYOffset + x - xloc] =
+                  fixPixel(src[srcYOffset + (x - startX)]);
             }
          }
       }
@@ -315,7 +317,8 @@ public class Tile
 
          for (int sampleCount = 0; sampleCount < 3; sampleCount++)
          {
-            data[dataCount] |= (diskdata[dataOffset++] << offsets[sampleCount]) & masks[sampleCount];
+            data[dataCount] |= (diskdata[dataOffset++] << offsets[sampleCount])
+               & masks[sampleCount];
          }
       }
 
@@ -350,5 +353,32 @@ public class Tile
    public SampleModel getSampleModel()
    {
       return sm;
+   }
+
+   int fixPixel(int p)
+   {
+      int[] samples = new int[3];
+      int sampleCount;
+      int temp;
+
+      for (sampleCount = 0; sampleCount < 3; sampleCount++)
+      {
+         samples[sampleCount] =
+            (byte) ((p & masks[sampleCount]) >> offsets[sampleCount]);
+      }
+
+      p = 0;
+
+      temp = samples[0];
+      samples[0] = samples[2];
+      samples[2] = temp;
+
+      for (sampleCount = 0; sampleCount < 3; sampleCount++)
+      {
+         p |= (samples[sampleCount] << offsets[sampleCount])
+            & masks[sampleCount];
+      }
+
+      return p;
    }
 }

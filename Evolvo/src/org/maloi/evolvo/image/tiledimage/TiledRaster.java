@@ -25,6 +25,7 @@ package org.maloi.evolvo.image.tiledimage;
 import java.awt.Point;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBuffer;
+import java.awt.image.DataBufferInt;
 import java.awt.image.ImageProducer;
 import java.awt.image.Raster;
 import java.awt.image.SampleModel;
@@ -69,6 +70,8 @@ public class TiledRaster extends WritableRaster
 
    static SampleModel tileSampleModel;
 
+   static int[] masks;
+
    static {
       BufferedImage image;
 
@@ -76,6 +79,8 @@ public class TiledRaster extends WritableRaster
          new BufferedImage(TILE_SIZE, TILE_SIZE, BufferedImage.TYPE_INT_RGB);
 
       tileSampleModel = image.getSampleModel();
+
+      masks = ((SinglePixelPackedSampleModel) tileSampleModel).getBitMasks();
    }
 
    public TiledRaster(int width, int height)
@@ -336,16 +341,9 @@ public class TiledRaster extends WritableRaster
 
       Point location = theTile.getLocation();
 
-      WritableRaster tr =
-         Raster.createWritableRaster(tileSampleModel, location);
+      DataBufferInt dataBuffer =
+         new DataBufferInt(theTile.getData(), TILE_SIZE * TILE_SIZE);
 
-      tr.setDataElements(
-         location.x,
-         location.y,
-         TILE_SIZE,
-         TILE_SIZE,
-         theTile.getData());
-
-      return tr;
+      return Raster.createRaster(tileSampleModel, dataBuffer, location);
    }
 }
