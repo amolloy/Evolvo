@@ -141,13 +141,9 @@ public class ImageIOExporter implements ExporterInterface, ImageObserver
 
    public void initialize()
    {
-      descriptions = getWriterFormatNames();
+		ImageIO.scanForPlugins();
 
-//      for (int i = 0; i < descriptions.length; i++)
-//      {
-//         String exts[] = getFormatExtensions(descriptions[i]);
-//         Integer I = new Integer(i);
-//      }
+      descriptions = getWriterFormatNames();
    }
 
    public boolean imageUpdate(
