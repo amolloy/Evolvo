@@ -34,7 +34,7 @@ public class ExpressionTreeMutator
 {
    static GlobalSettings settings = GlobalSettings.getInstance();
    static VariablePackage variables = VariablePackage.getInstance();
-   static OperatorInterface list[] = OperatorList.getOperators();
+   static OperatorInterface list[] = OperatorList.getScalarOperators();
 
    static double scalar_change_value;
    static double to_variable;

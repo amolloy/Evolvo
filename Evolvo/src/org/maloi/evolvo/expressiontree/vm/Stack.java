@@ -66,4 +66,22 @@ public class Stack
 
       return theStack[--stackPointer];
    }
+   
+   public void pushTriplet(double[] values)
+   {
+      push(values[0]);
+      push(values[1]);
+      push(values[2]);
+   }
+   
+   public double[] popTriplet()
+   {
+      double[] values = new double[3];
+      
+      values[0] = pop();
+      values[1] = pop();
+      values[2] = pop();
+      
+      return values;
+   }
 }

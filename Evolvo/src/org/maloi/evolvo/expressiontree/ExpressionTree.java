@@ -43,12 +43,6 @@ public class ExpressionTree implements Serializable
    /** Holds the cached value for this branch.  */
    double cachedValue;
    boolean cacheable = false;
-   /** With the new expression evaluation engine, there's no need
-   *  to keep passing a variablePackage around, so we'll just
-   *  keep one instance of it here.
-   *
-   *  TODO: Make variablePackage static
-   */
 
    static VariablePackage vp = VariablePackage.getInstance();
 

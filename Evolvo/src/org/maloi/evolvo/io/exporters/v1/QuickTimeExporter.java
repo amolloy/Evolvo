@@ -30,7 +30,8 @@
  * until it actually gets to the part where it physically writes the image to
  * disk. Then it throws an exception complaining it can't find the handler or
  * some such stuff. 
- * TODO: See if the above condition can be tested for when discovering this
+ * 
+ * Note: See if the above condition can be tested for when discovering this
  * plugin's "availability."
  */
 

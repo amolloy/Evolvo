@@ -22,56 +22,96 @@
 
 package org.maloi.evolvo.expressiontree.operators;
 
-import java.io.Serializable;
 import java.util.HashMap;
+
+import org.maloi.evolvo.expressiontree.operators.scalar.Absolute;
+import org.maloi.evolvo.expressiontree.operators.scalar.Addition;
+import org.maloi.evolvo.expressiontree.operators.scalar.And;
+import org.maloi.evolvo.expressiontree.operators.scalar.Arccos;
+import org.maloi.evolvo.expressiontree.operators.scalar.Arcsin;
+import org.maloi.evolvo.expressiontree.operators.scalar.Arctan;
+import org.maloi.evolvo.expressiontree.operators.scalar.Atan2;
+import org.maloi.evolvo.expressiontree.operators.scalar.Beta;
+import org.maloi.evolvo.expressiontree.operators.scalar.Ceil;
+import org.maloi.evolvo.expressiontree.operators.scalar.Cosine;
+import org.maloi.evolvo.expressiontree.operators.scalar.Division;
+import org.maloi.evolvo.expressiontree.operators.scalar.Exponent;
+import org.maloi.evolvo.expressiontree.operators.scalar.Floor;
+import org.maloi.evolvo.expressiontree.operators.scalar.Ifs;
+import org.maloi.evolvo.expressiontree.operators.scalar.Invert;
+import org.maloi.evolvo.expressiontree.operators.scalar.Mandel;
+import org.maloi.evolvo.expressiontree.operators.scalar.Maximum;
+import org.maloi.evolvo.expressiontree.operators.scalar.Minimum;
+import org.maloi.evolvo.expressiontree.operators.scalar.Multiplication;
+import org.maloi.evolvo.expressiontree.operators.scalar.Mux3;
+import org.maloi.evolvo.expressiontree.operators.scalar.Mux5;
+import org.maloi.evolvo.expressiontree.operators.scalar.Not;
+import org.maloi.evolvo.expressiontree.operators.scalar.Or;
+import org.maloi.evolvo.expressiontree.operators.scalar.Remainder;
+import org.maloi.evolvo.expressiontree.operators.scalar.Rint;
+import org.maloi.evolvo.expressiontree.operators.scalar.Sine;
+import org.maloi.evolvo.expressiontree.operators.scalar.Subtraction;
+import org.maloi.evolvo.expressiontree.operators.scalar.Xor;
+import org.maloi.evolvo.expressiontree.operators.triplet.TripletAdd;
+import org.maloi.evolvo.expressiontree.operators.triplet.TripletSubtract;
 
 /**
  * Creates a list of the currently available operators.
  */
-public class OperatorList implements Serializable
+public class OperatorList
 {
    static HashMap operatorHash;
-   static OperatorInterface list[] = new OperatorInterface[28];
+   static OperatorInterface scalarList[] = new OperatorInterface[28];
+   static OperatorInterface vectorList[] = new OperatorInterface[2];
 
    static {
       operatorHash = new HashMap(28);
 
-      list[0] = new Addition();
-      list[1] = new Subtraction();
-      list[2] = new Multiplication();
-      list[3] = new Division();
-      list[4] = new Absolute();
-      list[5] = new Invert();
-      list[6] = new Maximum();
-      list[7] = new Minimum();
-      list[8] = new Exponent();
-      list[9] = new Sine();
-      list[10] = new Cosine();
-      list[11] = new Arccos();
-      list[12] = new Arcsin();
-      list[13] = new Arctan();
-      list[14] = new Atan2();
-      list[15] = new Xor();
-      list[16] = new And();
-      list[17] = new Or();
-      list[18] = new Not();
-      list[19] = new Mandel();
-      list[20] = new Ifs();
-      list[21] = new Beta();
-      list[22] = new Ceil();
-      list[23] = new Floor();
-      list[24] = new Rint();
-      list[25] = new Remainder();
-      list[26] = new Mux5();
-      list[27] = new Mux3();
+      scalarList[0] = new Addition();
+      scalarList[1] = new Subtraction();
+      scalarList[2] = new Multiplication();
+      scalarList[3] = new Division();
+      scalarList[4] = new Absolute();
+      scalarList[5] = new Invert();
+      scalarList[6] = new Maximum();
+      scalarList[7] = new Minimum();
+      scalarList[8] = new Exponent();
+      scalarList[9] = new Sine();
+      scalarList[10] = new Cosine();
+      scalarList[11] = new Arccos();
+      scalarList[12] = new Arcsin();
+      scalarList[13] = new Arctan();
+      scalarList[14] = new Atan2();
+      scalarList[15] = new Xor();
+      scalarList[16] = new And();
+      scalarList[17] = new Or();
+      scalarList[18] = new Not();
+      scalarList[19] = new Mandel();
+      scalarList[20] = new Ifs();
+      scalarList[21] = new Beta();
+      scalarList[22] = new Ceil();
+      scalarList[23] = new Floor();
+      scalarList[24] = new Rint();
+      scalarList[25] = new Remainder();
+      scalarList[26] = new Mux5();
+      scalarList[27] = new Mux3();
+
+      vectorList[0] = new TripletAdd();
+      vectorList[1] = new TripletSubtract();
 
       // Perform any initialization code the operator might need,
       // as well as construct the HashMap of operators for the byName()
       // method.      
-      for (int i = 0; i < list.length; i++)
+      for (int i = 0; i < scalarList.length; i++)
       {
-         list[i].init();
-         operatorHash.put(list[i].getName().toLowerCase(), list[i]);
+         scalarList[i].init();
+         operatorHash.put(scalarList[i].getName().toLowerCase(), scalarList[i]);
+      }
+      
+      for (int i = 0; i < vectorList.length; i++)
+      {
+         vectorList[i].init();
+         operatorHash.put(vectorList[i].getName().toLowerCase(), vectorList[i]);
       }
    }
 
@@ -83,10 +123,16 @@ public class OperatorList implements Serializable
       throw new RuntimeException("operatorList: Should not have gotten here!");
    }
 
-   /** Return the list of operators available. */
-   public static OperatorInterface[] getOperators()
+   /** Return the list of scalar operators available. */
+   public static OperatorInterface[] getScalarOperators()
    {
-      return list;
+      return scalarList;
+   }
+
+   /** Return the list of vector operators available. */
+   public static OperatorInterface[] getVectorOperators()
+   {
+      return vectorList;
    }
 
    /**

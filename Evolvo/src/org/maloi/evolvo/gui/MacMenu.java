@@ -22,12 +22,12 @@
 
 package org.maloi.evolvo.gui;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import com.apple.eawt.Application;
 import com.apple.eawt.ApplicationAdapter;
 import com.apple.eawt.ApplicationEvent;
-
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public class MacMenu extends ApplicationAdapter
 {

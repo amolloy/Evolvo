@@ -33,7 +33,7 @@ import org.maloi.evolvo.settings.GlobalSettings;
 
 public class Tools
 {
-   static OperatorInterface[] list = OperatorList.getOperators();
+   static OperatorInterface[] list = OperatorList.getScalarOperators();
    static GlobalSettings settings = GlobalSettings.getInstance();
 
    static int[] masks;

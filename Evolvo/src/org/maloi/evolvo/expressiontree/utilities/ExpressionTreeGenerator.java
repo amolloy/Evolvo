@@ -55,7 +55,7 @@ public class ExpressionTreeGenerator
    static VariablePackage variables = VariablePackage.getInstance();
    static GlobalSettings settings = GlobalSettings.getInstance();
    /** A list of the available operators. */
-   static OperatorInterface list[] = OperatorList.getOperators();
+   static OperatorInterface list[] = OperatorList.getScalarOperators();
 
    /** 
     *  Just prevent anyone from constructing us
