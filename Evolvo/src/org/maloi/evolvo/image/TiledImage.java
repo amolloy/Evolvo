@@ -201,7 +201,7 @@ public class TiledImage extends Image implements RenderedImage
    {
       System.err.println("getTile(" + tileX + ", " + tileY + "); ");
 
-      return null;
+      return raster.getTile(tileX, tileY);
    }
 
    public int getTileGridXOffset()

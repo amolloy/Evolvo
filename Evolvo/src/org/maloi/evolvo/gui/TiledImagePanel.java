@@ -25,7 +25,9 @@ package org.maloi.evolvo.gui;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.geom.AffineTransform;
 import java.awt.image.ColorModel;
 import java.awt.image.ImageConsumer;
 import java.util.Hashtable;
@@ -45,6 +47,8 @@ public class TiledImagePanel extends ImagePanel implements ImageConsumer
    int width;
    int height;
 
+   AffineTransform identityTransform;
+
    public TiledImagePanel(RendererInterface ri)
    {
       this(ri, null);
@@ -59,6 +63,9 @@ public class TiledImagePanel extends ImagePanel implements ImageConsumer
    {
       width = ri.getWidth();
       height = ri.getHeight();
+
+      identityTransform =  AffineTransform.getTranslateInstance(0.0, 0.0);
+      identityTransform.setToIdentity(); // it should already be identity, but whatever
 
       image = new TiledImage(width, height, ri);
 
@@ -89,12 +96,14 @@ public class TiledImagePanel extends ImagePanel implements ImageConsumer
    {
       super.paintComponent(g);
 
+      Graphics2D g2 = (Graphics2D)g;
+
       if (image != null)
       {
-         g.drawImage(image, 0, 0, this);
+         g2.drawRenderedImage(image, identityTransform);
       }
 
-      g.dispose();
+      g2.dispose();
    }
 
    public Dimension getPreferredSize()

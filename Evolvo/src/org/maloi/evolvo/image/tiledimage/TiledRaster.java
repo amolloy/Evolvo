@@ -26,6 +26,7 @@ import java.awt.Point;
 import java.awt.image.DataBuffer;
 import java.awt.image.ImageProducer;
 import java.awt.image.Raster;
+import java.awt.image.SampleModel;
 import java.awt.image.SinglePixelPackedSampleModel;
 import java.awt.image.WritableRaster;
 import java.io.File;
@@ -373,6 +374,17 @@ public class TiledRaster extends WritableRaster
       return this;
    }
 
+   public Raster getTile(int tileX, int tileY)
+   {
+      WritableRaster tr =
+         Raster.createWritableRaster(this.getSampleModel(), new Point(0, 0));
+
+      Tile theTile = validateTile(tileX, tileY);
+
+      tr.setPixels(0, 0, TILE_SIZE, TILE_SIZE, theTile.getData());
+
+      return tr;
+   }
 }
 
 //   public void setPixels(
