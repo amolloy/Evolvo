@@ -133,8 +133,14 @@ public class RenderFrame extends JFrame
 
       ri.setProgressMonitor(pm);
 
-      panel = new TiledImagePanel(ri, thumb);
-      //panel = new SwingImagePanel(ri, thumb);
+      if (Constants.USE_TILEDIMAGEPANEL)
+      {
+         panel = new TiledImagePanel(ri, thumb);
+      }
+      else
+      {
+         panel = new SwingImagePanel(ri, thumb);
+      }
 
       JScrollPane scrollPane =
          new JScrollPane(

@@ -25,6 +25,11 @@ package org.maloi.evolvo.gui;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import com.apple.mrj.MRJAboutHandler;
+import com.apple.mrj.MRJApplicationUtils;
+import com.apple.mrj.MRJPrefsHandler;
+import com.apple.mrj.MRJQuitHandler;
+
 public class MacMenu
    implements MRJQuitHandler, MRJPrefsHandler, MRJAboutHandler
 {

@@ -39,5 +39,6 @@ public class Constants
    public static final int THUMBNAIL_HEIGHT = 120;
    public static final Dimension ThumbnailSize =
       new Dimension(THUMBNAIL_WIDTH, THUMBNAIL_HEIGHT);
-
+   
+   public static final boolean USE_TILEDIMAGEPANEL = (!isMac);
 }
