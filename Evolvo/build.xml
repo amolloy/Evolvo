@@ -133,7 +133,7 @@
     <copy file="README" todir="${inst.dir}/evolvo"/>
     <copy file="HISTORY" todir="${inst.dir}/evolvo"/>
     <copy file="${src}/LICENSE" todir="${inst.dir}/evolvo"/>
-    <copy file="${src}/Evolvo.ico" todir="${inst.dir}/evolvo"/>
+    <copy file="${src}/Resources/Evolvo.ico" todir="${inst.dir}/evolvo"/>
 
     <tar destfile="${inst.dir}/evolvo.tar.gz" compression="gzip">
        <tarfileset dir="${inst.dir}/evolvo" prefix ="evolvo"/>
