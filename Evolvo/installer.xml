@@ -31,13 +31,10 @@
 	    <file targetdir="$INSTALL_PATH" src="installer-jar/Uninstall.bat"/>
 	    <file targetdir="$INSTALL_PATH" src="installer-jar/Evolvo.ico"/>
 	    <file targetdir="$INSTALL_PATH" src="installer-jar/evolvo"/>
-	    <file targetdir="$INSTALL_PATH" src="installer-jar/uninstall"/>
             <parsable targetfile="$INSTALL_PATH/Evolvo.bat"/>
             <parsable targetfile="$INSTALL_PATH/evolvo"/>
 	    <parsable targetfile="$INSTALL_PATH/Uninstall.bat"/>
-	    <parsable targetfile="$INSTALL_PATH/uninstall"/>
             <executable targetfile="$INSTALL_PATH/evolvo" stage="never"/>
-            <executable targetfile="$INSTALL_PATH/uninstall" stage="never"/>
         </pack>
     </packs>
 </installation>

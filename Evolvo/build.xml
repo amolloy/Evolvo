@@ -101,7 +101,6 @@
    <copy file="${src}/Resources/Evolvo.bat" todir="${inst.jar}"/>
    <copy file="${src}/Resources/evolvo" todir="${inst.jar}"/>
    <copy file="${src}/Resources/Uninstall.bat" todir="${inst.jar}"/>
-   <copy file="${src}/Resources/uninstall" todir="${inst.jar}"/>
    <copy file="${src}/Resources/Evolvo.ico" todir="${inst.jar}"/>
 
    <javac srcdir="${src}" destdir="${build}"

@@ -1,6 +1,0 @@
-#!/bin/sh
-
-EVOLVOPATH='$INSTALL_PATH'
-
-java -jar "$EVOLVOPATH\Uninstaller\uninstaller.jar"
-
