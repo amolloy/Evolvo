@@ -37,6 +37,7 @@ import org.maloi.evolvo.expressiontree.utilities.Tools;
 import org.maloi.evolvo.expressiontree.vm.Machine;
 import org.maloi.evolvo.expressiontree.vm.Stack;
 import org.maloi.evolvo.gui.CustomProgressMonitor;
+import org.maloi.evolvo.expressiontree.compiler.Compiler;
 
 public class StandardRenderer implements RendererInterface, Runnable
 {
@@ -140,6 +141,8 @@ public class StandardRenderer implements RendererInterface, Runnable
       Stack stack;
 
       Machine theMachine = expression.getMachine();
+
+		Object o = Compiler.compile(theMachine); // testing
 
       int data[] = new int[height * width];
 

@@ -53,7 +53,7 @@ public class Machine
    {
       program = new Instruction[initialCapacity];
       registers = new double[FREE_REGISTER_BASE + numRegisters];
-   }
+	}
 
    public void addInstruction(Instruction inst)
    {
@@ -149,5 +149,15 @@ public class Machine
       }
 
       return theString.toString();
+   }
+   
+   public int getSize()
+   {
+   	return size;
+   }
+   
+   public Instruction[] getProgram()
+   {
+   	return program;
    }
 }
