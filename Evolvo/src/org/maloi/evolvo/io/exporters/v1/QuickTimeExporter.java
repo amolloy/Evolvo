@@ -18,6 +18,20 @@
 
 /**
  *  $Id$
+ * 
+ * NOTE: To use this, you must have ALL THREE of the following installed:
+ * 
+ * - Quicktime for Java
+ * - Quicktime Still Images
+ * - Quicktime Authoring
+ * 
+ * The annoying part is, if you have the first two, but not that last
+ * (Authoring), QT will act like it's going to export the image just fine - 
+ * until it actually gets to the part where it physically writes the image to
+ * disk. Then it throws an exception complaining it can't find the handler or
+ * some such stuff. 
+ * TODO: See if the above condition can be tested for when discovering this
+ * plugin's "availability."
  */
 
 package org.maloi.evolvo.io.exporters.v1;
@@ -100,7 +114,7 @@ public class QuickTimeExporter
 
       try
       {
-         System.err.println(which + " " + subTypes[which]);
+         System.err.println("Beginning export...");
 
          QTSession.open();
 
@@ -126,8 +140,9 @@ public class QuickTimeExporter
          QTFile exportFile = new QTFile(f.toString());
          GraphicsExporter ge = new GraphicsExporter(subTypes[which]);
 
-         ge.requestSettings();
          ge.setInputPixmap(offscreen);
+
+         ge.requestSettings();
 
          ge.setOutputFile(exportFile);
          int size = ge.doExport();

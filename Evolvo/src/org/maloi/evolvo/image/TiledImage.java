@@ -64,22 +64,28 @@ public class TiledImage extends Image implements RenderedImage
 
    public int getWidth(ImageObserver observer)
    {
+//      System.err.println("TiledImage.getWidth(" + observer + ");");
+
       return width;
    }
 
    public int getHeight(ImageObserver observer)
    {
+//      System.err.println("TiledImage.getHeight(" + observer + ");");
+
       return height;
    }
 
    public ImageProducer getSource()
    {
+//      System.err.println("TiledImage.getSource();");
+
       return null;
    }
 
    public Graphics getGraphics()
    {
-      System.err.println("TiledImage.getGraphics();");
+//      System.err.println("TiledImage.getGraphics();");
 
       // need to implement something here, I think, so that drawImage(...) can get data from us
       return new TiledImageGraphics(this);
@@ -87,12 +93,15 @@ public class TiledImage extends Image implements RenderedImage
 
    public Object getProperty(String name, ImageObserver observer)
    {
+//      System.err.println(
+//         "TiledImage.getProperty(" + name + ", " + observer + ");");
+
       return null;
    }
 
    public void flush()
    {
-
+//      System.err.println("TiledImage.flush();");
    }
 
    // ***
@@ -101,26 +110,28 @@ public class TiledImage extends Image implements RenderedImage
 
    public WritableRaster copyData(WritableRaster raster)
    {
-      System.err.println("TiledImage.copyData(" + raster + ");");
+//      System.err.println("TiledImage.copyData(" + raster + ");");
 
       return null;
    }
 
    public ColorModel getColorModel()
    {
+//      System.err.println("TiledImage.getColorModel();");
+
       return cm;
    }
 
    public Raster getData()
    {
-      System.err.println("TiledImage.getData();");
+//      System.err.println("TiledImage.getData();");
 
       return raster;
    }
 
    public Raster getData(Rectangle rect)
    {
-      //System.err.println("TiledImage.getData(" + rect + ");");
+//      System.err.println("TiledImage.getData(" + rect + ");");
 
       SampleModel sm =
          new BufferedImage(rect.width, rect.height, BufferedImage.TYPE_INT_RGB)
@@ -138,86 +149,124 @@ public class TiledImage extends Image implements RenderedImage
 
    public int getHeight()
    {
+//      System.err.println("TiledImage.getHeight();");
+
       return height;
    }
 
    public int getWidth()
    {
+//      System.err.println("TiledImage.getWidth();");
+
       return width;
    }
 
    public int getMinTileX()
    {
+//      System.err.println("TiledImage.getMinTileX();");
+
       return 0;
    }
 
    public int getMinTileY()
    {
+//      System.err.println("TiledImage.getMinTileY();");
+
       return 0;
    }
 
    public int getMinX()
    {
+//      System.err.println("TiledImage.getMinX();");
+
       return 0;
    }
 
    public int getMinY()
    {
+//      System.err.println("TiledImage.getMinY();");
+
       return 0;
    }
 
    public int getNumXTiles()
    {
+//      System.err.println("TiledImage.getNumXTiles();");
+
       return raster.getNumXTiles();
    }
 
    public int getNumYTiles()
    {
+//      System.err.println("TiledImage.getNumYTiles();");
+
       return raster.getNumYTiles();
    }
 
    public Object getProperty(String s)
    {
+//      System.err.println("TiledImage.getProperty(" + s + ");");
+
       return null;
    }
 
    public String[] getPropertyNames()
    {
+//      System.err.println("TiledImage.getPropertyNames();");
+
       return null;
    }
 
    public SampleModel getSampleModel()
    {
+//      System.err.println("TiledImage.getSampleModel();");
+
       return raster.getSampleModel();
    }
 
    public Vector getSources()
    {
+//      System.err.println("TiledImage.getSources();");
+
       return null;
    }
 
    public Raster getTile(int tileX, int tileY)
    {
-      return raster.getTile(tileX, tileY);
+      System.err.println("TiledImage.getTile(" + tileX + ", " + tileY + ");");
+
+      Raster returnRaster = raster.getTile(tileX, tileY);
+      
+      System.err.println(returnRaster);
+      
+      return returnRaster;
    }
 
    public int getTileGridXOffset()
    {
+//      System.err.println("TiledImage.getTileGridXOffset();");
+
       return 0;
    }
 
    public int getTileGridYOffset()
    {
+//      System.err.println("TiledImage.getTileGridXOffset();");
+
       return 0;
    }
 
    public int getTileHeight()
    {
+//      System.err.println("TiledImage.getTileHeight();");
+
       return TILE_SIZE;
    }
 
    public int getTileWidth()
    {
+//      System.err.println("TiledImage.getTileWidth();");
+
       return TILE_SIZE;
    }
 
@@ -228,11 +277,27 @@ public class TiledImage extends Image implements RenderedImage
       int height,
       int[] pixels)
    {
+//      System.err.println(
+//         "TiledImage.setPixels("
+//            + startX
+//            + ", "
+//            + startY
+//            + ", "
+//            + width
+//            + ", "
+//            + height
+//            + ", "
+//            + pixels
+//            + ");");
+
       raster.setPixels(startX, startY, width, height, pixels);
    }
 
    public void setPixel(int x, int y, int pixel)
    {
+//      System.err.println(
+//         "TiledImage.setPixel(" + x + ", " + y + ", " + pixel + ");");
+
       raster.setPixel(x, y, pixel);
    }
 }
