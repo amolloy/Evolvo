@@ -114,8 +114,6 @@ public class QuickTimeExporter
 
       try
       {
-         System.err.println("Beginning export...");
-
          QTSession.open();
 
          int width = i.getWidth(null);
@@ -151,6 +149,8 @@ public class QuickTimeExporter
       }
       catch (QTException e)
       {
+         System.err.println("QTException");
+
          e.printStackTrace();
       }
       catch (Exception e)

@@ -75,8 +75,8 @@ public class TiledRaster extends WritableRaster
 
       image =
          new BufferedImage(TILE_SIZE, TILE_SIZE, BufferedImage.TYPE_INT_RGB);
-
-      tileSampleModel = image.getSampleModel();
+		
+		tileSampleModel = image.getSampleModel();
 
       masks = ((SinglePixelPackedSampleModel) tileSampleModel).getBitMasks();
    }
@@ -388,18 +388,23 @@ public class TiledRaster extends WritableRaster
 
       Point location = theTile.getLocation();
 
-      //      DataBufferInt dataBuffer =
-      //         new DataBufferInt(theTile.getData(), TILE_SIZE * TILE_SIZE);
-      //
-      //      return Raster.createRaster(tileSampleModel, dataBuffer, location);
+      WritableRaster returnRaster =
+         Raster.createPackedRaster(
+            DataBuffer.TYPE_INT,
+            TILE_SIZE,
+            TILE_SIZE,
+            masks,
+            location);
 
-      return new TiledRaster(theTile);
+      returnRaster.setDataElements(
+         location.x,
+         location.y,
+         TILE_SIZE,
+         TILE_SIZE,
+         theTile.getData());
+         
+      
+
+      return returnRaster;
    }
-   
-   public DataBuffer getDataBuffer()
-   {
-      System.err.println("TiledRaster.getDataBuffer();");
-      return dataBuffer;
-   }
-   
 }

@@ -29,19 +29,21 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
 import java.awt.image.DataBufferInt;
+import java.awt.image.ImageConsumer;
 import java.awt.image.ImageObserver;
 import java.awt.image.ImageProducer;
 import java.awt.image.Raster;
 import java.awt.image.RenderedImage;
 import java.awt.image.SampleModel;
 import java.awt.image.WritableRaster;
+import java.util.Enumeration;
 import java.util.Vector;
 
 import org.maloi.evolvo.image.tiledimage.Tile;
 import org.maloi.evolvo.image.tiledimage.TiledImageGraphics;
 import org.maloi.evolvo.image.tiledimage.TiledRaster;
 
-public class TiledImage extends Image implements RenderedImage
+public class TiledImage extends Image implements RenderedImage, ImageProducer, Cloneable
 {
    public final static int TILE_SIZE = Tile.TILE_SIZE;
 
@@ -50,6 +52,9 @@ public class TiledImage extends Image implements RenderedImage
 
    TiledRaster raster;
    ColorModel cm;
+
+   Vector consumers;
+   Vector observers;
 
    public TiledImage(int width, int height, ImageProducer source)
    {
@@ -60,49 +65,95 @@ public class TiledImage extends Image implements RenderedImage
 
       cm =
          (new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB).getColorModel());
+
+      consumers = new Vector(2);
+      observers = new Vector(2);
    }
 
-   public int getWidth(ImageObserver observer)
+   // ***
+   // Image
+   // ***
+
+   public void flush()
    {
-//      System.err.println("TiledImage.getWidth(" + observer + ");");
-
-      return width;
-   }
-
-   public int getHeight(ImageObserver observer)
-   {
-//      System.err.println("TiledImage.getHeight(" + observer + ");");
-
-      return height;
-   }
-
-   public ImageProducer getSource()
-   {
-//      System.err.println("TiledImage.getSource();");
-
-      return null;
+   	raster = null;
+   	
+      System.err.println("TiledImage.flush();");
    }
 
    public Graphics getGraphics()
    {
-//      System.err.println("TiledImage.getGraphics();");
-
       // need to implement something here, I think, so that drawImage(...) can get data from us
+      System.err.println("TiledImage.getGraphics();");
+
       return new TiledImageGraphics(this);
+   }
+
+   public int getHeight(ImageObserver observer)
+   {
+      System.err.println("TiledImage.getHeight(observer=" + observer + ");");
+
+		addObserver(observer);
+
+      return height;
    }
 
    public Object getProperty(String name, ImageObserver observer)
    {
-//      System.err.println(
-//         "TiledImage.getProperty(" + name + ", " + observer + ");");
+   	System.err.println("TiledImage.getProperty("+name+", "+observer+");");
+   	
+   	addObserver(observer);
+   	
+      return null;
+   }
+
+   public Image getScaledInstance(int width, int height, int hints)
+   {
+      System.err.println("TiledImage.getScaledInstance();");
 
       return null;
    }
 
-   public void flush()
+   public ImageProducer getSource()
    {
-//      System.err.println("TiledImage.flush();");
+      System.err.println("TiledImage.getSource();");
+
+      return this;
    }
+   
+   public int getWidth(ImageObserver observer)
+   {
+      System.err.println("TiledImage.getWidth(observer=" + observer +");");
+
+		addObserver(observer);
+
+      return width;
+   }
+
+	boolean isObserver(ImageObserver observer)
+	{
+		return observers.contains(observer);
+	}
+	
+	void addObserver(ImageObserver observer)
+	{
+		if ((observer != null) && (!isObserver(observer)))
+		{
+			observers.add(observer);
+			
+			sendImageDone();
+		}
+	}
+
+	void sendImageDone()
+	{
+		System.err.println("Observers:");
+		
+	   for (Enumeration e = observers.elements(); e.hasMoreElements();)
+	   {
+	      System.err.println("\t" + e.nextElement());
+	   }
+	}
 
    // ***
    // RenderedImage
@@ -110,29 +161,21 @@ public class TiledImage extends Image implements RenderedImage
 
    public WritableRaster copyData(WritableRaster raster)
    {
-//      System.err.println("TiledImage.copyData(" + raster + ");");
-
       return null;
    }
 
    public ColorModel getColorModel()
    {
-//      System.err.println("TiledImage.getColorModel();");
-
       return cm;
    }
 
    public Raster getData()
    {
-//      System.err.println("TiledImage.getData();");
-
       return raster;
    }
 
    public Raster getData(Rectangle rect)
    {
-//      System.err.println("TiledImage.getData(" + rect + ");");
-
       SampleModel sm =
          new BufferedImage(rect.width, rect.height, BufferedImage.TYPE_INT_RGB)
             .getSampleModel();
@@ -149,124 +192,88 @@ public class TiledImage extends Image implements RenderedImage
 
    public int getHeight()
    {
-//      System.err.println("TiledImage.getHeight();");
-
       return height;
    }
 
    public int getWidth()
    {
-//      System.err.println("TiledImage.getWidth();");
-
       return width;
    }
 
    public int getMinTileX()
    {
-//      System.err.println("TiledImage.getMinTileX();");
-
       return 0;
    }
 
    public int getMinTileY()
    {
-//      System.err.println("TiledImage.getMinTileY();");
-
       return 0;
    }
 
    public int getMinX()
    {
-//      System.err.println("TiledImage.getMinX();");
-
       return 0;
    }
 
    public int getMinY()
    {
-//      System.err.println("TiledImage.getMinY();");
-
       return 0;
    }
 
    public int getNumXTiles()
    {
-//      System.err.println("TiledImage.getNumXTiles();");
-
       return raster.getNumXTiles();
    }
 
    public int getNumYTiles()
    {
-//      System.err.println("TiledImage.getNumYTiles();");
-
       return raster.getNumYTiles();
    }
 
    public Object getProperty(String s)
    {
-//      System.err.println("TiledImage.getProperty(" + s + ");");
-
       return null;
    }
 
    public String[] getPropertyNames()
    {
-//      System.err.println("TiledImage.getPropertyNames();");
-
       return null;
    }
 
    public SampleModel getSampleModel()
    {
-//      System.err.println("TiledImage.getSampleModel();");
-
       return raster.getSampleModel();
    }
 
    public Vector getSources()
    {
-//      System.err.println("TiledImage.getSources();");
-
       return null;
    }
 
    public Raster getTile(int tileX, int tileY)
    {
-//      System.err.println("TiledImage.getTile(" + tileX + ", " + tileY + ");");
-
       Raster returnRaster = raster.getTile(tileX, tileY);
-      
-//      System.err.println(returnRaster);
-      
+
       return returnRaster;
    }
 
    public int getTileGridXOffset()
    {
-//      System.err.println("TiledImage.getTileGridXOffset();");
-
       return 0;
    }
 
    public int getTileGridYOffset()
    {
-//      System.err.println("TiledImage.getTileGridXOffset();");
-
       return 0;
    }
 
    public int getTileHeight()
    {
-//      System.err.println("TiledImage.getTileHeight();");
-
       return TILE_SIZE;
    }
 
    public int getTileWidth()
    {
-//      System.err.println("TiledImage.getTileWidth();");
-
       return TILE_SIZE;
    }
 
@@ -277,27 +284,70 @@ public class TiledImage extends Image implements RenderedImage
       int height,
       int[] pixels)
    {
-//      System.err.println(
-//         "TiledImage.setPixels("
-//            + startX
-//            + ", "
-//            + startY
-//            + ", "
-//            + width
-//            + ", "
-//            + height
-//            + ", "
-//            + pixels
-//            + ");");
-
       raster.setPixels(startX, startY, width, height, pixels);
    }
 
    public void setPixel(int x, int y, int pixel)
    {
-//      System.err.println(
-//         "TiledImage.setPixel(" + x + ", " + y + ", " + pixel + ");");
-
       raster.setPixel(x, y, pixel);
+   }
+
+   // ***
+   // ImageProducer
+   // ***
+
+   public boolean isConsumer(ImageConsumer ic)
+   {
+   	System.err.println("TiledImage.isConsumer("+ic+");");
+   	
+      return consumers.contains(ic);
+   }
+
+   public void addConsumer(ImageConsumer ic)
+   {
+      System.err.println("TiledImage.addConsumer("+ic+");");
+   	
+      if ((ic != null) && (!isConsumer(ic)))
+      {
+         consumers.add(ic);
+      }
+   }
+
+   public void removeConsumer(ImageConsumer ic)
+   {
+      System.err.println("TiledImage.removeConsumer("+ic+");");
+   	
+      if (isConsumer(ic))
+      {
+         consumers.remove(ic);
+      }
+   }
+
+   public void requestTopDownLeftRightResend(ImageConsumer ic)
+   {
+      System.err.println("TiledImage.requestTopDownLeftRightResend("+ic+");");
+   	
+      addConsumer(ic);
+
+      sendData();
+   }
+
+   public void startProduction(ImageConsumer ic)
+   {
+      System.err.println("TiledImage.startProduction("+ic+");");
+   	
+      addConsumer(ic);
+
+      sendData();
+   }
+
+   void sendData()
+   {
+      System.err.println("Recieved send message. Consumers:");
+
+      for (Enumeration e = consumers.elements(); e.hasMoreElements();)
+      {
+         System.err.println("\t" + e.nextElement());
+      }
    }
 }

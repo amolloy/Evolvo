@@ -45,19 +45,16 @@
 
    <!-- Make adjustments to dist path if DEBUG is set -->
    <condition property="jardir" value="${debug_dist}">
-      <equals arg1="${DEBUG}" arg2="on" casesensitive="false"
-       trim="true"/>
+      <equals arg1="${DEBUG}" arg2="on"/>
    </condition>
    <condition property="jardir" value="${dist}">
       <not>
-         <equals arg1="${DEBUG}" arg2="on" casesensitive="false"
-          trim="true"/>
+         <equals arg1="${DEBUG}" arg2="on"/>
       </not>
    </condition>
    <condition property="optimize" value="on">
       <not>
-         <equals arg1="${DEBUG}" arg2="on" casesensitive="false"
-	  trim="true"/>
+         <equals arg1="${DEBUG}" arg2="on"/>
       </not>
    </condition>
 
