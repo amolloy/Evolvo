@@ -233,11 +233,11 @@ public class TiledImage extends Image implements RenderedImage
 
    public Raster getTile(int tileX, int tileY)
    {
-      System.err.println("TiledImage.getTile(" + tileX + ", " + tileY + ");");
+//      System.err.println("TiledImage.getTile(" + tileX + ", " + tileY + ");");
 
       Raster returnRaster = raster.getTile(tileX, tileY);
       
-      System.err.println(returnRaster);
+//      System.err.println(returnRaster);
       
       return returnRaster;
    }

@@ -24,7 +24,7 @@ package org.maloi.evolvo.image.tiledimage;
 
 import java.awt.Point;
 import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferInt;
+import java.awt.image.DataBuffer;
 import java.awt.image.Raster;
 import java.awt.image.SampleModel;
 import java.awt.image.SinglePixelPackedSampleModel;
@@ -85,7 +85,7 @@ public class TiledRaster extends WritableRaster
    {
       this(width, height, 0, 0);
    }
-   
+
    public TiledRaster(int width, int height, int startX, int startY)
    {
       super(
@@ -169,6 +169,37 @@ public class TiledRaster extends WritableRaster
             foffset += foffset_inc;
          }
       }
+   }
+
+   /**
+    * Creates a single-tile TiledRaster. Note that it does not copy the given
+    * tile, but simply references it directly.
+    * 
+    * @param tile
+    */
+   protected TiledRaster(Tile tile)
+   {
+      super(
+         new BufferedImage(TILE_SIZE, TILE_SIZE, BufferedImage.TYPE_INT_RGB)
+            .getSampleModel(),
+         new Point(tile.xloc, tile.yloc));
+
+      minX = 0;
+      minY = 0;
+      width = TILE_SIZE;
+      height = TILE_SIZE;
+      numBands = 3;
+      dataBuffer = null;
+      parent = null;
+      sampleModelTranslateX = tile.xloc;
+      sampleModelTranslateY = tile.yloc;
+
+      tileWidth = 1;
+      tileHeight = 1;
+
+      tiles = new Tile[1];
+
+      tiles[0] = tile;
    }
 
    void validateTile(int tilex, int tiley)
@@ -357,9 +388,18 @@ public class TiledRaster extends WritableRaster
 
       Point location = theTile.getLocation();
 
-      DataBufferInt dataBuffer =
-         new DataBufferInt(theTile.getData(), TILE_SIZE * TILE_SIZE);
+      //      DataBufferInt dataBuffer =
+      //         new DataBufferInt(theTile.getData(), TILE_SIZE * TILE_SIZE);
+      //
+      //      return Raster.createRaster(tileSampleModel, dataBuffer, location);
 
-      return Raster.createRaster(tileSampleModel, dataBuffer, location);
+      return new TiledRaster(theTile);
    }
+   
+   public DataBuffer getDataBuffer()
+   {
+      System.err.println("TiledRaster.getDataBuffer();");
+      return dataBuffer;
+   }
+   
 }
