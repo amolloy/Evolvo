@@ -37,8 +37,8 @@ public class Exporter
 {
    static String pluginList[] =
       {
-         "org.asm.evolvo.io.exporters.v1.QuickTimeExporter",
-         "org.asm.evolvo.io.exporters.v1.ImageIOExporter" };
+         "org.maloi.evolvo.io.exporters.v1.QuickTimeExporter",
+         "org.maloi.evolvo.io.exporters.v1.ImageIOExporter" };
 
    static String exporterNames[];
 

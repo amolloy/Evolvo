@@ -212,7 +212,7 @@ public class Evolvo extends JFrame implements ActionListener
       {
          try
          {
-            Class macHandlerClass = Class.forName("CustomComponents.MacMenu");
+            Class macHandlerClass = Class.forName("org.maloi.evolvo.gui.MacMenu");
             Constructor macHandlerConstructor =
                macHandlerClass.getConstructor(
                   new Class[] { ActionListener.class });

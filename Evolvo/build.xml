@@ -69,11 +69,11 @@
    <!-- Compile the java code from ${src} into ${build} -->
    <javac srcdir="${src}" destdir="${build}" excludes="evolvoDemo.java"
           debug="${DEBUG}" optimize="${optimize}">
-      <exclude name="org/asm/evolvo/io/exporters/v1/ImageIOExporter.java"
+      <exclude name="org/maloi/evolvo/io/exporters/v1/ImageIOExporter.java"
        unless="ImageIO"/>
-      <exclude name="org/asm/evolvo/io/exporters/v1/QuickTimeExporter.java"
+      <exclude name="org/maloi/evolvo/io/exporters/v1/QuickTimeExporter.java"
        unless="QuickTime"/>
-      <exclude name="org/asm/evolvo/gui/MacMenu.java"
+      <exclude name="org/maloi/evolvo/gui/MacMenu.java"
        unless="Mac"/>
    </javac>
 </target>
@@ -104,11 +104,11 @@
 
    <javac srcdir="${src}" destdir="${build}"
           debug="off" optimize="on">
-      <exclude name="org/asm/evolvo/io/exporters/v1/ImageIOExporter.java"
+      <exclude name="org/maloi/evolvo/io/exporters/v1/ImageIOExporter.java"
        unless="ImageIO"/>
-      <exclude name="org/asm/evolvo/io/exporters/v1/QuickTimeExporter.java"
+      <exclude name="org/maloi/evolvo/io/exporters/v1/QuickTimeExporter.java"
        unless="QuickTime"/>
-      <exclude name="org/asm/evolvo/gui/MacMenu.java"
+      <exclude name="org/maloi/evolvo/gui/MacMenu.java"
        unless="Mac"/>
    </javac>
 
