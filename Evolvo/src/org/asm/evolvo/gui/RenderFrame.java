@@ -58,15 +58,17 @@ public class RenderFrame extends JFrame
 
    public RenderFrame(RendererInterface renderer, Image thumb)
    {
-      if (!RenderOptionsPanel.showOptions())
+      RenderOptionsPanel optionsPanel = new RenderOptionsPanel();
+      
+      if (!optionsPanel.showOptions())
       {
          // If showOptions() returns false, the user has canceled.
          // so return
          return;
-      }  
-      
-      int imageWidth = settings.getIntegerProperty("render.width");
-      int imageHeight = settings.getIntegerProperty("render.height");
+      }
+
+      int imageWidth = settings.getIntegerProperty("render.width.pixels");
+      int imageHeight = settings.getIntegerProperty("render.height.pixels");
 
       ri =
          new StandardRenderer(

@@ -24,10 +24,13 @@ package org.asm.evolvo.gui;
 
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -44,38 +47,78 @@ public class RenderOptionsPanel
    // render.height.units = pixels, inches, or cm
    // render.width
    // render.height
+   // render.width.pixels
+   // render.height.pixels
    // render.resolution.units = pixels/in or pixels/cm
    // render.resolution
-   
-   static GlobalSettings settings = GlobalSettings.getInstance();
-   static IntegerField widthField;
-   static IntegerField heightField;
 
-   private RenderOptionsPanel()
+   GlobalSettings settings = GlobalSettings.getInstance();
+   DoubleField widthField;
+   DoubleField heightField;
+   JComboBox widthUnits;
+   JComboBox heightUnits;
+
+   RenderOptionsActionListener listener;
+
+   public RenderOptionsPanel()
    {
+      listener = new RenderOptionsActionListener();
    }
 
-   static JComponent createRenderOptionsPanel()
+   JComboBox createUnitsComboBox()
+   {
+      String units[] = { "pixels", "inches", "cm" };
+
+      JComboBox unitsComboBox = new JComboBox(units);
+
+      unitsComboBox.setEditable(false);
+      unitsComboBox.setEnabled(true);
+      unitsComboBox.addActionListener(listener);
+
+      return unitsComboBox;
+   }
+
+   JComponent createRenderOptionsPanel()
    {
       // create the render options panel
-      JPanel renderSizeOptions = new JPanel(new GridLayout(2, 1));
+      JPanel renderSizeOptions = new JPanel(new GridLayout(2, 2));
       Border renderSizeBorder = BorderFactory.createEtchedBorder();
       renderSizeOptions.setBorder(
-         BorderFactory.createTitledBorder(renderSizeBorder, "Render Size"));
+         BorderFactory.createTitledBorder(renderSizeBorder, "Render"));
 
       // width
       JLabel widthLabel = new JLabel("Width");
       renderSizeOptions.add(widthLabel);
       widthField =
-         new IntegerField(6, settings.getIntegerProperty("render.width"));
+         new DoubleField(
+            settings.getDoubleProperty("render.width"),
+            0.0,
+            0.1,
+            Double.MAX_VALUE,
+            4);
       renderSizeOptions.add(widthField);
+
+      // The width units combo box
+      widthUnits = createUnitsComboBox();
+      widthUnits.setSelectedItem(settings.getProperty("render.width.units"));
+      renderSizeOptions.add(widthUnits);
 
       // height
       JLabel heightLabel = new JLabel("Height");
       renderSizeOptions.add(heightLabel);
       heightField =
-         new IntegerField(6, settings.getIntegerProperty("render.height"));
+         new DoubleField(
+            settings.getDoubleProperty("render.height"),
+            0.0,
+            0.1,
+            Double.MAX_VALUE,
+            4);
       renderSizeOptions.add(heightField);
+
+      // The width units combo box
+      heightUnits = createUnitsComboBox();
+      heightUnits.setSelectedItem(settings.getProperty("render.height.units"));
+      renderSizeOptions.add(heightUnits);
 
       // the actual render panel
       Box renderOptionsPanel = new Box(BoxLayout.Y_AXIS);
@@ -87,7 +130,7 @@ public class RenderOptionsPanel
    /**
     * @return true if user chooses "OK," false if "CANCEL"
     */
-   static boolean showOptions()
+   boolean showOptions()
    {
       int result =
          JOptionPane.showOptionDialog(
@@ -105,8 +148,8 @@ public class RenderOptionsPanel
          return false;
       }
 
-      settings.setIntegerProperty("render.width", widthField.getValue());
-      settings.setIntegerProperty("render.height", heightField.getValue());
+      settings.setDoubleProperty("render.width", widthField.getValue());
+      settings.setDoubleProperty("render.height", heightField.getValue());
 
       try
       {
@@ -118,5 +161,44 @@ public class RenderOptionsPanel
       }
 
       return true;
+   }
+
+   class RenderOptionsActionListener implements ActionListener
+   {
+      public void actionPerformed(ActionEvent ae)
+      {
+         Object source = ae.getSource();
+         String selected;
+
+         if (source == widthUnits)
+         {
+            selected = (String)widthUnits.getSelectedItem();
+            if (selected.equals("pixels"))
+            {
+               // If the field is in pixels, don't display any decimal points
+               widthField.setPrecision(0);
+            }
+            else
+            {
+               // Otherwise, give four points of precision
+               widthField.setPrecision(4);
+            }
+         }
+
+         if (source == heightUnits)
+         {
+            selected = (String)heightUnits.getSelectedItem();
+            if (selected.equals("pixels"))
+            {
+               // If the field is in pixels, don't display any decimal points
+               heightField.setPrecision(0);
+            }
+            else
+            {
+               // Otherwise, give four points of precision
+               heightField.setPrecision(4);
+            }
+         }
+      }
    }
 }

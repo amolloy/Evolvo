@@ -185,4 +185,9 @@ class DoubleBoundedRangeModel extends DefaultBoundedRangeModel
    {
       return multiplier;
    }
+
+   public void setPrecision(int p)
+   {
+      doSetRangeProps(getDoubleValue(), dblExtent, dblMinimum, dblMaximum, p);
+   }
 }

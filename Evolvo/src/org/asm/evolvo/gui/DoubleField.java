@@ -44,6 +44,7 @@ public class DoubleField
 {
    /** Range model used to determine valid values for the text field. */
    DoubleBoundedRangeModel dbrm;
+   boolean showDecimals = true;
 
    /** Default constructor. */
    public DoubleField()
@@ -133,9 +134,19 @@ public class DoubleField
       double oldValue = dbrm.getDoubleValue();
       dbrm.setDoubleValue(newValue);
       newValue = dbrm.getDoubleValue();
-      setText("" + dbrm.getDoubleValue());
+
+      String fieldText = Double.toString(newValue);
+
+      if (!showDecimals)
+      {
+         fieldText = fieldText.substring(0, fieldText.indexOf("."));
+      }
+
+      setText(fieldText);
       select(0, getText().length()); // Select the entire text field.
       firePropertyChange("value", oldValue, dbrm.getDoubleValue());
+      
+      repaint();
    }
 
    /** Adds a ChangeListener. */
@@ -192,5 +203,14 @@ public class DoubleField
          }
          super.insertString(offset, str, a);
       }
-   };
+   }
+   
+   public void setPrecision(int p)
+   {
+      dbrm.setPrecision(p);
+      
+      showDecimals = (p == 0.0);
+      
+      repaint();
+   }
 }
