@@ -54,7 +54,7 @@ public class ChangeToValue implements MutatorInterface
     */
    public String getName()
    {
-      return "change_to_value";
+      return "change_to_value"; //$NON-NLS-1$
    }
 
    /* (non-Javadoc)
@@ -62,7 +62,7 @@ public class ChangeToValue implements MutatorInterface
     */
    public String getDisplayName()
    {
-      return "Change To Value";
+      return "Change To Value"; //$NON-NLS-1$
    }
 
 }

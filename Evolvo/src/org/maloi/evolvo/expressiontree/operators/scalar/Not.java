@@ -43,7 +43,7 @@ public class Not implements OperatorInterface, Serializable
    /** Returns the operator's name. */
    public String getName()
    {
-      return "not";
+      return "not"; //$NON-NLS-1$
    }
 
    /** Performs any initialization the operator requires. */

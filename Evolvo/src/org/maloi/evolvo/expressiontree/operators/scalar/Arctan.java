@@ -41,7 +41,7 @@ public class Arctan implements OperatorInterface, Serializable
    /** Returns the operator's name. */
    public String getName()
    {
-      return "atan";
+      return "atan"; //$NON-NLS-1$
    }
 
    /** Performs any initialization the operator requires. */

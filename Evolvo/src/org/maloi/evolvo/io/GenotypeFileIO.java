@@ -63,7 +63,7 @@ public class GenotypeFileIO
          JOptionPane.showMessageDialog(
             null,
             see.getMessage(),
-            "Syntax Error",
+            "Syntax Error", //$NON-NLS-1$
             JOptionPane.ERROR_MESSAGE);
          return null;
       }
@@ -71,8 +71,8 @@ public class GenotypeFileIO
       {
          JOptionPane.showMessageDialog(
             null,
-            "File Read Error",
-            "Error",
+            "File Read Error", //$NON-NLS-1$
+            "Error", //$NON-NLS-1$
             JOptionPane.ERROR_MESSAGE);
          return null;
       }
@@ -96,8 +96,6 @@ public class GenotypeFileIO
       // Parses three expressionTrees
       // They occur in this order:
       // Hue, Saturation, Value
-
-      int i;
 
       expression = ExpressionTreeParser.parse(st);
 
@@ -131,8 +129,6 @@ public class GenotypeFileIO
       GenericFileFilter fileFilter =
          (GenericFileFilter) fileChooser.getFileFilter();
 
-      int id = fileFilter.getID();
-
       if (i > 0 && i < length - 1)
       {
          ext = filename.substring(i + 1).toLowerCase();
@@ -140,14 +136,14 @@ public class GenotypeFileIO
       else
       {
          ext = fileFilter.getExtensions()[0].toLowerCase();
-         filename = theFile.getPath().concat(".").concat(ext);
+         filename = theFile.getPath().concat(".").concat(ext); //$NON-NLS-1$
          theFile = new File(filename);
       }
 
       if (theFile.exists())
       {
          switch (JOptionPane
-            .showConfirmDialog(parent, "File exists, overwrite?"))
+            .showConfirmDialog(parent, "File exists, overwrite?")) //$NON-NLS-1$
          {
             case JOptionPane.NO_OPTION :
             case JOptionPane.CANCEL_OPTION :
@@ -160,7 +156,7 @@ public class GenotypeFileIO
       {
          FileWriter writer = new FileWriter(theFile);
 
-         writer.write("// Evolvo Saved Genotype\n\n");
+         writer.write("// Evolvo Saved Genotype\n\n"); //$NON-NLS-1$
 
          writer.write(expression.toString());
 
@@ -171,8 +167,8 @@ public class GenotypeFileIO
          System.out.println(e);
          JOptionPane.showMessageDialog(
             parent,
-            "Could not save file.",
-            "Error",
+            "Could not save file.", //$NON-NLS-1$
+            "Error", //$NON-NLS-1$
             JOptionPane.ERROR_MESSAGE);
       }
    }

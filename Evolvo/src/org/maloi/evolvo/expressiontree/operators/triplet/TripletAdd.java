@@ -36,7 +36,7 @@ public class TripletAdd implements OperatorInterface
     */
    public String getName()
    {
-      return "tripletAdd";
+      return "tripletAdd"; //$NON-NLS-1$
    }
 
    /* (non-Javadoc)

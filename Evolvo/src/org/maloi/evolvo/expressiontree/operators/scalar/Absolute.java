@@ -41,7 +41,7 @@ public class Absolute implements OperatorInterface, Serializable
    /** Returns the operator's name. */
    public String getName()
    {
-      return "abs";
+      return "abs"; //$NON-NLS-1$
    }
 
    /** Performs any initialization the operator requires. */

@@ -56,7 +56,7 @@ public class CallLogger implements InvocationHandler
 
       try
       {
-         System.out.println("Before method " + method.getName());
+         System.out.println("Before method " + method.getName()); //$NON-NLS-1$
 
          invocationResult = method.invoke(this.target, args);
       }
@@ -73,7 +73,7 @@ public class CallLogger implements InvocationHandler
 
       catch (Exception e)
       {
-         console.println("Invocation of " + method.getName() + " failed");
+         console.println("Invocation of " + method.getName() + " failed"); //$NON-NLS-1$ //$NON-NLS-2$
          console.println(e.getMessage());
       }
 

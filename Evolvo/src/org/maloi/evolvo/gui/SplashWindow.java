@@ -67,11 +67,7 @@ public class SplashWindow extends JWindow
    SystemConsole console = SystemConsole.getInstance();
 
    final static String copyright =
-      ("Copyright (C) 2000 Andrew Molloy. "
-         + "Evolvo comes with ABSOLUTELY NO WARRANY; for details, choose "
-         + "Warrany Information from the Help menu. This is free software, "
-         + "and you are welcome to redistribute it under certain conditions; "
-         + "select Redistribution Information from the Help menu.");
+      (GUIMessages.getString("SplashWindow.Warranty_Info")); //$NON-NLS-1$
 
    public SplashWindow(boolean clickable, Frame owner)
    {
@@ -116,7 +112,7 @@ public class SplashWindow extends JWindow
       ImageIcon splashImage = null;
 
       // First look for it in the jar file
-      URL url = SplashWindow.class.getResource("/splash.png");
+      URL url = SplashWindow.class.getResource("/splash.png"); //$NON-NLS-1$
 
       if (url != null)
       {
@@ -126,7 +122,7 @@ public class SplashWindow extends JWindow
       else
       {
          // Not in the jar file, look for it in the regular file system
-         splashImage = new ImageIcon("Resources/splash.png");
+         splashImage = new ImageIcon("Resources/splash.png"); //$NON-NLS-1$
       }
 
       // If the image's width is -1, it didn't load
@@ -156,7 +152,7 @@ public class SplashWindow extends JWindow
       g2 = bi.createGraphics();
 
       FontRenderContext frc = g2.getFontRenderContext();
-      Font f = new Font("sansserif", Font.BOLD, 12);
+      Font f = new Font("sansserif", Font.BOLD, 12); //$NON-NLS-1$
       AttributedString as = new AttributedString(copyright);
       AffineTransform af = new AffineTransform();
       Stroke s =
@@ -186,7 +182,6 @@ public class SplashWindow extends JWindow
       float wrappingWidth = width - 22;
 
       TextLayout tl;
-      float sw, sh;
       Shape sha;
 
       // First, draw the Copyright info text
@@ -196,9 +191,6 @@ public class SplashWindow extends JWindow
 
          pny = (tl.getAscent());
          af.translate(0, pny);
-
-         sw = (float) tl.getBounds().getWidth();
-         sh = (float) tl.getBounds().getHeight();
 
          sha = tl.getOutline(af);
 
@@ -210,7 +202,7 @@ public class SplashWindow extends JWindow
       }
 
       // Now the version info
-      tl = new TextLayout("Version " + Constants.VERSION, f, frc);
+      tl = new TextLayout(GUIMessages.getString("SplashWindow.Version") + Constants.VERSION, f, frc); //$NON-NLS-1$
 
       Rectangle2D bounds = tl.getBounds();
 
@@ -246,6 +238,6 @@ public class SplashWindow extends JWindow
       repaint();
       
       // Then add message to system console
-      console.println("Splash: " + s);
+      console.println("Splash: " + s); //$NON-NLS-1$
    }
 }

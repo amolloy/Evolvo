@@ -38,7 +38,7 @@ public class Magnitude implements OperatorInterface
     */
    public String getName()
    {
-      return "magnitude";
+      return "magnitude"; //$NON-NLS-1$
    }
 
    /* (non-Javadoc)

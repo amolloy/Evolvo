@@ -44,7 +44,7 @@ public class Or implements OperatorInterface, Serializable
    /** Returns the operator's name. */
    public String getName()
    {
-      return "or";
+      return "or"; //$NON-NLS-1$
    }
 
    /** Performs any initialization the operator requires. */

@@ -36,7 +36,7 @@ public class CrossProduct implements OperatorInterface
     */
    public String getName()
    {
-      return "crossProduct";
+      return "crossProduct"; //$NON-NLS-1$
    }
 
    /* (non-Javadoc)

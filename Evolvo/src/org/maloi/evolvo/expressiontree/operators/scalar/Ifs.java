@@ -59,7 +59,7 @@ public class Ifs implements OperatorInterface, Serializable
    /** Returns the operator's name. */
    public String getName()
    {
-      return "ifs";
+      return "ifs"; //$NON-NLS-1$
    }
 
    /** Performs any initialization the operator requires. */

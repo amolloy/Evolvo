@@ -39,8 +39,8 @@ import org.maloi.evolvo.settings.GlobalSettings;
 
 public class RenderOptionsPanel implements ActionListener
 {
-   final static String sizeUnits[] = { "pixels", "inches", "cm" };
-   final static String resolutionUnits[] = { "pixels/in", "pixels/cm" };
+   final static String sizeUnits[] = { "pixels", "inches", "cm" }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+   final static String resolutionUnits[] = { "pixels/in", "pixels/cm" }; //$NON-NLS-1$ //$NON-NLS-2$
 
    final static int S_UNITS_PIXELS = 0;
    final static int S_UNITS_INCHES = 1;
@@ -109,21 +109,21 @@ public class RenderOptionsPanel implements ActionListener
       JPanel renderSizeOptions = new JPanel(new GridLayout(3, 2));
       Border renderSizeBorder = BorderFactory.createEtchedBorder();
       renderSizeOptions.setBorder(
-         BorderFactory.createTitledBorder(renderSizeBorder, "Render"));
+         BorderFactory.createTitledBorder(renderSizeBorder, GUIMessages.getString("RenderOptionsPanel.Render"))); //$NON-NLS-1$
 
       // width
-      width = settings.getDoubleProperty("render.width");
-      JLabel widthLabel = new JLabel("Width");
+      width = settings.getDoubleProperty("render.width"); //$NON-NLS-1$
+      JLabel widthLabel = new JLabel(GUIMessages.getString("RenderOptionsPanel.Width")); //$NON-NLS-1$
       renderSizeOptions.add(widthLabel);
       widthField = new UnboundPositiveDoubleField(width, 2);
       renderSizeOptions.add(widthField);
 
       // The width units combo box
-      widthUnitsDescription = settings.getStringProperty("render.width.units");
+      widthUnitsDescription = settings.getStringProperty("render.width.units"); //$NON-NLS-1$
 
       if (widthUnitsDescription == null)
       {
-         widthUnitsDescription = "pixels";
+         widthUnitsDescription = "pixels"; //$NON-NLS-1$
       }
 
       widthUnits = createUnitsComboBox();
@@ -131,7 +131,7 @@ public class RenderOptionsPanel implements ActionListener
 
       lastWidthUnit = widthUnits.getSelectedIndex();
 
-      if (widthUnitsDescription.equals("pixels"))
+      if (widthUnitsDescription.equals("pixels")) //$NON-NLS-1$
       {
          widthField.setPrecision(0);
       }
@@ -143,19 +143,19 @@ public class RenderOptionsPanel implements ActionListener
       renderSizeOptions.add(widthUnits);
 
       // height
-      height = settings.getDoubleProperty("render.height");
-      JLabel heightLabel = new JLabel("Height");
+      height = settings.getDoubleProperty("render.height"); //$NON-NLS-1$
+      JLabel heightLabel = new JLabel(GUIMessages.getString("RenderOptionsPanel.Height")); //$NON-NLS-1$
       renderSizeOptions.add(heightLabel);
       heightField = new UnboundPositiveDoubleField(height, 2);
       renderSizeOptions.add(heightField);
 
       // The height units combo box
       heightUnitsDescription =
-         settings.getStringProperty("render.height.units");
+         settings.getStringProperty("render.height.units"); //$NON-NLS-1$
 
       if (heightUnitsDescription == null)
       {
-         heightUnitsDescription = "pixels";
+         heightUnitsDescription = "pixels"; //$NON-NLS-1$
       }
 
       heightUnits = createUnitsComboBox();
@@ -163,7 +163,7 @@ public class RenderOptionsPanel implements ActionListener
 
       lastHeightUnit = heightUnits.getSelectedIndex();
 
-      if (heightUnitsDescription.equals("pixels"))
+      if (heightUnitsDescription.equals("pixels")) //$NON-NLS-1$
       {
          heightField.setPrecision(0);
       }
@@ -175,15 +175,15 @@ public class RenderOptionsPanel implements ActionListener
       renderSizeOptions.add(heightUnits);
 
       // resolution
-      resolution = settings.getDoubleProperty("render.resolution");
-      JLabel resolutionLabel = new JLabel("Resolution");
+      resolution = settings.getDoubleProperty("render.resolution"); //$NON-NLS-1$
+      JLabel resolutionLabel = new JLabel(GUIMessages.getString("RenderOptionsPanel.Resolution")); //$NON-NLS-1$
       renderSizeOptions.add(resolutionLabel);
       resolutionField = new UnboundPositiveDoubleField(resolution, 2);
       renderSizeOptions.add(resolutionField);
 
       // The resolution combo box
       resolutionUnitsDescription =
-         settings.getStringProperty("render.resolution.units");
+         settings.getStringProperty("render.resolution.units"); //$NON-NLS-1$
       resolutionUnitsBox = createResolutionComboBox();
       resolutionUnitsBox.setSelectedItem(resolutionUnitsDescription);
 
@@ -207,7 +207,7 @@ public class RenderOptionsPanel implements ActionListener
          JOptionPane.showOptionDialog(
             null,
             new Object[] { createRenderOptionsPanel()},
-            "Select Size",
+            GUIMessages.getString("RenderOptionsPanel.Select_Size"), //$NON-NLS-1$
             JOptionPane.OK_CANCEL_OPTION,
             JOptionPane.PLAIN_MESSAGE,
             null,
@@ -257,23 +257,23 @@ public class RenderOptionsPanel implements ActionListener
       heightPixels = (int) (height * factor);
 
       // set width properties      
-      settings.setDoubleProperty("render.width", width);
-      settings.setIntegerProperty("render.width.pixels", widthPixels);
+      settings.setDoubleProperty("render.width", width); //$NON-NLS-1$
+      settings.setIntegerProperty("render.width.pixels", widthPixels); //$NON-NLS-1$
       settings.setProperty(
-         "render.width.units",
+         "render.width.units", //$NON-NLS-1$
          (String) widthUnits.getSelectedItem());
 
       // set height properties
-      settings.setDoubleProperty("render.height", height);
-      settings.setIntegerProperty("render.height.pixels", heightPixels);
+      settings.setDoubleProperty("render.height", height); //$NON-NLS-1$
+      settings.setIntegerProperty("render.height.pixels", heightPixels); //$NON-NLS-1$
       settings.setProperty(
-         "render.height.units",
+         "render.height.units", //$NON-NLS-1$
          (String) heightUnits.getSelectedItem());
 
       // set resolution properties
-      settings.setDoubleProperty("render.resolution", resolution);
+      settings.setDoubleProperty("render.resolution", resolution); //$NON-NLS-1$
       settings.setProperty(
-         "render.resolution.units",
+         "render.resolution.units", //$NON-NLS-1$
          (String) resolutionUnitsBox.getSelectedItem());
 
       try
@@ -282,7 +282,7 @@ public class RenderOptionsPanel implements ActionListener
       }
       catch (Exception e)
       {
-         console.println("Error storing new settings");
+         console.println(GUIMessages.getString("RenderOptionsPanel.Error_storing_new_settings")); //$NON-NLS-1$
       }
 
       return true;
@@ -378,7 +378,7 @@ public class RenderOptionsPanel implements ActionListener
 
       if (factor == 0.0)
       {
-         console.println("Factor was not set.");
+         console.println(GUIMessages.getString("RenderOptionsPanel.Factor_was_not_set.")); //$NON-NLS-1$
       }
 
       return factor;
@@ -413,7 +413,7 @@ public class RenderOptionsPanel implements ActionListener
 
          lastWidthUnit = units_to;
 
-         if (selected.equals("pixels"))
+         if (selected.equals("pixels")) //$NON-NLS-1$
          {
             // If the field is in pixels, don't display any decimal points
             widthField.setPrecision(0);
@@ -446,7 +446,7 @@ public class RenderOptionsPanel implements ActionListener
 
          lastHeightUnit = units_to;
 
-         if (selected.equals("pixels"))
+         if (selected.equals("pixels")) //$NON-NLS-1$
          {
             // If the field is in pixels, don't display any decimal points
             heightField.setPrecision(0);

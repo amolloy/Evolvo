@@ -48,7 +48,7 @@ public class TextDialog extends JFrame implements ActionListener
 
    public TextDialog()
    {
-      this("");
+      this(""); //$NON-NLS-1$
    }
 
    public TextDialog(String text)
@@ -77,7 +77,7 @@ public class TextDialog extends JFrame implements ActionListener
 
       JPanel buttonPanel = new JPanel();
 
-      JButton closeButton = new JButton("Close");
+      JButton closeButton = new JButton(GUIMessages.getString("TextDialog.Close")); //$NON-NLS-1$
       closeButton.setMnemonic(KeyEvent.VK_C);
       closeButton.addActionListener(this);
 
@@ -132,7 +132,7 @@ public class TextDialog extends JFrame implements ActionListener
    {
       String cmd = e.getActionCommand();
 
-      if (cmd.equals("Close"))
+      if (cmd.equals(GUIMessages.getString("TextDialog.Close"))) //$NON-NLS-1$
       {
          setVisible(false);
          dispose();

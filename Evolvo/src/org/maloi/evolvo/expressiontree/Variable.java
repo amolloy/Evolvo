@@ -63,7 +63,7 @@ public class Variable extends ExpressionTree implements Cloneable, Serializable
    public Variable()
    {
       v = new Value(0.0);
-      setName("");
+      setName(""); //$NON-NLS-1$
    }
 
    public ExpressionTree getClone()
@@ -139,25 +139,25 @@ public class Variable extends ExpressionTree implements Cloneable, Serializable
    {
       name = n;
 
-      if (n.equals("x"))
+      if (n.equals("x")) //$NON-NLS-1$
       {
          reg = Machine.REGISTER_X;
       }
-      else if (n.equals("y"))
+      else if (n.equals("y")) //$NON-NLS-1$
       {
          reg = Machine.REGISTER_Y;
       }
-      else if (n.equals("r"))
+      else if (n.equals("r")) //$NON-NLS-1$
       {
          reg = Machine.REGISTER_R;
       }
-      else if (n.equals("theta"))
+      else if (n.equals("theta")) //$NON-NLS-1$
       {
          reg = Machine.REGISTER_THETA;
       }
       else
       {
-         console.println("Unimplemented variable: " + name);
+         console.println("Unimplemented variable: " + name); //$NON-NLS-1$
          reg = 0;
       }
    }

@@ -182,7 +182,6 @@ public class SwingImagePanel extends ImagePanel implements ImageConsumer
       int y;
       int endx = startx + w;
       int endy = starty + h;
-      int offset;
 
       if (image == null)
       {
@@ -195,8 +194,6 @@ public class SwingImagePanel extends ImagePanel implements ImageConsumer
 
       for (y = starty; y < endy; y++)
       {
-         offset = y * scansize;
-
          for (x = startx; x < endx; x++)
          {
             color[0] = cm.getRed(pixels[i]);

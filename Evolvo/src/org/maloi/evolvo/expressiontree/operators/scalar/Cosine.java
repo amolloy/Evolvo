@@ -42,7 +42,7 @@ public class Cosine implements OperatorInterface, Serializable
    /** Returns the operator's name. */
    public String getName()
    {
-      return "cos";
+      return "cos"; //$NON-NLS-1$
    }
 
    /** Performs any initialization the operator requires. */

@@ -92,7 +92,6 @@ public class Noise implements OperatorInterface, Serializable
    /** Perform the operation. */
    public void perform(Stack theStack)
    {
-      int xx, yy, zz;
       double x, y, z;
       int ix, iy, iz;
       double ox, oy, oz;
@@ -129,7 +128,7 @@ public class Noise implements OperatorInterface, Serializable
    /** Returns the operator's name. */
    public String getName()
    {
-      return "noise";
+      return "noise"; //$NON-NLS-1$
    }
 
    /** Returns the number of parameters expected by the operator. */

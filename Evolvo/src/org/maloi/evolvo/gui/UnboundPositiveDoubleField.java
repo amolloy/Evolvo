@@ -91,7 +91,7 @@ public class UnboundPositiveDoubleField
 
    public void setFieldText(String s)
    {
-      int end = s.indexOf(".");
+      int end = s.indexOf("."); //$NON-NLS-1$
 
       if (end == -1)
       {
@@ -141,7 +141,7 @@ public class UnboundPositiveDoubleField
 
       select(0, getText().length()); // Select the entire text field.
 
-      firePropertyChange("value", oldValue, value);
+      firePropertyChange("value", oldValue, value); //$NON-NLS-1$
    }
 
    /** Defines a document model that restricts input to characters which may 
@@ -150,7 +150,7 @@ public class UnboundPositiveDoubleField
    static class DoubleDocument extends PlainDocument
    {
       /** The acceptable characters. */
-      byte[] validChars = new String(".0123456789").getBytes();
+      byte[] validChars = new String(".0123456789").getBytes(); //$NON-NLS-1$
       /** The number of acceptable characters. */
       int vcLength = validChars.length;
 

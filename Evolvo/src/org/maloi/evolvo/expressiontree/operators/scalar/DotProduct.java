@@ -36,7 +36,7 @@ public class DotProduct implements OperatorInterface
     */
    public String getName()
    {
-      return "dotProduct";
+      return "dotProduct"; //$NON-NLS-1$
    }
 
    /* (non-Javadoc)

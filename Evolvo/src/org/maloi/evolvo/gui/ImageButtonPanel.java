@@ -93,8 +93,8 @@ public class ImageButtonPanel extends JPanel implements ChangeListener
       CustomProgressMonitor pm =
          new CustomProgressMonitor(
             this,
-            "Generating Image...",
-            "",
+            GUIMessages.getString("ImageButtonPanel.Generating_Image..._1"), //$NON-NLS-1$
+            "", //$NON-NLS-1$
             0,
             Constants.THUMBNAIL_HEIGHT);
 
@@ -146,8 +146,8 @@ public class ImageButtonPanel extends JPanel implements ChangeListener
       CustomProgressMonitor pm =
          new CustomProgressMonitor(
             this,
-            "Generating Images...",
-            "",
+            GUIMessages.getString("ImageButtonPanel.Generating_Images..._3"), //$NON-NLS-1$
+            "", //$NON-NLS-1$
             0,
             totalScanLines);
 

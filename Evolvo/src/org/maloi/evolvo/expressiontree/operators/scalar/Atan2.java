@@ -42,7 +42,7 @@ public class Atan2 implements OperatorInterface, Serializable
    /** Returns the operator's name. */
    public String getName()
    {
-      return "atan2";
+      return "atan2"; //$NON-NLS-1$
    }
 
    /** Performs any initialization the operator requires. */

@@ -36,7 +36,7 @@ public class TripletSubtract implements OperatorInterface
     */
    public String getName()
    {
-      return "tripletSub";
+      return "tripletSub"; //$NON-NLS-1$
    }
 
    /* (non-Javadoc)

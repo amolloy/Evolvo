@@ -54,7 +54,7 @@ public class RenderFrame extends JFrame
    RendererInterface ri;
    GlobalSettings settings = GlobalSettings.getInstance();
 
-   final JMenuItem exportMenuItem = new JMenuItem("Export");
+   final JMenuItem exportMenuItem = new JMenuItem(GUIMessages.getString("RenderFrame.Export_Menu")); //$NON-NLS-1$
 
    public RenderFrame(RendererInterface renderer, Image thumb)
    {
@@ -67,8 +67,8 @@ public class RenderFrame extends JFrame
          return;
       }
 
-      int imageWidth = settings.getIntegerProperty("render.width.pixels");
-      int imageHeight = settings.getIntegerProperty("render.height.pixels");
+      int imageWidth = settings.getIntegerProperty("render.width.pixels"); //$NON-NLS-1$
+      int imageHeight = settings.getIntegerProperty("render.height.pixels"); //$NON-NLS-1$
 
       ri =
          new TiledRenderer(renderer.getExpression(), imageWidth, imageHeight);
@@ -79,7 +79,7 @@ public class RenderFrame extends JFrame
 
       JMenuItem menuitem;
 
-      JMenu fileMenu = new JMenu("File");
+      JMenu fileMenu = new JMenu(GUIMessages.getString("RenderFrame.File_Menu")); //$NON-NLS-1$
       fileMenu.setMnemonic(KeyEvent.VK_F);
 
       fileMenu.addMenuListener(new renderMenuListener());
@@ -92,7 +92,7 @@ public class RenderFrame extends JFrame
       exportMenuItem.addActionListener(new exportPerformer());
       fileMenu.add(exportMenuItem);
 
-      menuitem = new JMenuItem("Save Genotype");
+      menuitem = new JMenuItem(GUIMessages.getString("RenderFrame.Save_Genotype_Menu")); //$NON-NLS-1$
       menuitem.setMnemonic(KeyEvent.VK_S);
       menuitem.setAccelerator(
          KeyStroke.getKeyStroke(KeyEvent.VK_S, Constants.KEY_MASK));
@@ -108,7 +108,7 @@ public class RenderFrame extends JFrame
       fileMenu.addSeparator();
 
       // Close item
-      menuitem = new JMenuItem("Close");
+      menuitem = new JMenuItem(GUIMessages.getString("RenderFrame.Close_Menu")); //$NON-NLS-1$
       menuitem.setMnemonic(KeyEvent.VK_C);
       menuitem.setAccelerator(
          KeyStroke.getKeyStroke(KeyEvent.VK_C, Constants.KEY_MASK));
@@ -123,11 +123,11 @@ public class RenderFrame extends JFrame
       CustomProgressMonitor pm =
          new CustomProgressMonitor(
             this,
-            "Generating Image...",
-            "",
+            GUIMessages.getString("RenderFrame.Generating_Image..."), //$NON-NLS-1$
+            "", //$NON-NLS-1$
             0,
-            settings.getIntegerProperty("render.height.pixels")
-               * settings.getIntegerProperty("render.width.pixels"));
+            settings.getIntegerProperty("render.height.pixels") //$NON-NLS-1$
+               * settings.getIntegerProperty("render.width.pixels")); //$NON-NLS-1$
       pm.setProgress(0);
       pm.setMillisToDecideToPopup(750);
 
@@ -206,14 +206,14 @@ public class RenderFrame extends JFrame
          else
          {
             ext = fileFilter.getExtensions()[0].toLowerCase();
-            filename = theFile.getPath().concat(".").concat(ext);
+            filename = theFile.getPath().concat(".").concat(ext); //$NON-NLS-1$
             theFile = new File(filename);
          }
 
          if (theFile.exists())
          {
             switch (JOptionPane
-               .showConfirmDialog(null, "File exists, overwrite?"))
+               .showConfirmDialog(null, GUIMessages.getString("RenderFrame.File_exists_prompt"))) //$NON-NLS-1$
             {
                case JOptionPane.NO_OPTION :
                case JOptionPane.CANCEL_OPTION :
@@ -228,7 +228,7 @@ public class RenderFrame extends JFrame
          }
          catch (IOException ioe)
          {
-            JOptionPane.showMessageDialog(null, "Error saving file.");
+            JOptionPane.showMessageDialog(null, GUIMessages.getString("RenderFrame.Error_saving_file.")); //$NON-NLS-1$
          }
       }
    }

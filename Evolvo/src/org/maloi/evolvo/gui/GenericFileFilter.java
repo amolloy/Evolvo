@@ -41,16 +41,16 @@ public class GenericFileFilter extends javax.swing.filechooser.FileFilter
       description = desc;
 
       tempString.append(description);
-      tempString.append("  (");
+      tempString.append("  ("); //$NON-NLS-1$
       for (int i = 0; i < Extensions.length - 1; i++)
       {
-         tempString.append("*.");
+         tempString.append("*."); //$NON-NLS-1$
          tempString.append(Extensions[i]);
-         tempString.append(", ");
+         tempString.append(", "); //$NON-NLS-1$
       }
-      tempString.append("*.");
+      tempString.append("*."); //$NON-NLS-1$
       tempString.append(Extensions[Extensions.length - 1]);
-      tempString.append(")");
+      tempString.append(")"); //$NON-NLS-1$
 
       descriptionWithExtensions = tempString.toString();
    }

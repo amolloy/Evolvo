@@ -47,7 +47,7 @@ public class Xor implements OperatorInterface, Serializable
    /** Returns the operator's name. */
    public String getName()
    {
-      return "xor";
+      return "xor"; //$NON-NLS-1$
    }
 
    /** Performs any initialization the operator requires. */

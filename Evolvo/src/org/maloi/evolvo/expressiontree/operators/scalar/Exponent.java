@@ -42,7 +42,7 @@ public class Exponent implements OperatorInterface, Serializable
    /** Returns the operator's name. */
    public String getName()
    {
-      return "exp";
+      return "exp"; //$NON-NLS-1$
    }
 
    /** Performs any initialization the operator requires. */

@@ -99,7 +99,7 @@ public class ChangeFunction implements MutatorInterface
     */
    public String getName()
    {
-      return "change_function";
+      return "change_function"; //$NON-NLS-1$
    }
 
    /* (non-Javadoc)
@@ -107,7 +107,7 @@ public class ChangeFunction implements MutatorInterface
     */
    public String getDisplayName()
    {
-      return "Change Function";
+      return "Change Function"; //$NON-NLS-1$
    }
 
 }

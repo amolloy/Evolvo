@@ -99,17 +99,17 @@ public class ExpressionTree implements Serializable
 
       if (operator instanceof SimpleTriplet)
       {
-         theString.append("< ");
+         theString.append("< "); //$NON-NLS-1$
 
-         theString.append(params[0].toString()).append(", ");
-         theString.append(params[1].toString()).append(", ");
+         theString.append(params[0].toString()).append(", "); //$NON-NLS-1$
+         theString.append(params[1].toString()).append(", "); //$NON-NLS-1$
          theString.append(params[2].toString());
 
-         theString.append(">");
+         theString.append(">"); //$NON-NLS-1$
       }
       else
       {
-         theString.append("(" + operator.getName() + " ");
+         theString.append("(" + operator.getName() + " "); //$NON-NLS-1$ //$NON-NLS-2$
 
          for (count = 0; count < len; count++)
          {
@@ -117,7 +117,7 @@ public class ExpressionTree implements Serializable
 
             if (count < (len - 1))
             {
-               theString.append(" ");
+               theString.append(" "); //$NON-NLS-1$
             }
          }
 
@@ -125,7 +125,7 @@ public class ExpressionTree implements Serializable
 
          if (len > 0)
          {
-            theString.append(" ");
+            theString.append(" "); //$NON-NLS-1$
 
             int base = count;
             int endCount = len + base;
@@ -136,12 +136,12 @@ public class ExpressionTree implements Serializable
 
                if (count < endCount)
                {
-                  theString.append(" ");
+                  theString.append(" "); //$NON-NLS-1$
                }
             }
          }
 
-         theString.append(")");
+         theString.append(")"); //$NON-NLS-1$
       }
 
       return theString.toString();

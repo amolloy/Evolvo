@@ -36,7 +36,7 @@ public class Scale implements OperatorInterface
     */
    public String getName()
    {
-      return "scale";
+      return "scale"; //$NON-NLS-1$
    }
 
    /* (non-Javadoc)

@@ -99,14 +99,14 @@ public class IntegerField extends JTextField implements ActionListener
       value = v;
       setText(value.toString());
       select(0, getText().length());
-      firePropertyChange("value", oldValue, v);
+      firePropertyChange("value", oldValue, v); //$NON-NLS-1$
    }
 
    /** Extends PlainDocument.  Restricts user input to numbers. */
    static class IntegerDocument extends PlainDocument
    {
       /** Characters that are acceptable in input. */
-      byte[] validChars = new String("0123456789").getBytes();
+      byte[] validChars = new String("0123456789").getBytes(); //$NON-NLS-1$
       /** The number of acceptable characters. */
       int vcLength = validChars.length;
 

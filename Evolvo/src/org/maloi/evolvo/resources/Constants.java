@@ -27,20 +27,20 @@ import java.awt.Toolkit;
 
 public class Constants
 {
-   public static final String VERSION = "0.6";
+   public static final String VERSION = "0.6"; //$NON-NLS-1$
 
    public static final int KEY_MASK =
       (Toolkit.getDefaultToolkit().getMenuShortcutKeyMask());
 
    public static final boolean isMac =
-      (System.getProperty("mrj.version") != null);
+      (System.getProperty("mrj.version") != null); //$NON-NLS-1$
 
    public static final int THUMBNAIL_WIDTH = 160;
    public static final int THUMBNAIL_HEIGHT = 120;
    public static final Dimension ThumbnailSize =
       new Dimension(THUMBNAIL_WIDTH, THUMBNAIL_HEIGHT);
 
-   public static final String jvmVersion = System.getProperty("java.version");
+   public static final String jvmVersion = System.getProperty("java.version"); //$NON-NLS-1$
    public static final int jvmMajorVersion =
       Integer.parseInt(jvmVersion.substring(0, 1));
    public static final int jvmMinorVersion =
@@ -48,6 +48,6 @@ public class Constants
 
    public static final boolean USE_TILEDIMAGEPANEL = (jvmMinorVersion >= 4);
 
-   public static final String operatorPrefix = "operator.";
-   public static final String mutatorPrefix = "mutator.";
+   public static final String operatorPrefix = "operator."; //$NON-NLS-1$
+   public static final String mutatorPrefix = "mutator."; //$NON-NLS-1$
 }

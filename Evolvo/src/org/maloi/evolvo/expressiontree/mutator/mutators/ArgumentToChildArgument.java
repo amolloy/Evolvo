@@ -91,7 +91,7 @@ public class ArgumentToChildArgument implements MutatorInterface
     */
    public String getName()
    {
-      return "argument_to_child_argument";
+      return "argument_to_child_argument"; //$NON-NLS-1$
    }
 
    /* (non-Javadoc)
@@ -99,7 +99,7 @@ public class ArgumentToChildArgument implements MutatorInterface
     */
    public String getDisplayName()
    {
-      return "Argument To Child Argument";
+      return "Argument To Child Argument"; //$NON-NLS-1$
    }
 
 }

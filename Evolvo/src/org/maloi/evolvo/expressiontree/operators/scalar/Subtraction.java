@@ -42,7 +42,7 @@ public class Subtraction implements OperatorInterface, Serializable
    /** Returns the operator's name. */
    public String getName()
    {
-      return "sub";
+      return "sub"; //$NON-NLS-1$
    }
 
    /** Performs any initialization the operator requires. */

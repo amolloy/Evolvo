@@ -67,7 +67,7 @@ public class Mux5 implements OperatorInterface, Serializable
    /** Returns the operator's name. */
    public String getName()
    {
-      return "mux";
+      return "mux"; //$NON-NLS-1$
    }
 
    /** Performs any initialization the operator requires. */

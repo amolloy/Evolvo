@@ -53,7 +53,7 @@ public class ScalarChangeValue implements MutatorInterface
     */
    public String getName()
    {
-      return "scalar_change_value";
+      return "scalar_change_value"; //$NON-NLS-1$
    }
 
    /* (non-Javadoc)
@@ -61,7 +61,7 @@ public class ScalarChangeValue implements MutatorInterface
     */
    public String getDisplayName()
    {
-      return "Scalar Change Value";
+      return "Scalar Change Value"; //$NON-NLS-1$
    }
 
 }

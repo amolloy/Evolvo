@@ -38,8 +38,8 @@ public class Exporter
 {
    static String pluginList[] =
       {
-         "org.maloi.evolvo.io.exporters.v1.ImageIOExporter",
-         "org.maloi.evolvo.io.exporters.v1.QuickTimeExporter" };
+         "org.maloi.evolvo.io.exporters.v1.ImageIOExporter", //$NON-NLS-1$
+         "org.maloi.evolvo.io.exporters.v1.QuickTimeExporter" }; //$NON-NLS-1$
 
    static String exporterNames[];
 
@@ -63,7 +63,7 @@ public class Exporter
    public static void init()
    {
       GlobalSettings settings = GlobalSettings.getInstance();
-      String preferredPlugin = settings.getStringProperty("usePlugin");
+      String preferredPlugin = settings.getStringProperty("usePlugin"); //$NON-NLS-1$
 
       if (preferredPlugin == null)
       {
@@ -76,7 +76,7 @@ public class Exporter
    public static void init(String preferredPlugin)
    {
       GlobalSettings settings = GlobalSettings.getInstance();
-      String userPlugins = settings.getStringProperty("plugins");
+      String userPlugins = settings.getStringProperty("plugins"); //$NON-NLS-1$
       Vector pluginVector = new Vector();
       int i;
 
@@ -88,13 +88,13 @@ public class Exporter
       if (userPlugins != null)
       {
          StringTokenizer tokenizer =
-            new StringTokenizer(userPlugins, ",", false);
+            new StringTokenizer(userPlugins, ",", false); //$NON-NLS-1$
 
          for (; tokenizer.hasMoreTokens();)
          {
             StringBuffer nameBuffer = new StringBuffer(tokenizer.nextToken());
 
-            nameBuffer.insert(0, "FileIO.ExporterPlugins.v1.");
+            nameBuffer.insert(0, "FileIO.ExporterPlugins.v1."); //$NON-NLS-1$
 
             pluginVector.add(nameBuffer);
          }
@@ -105,7 +105,7 @@ public class Exporter
       if (pluginVector.size() == 0)
       {
          available = false;
-         console.println("No exporters available!");
+         console.println(IOMessages.getString("Exporter.No_exporters_available")); //$NON-NLS-1$
          return;
       }
 
@@ -134,27 +134,27 @@ public class Exporter
          theExporterObject = theExporter.newInstance();
 
          Method initialize =
-            theExporter.getDeclaredMethod("initialize", new Class[] {
+            theExporter.getDeclaredMethod("initialize", new Class[] { //$NON-NLS-1$
          });
 
          initialize.invoke(theExporterObject, null);
 
-         getName = theExporter.getDeclaredMethod("getName", new Class[] {
+         getName = theExporter.getDeclaredMethod("getName", new Class[] { //$NON-NLS-1$
          });
 
          getFormatDescriptions =
             theExporter
-               .getDeclaredMethod("getFormatDescriptions", new Class[] {
+               .getDeclaredMethod("getFormatDescriptions", new Class[] { //$NON-NLS-1$
          });
 
          getFormatExtensions =
             theExporter.getDeclaredMethod(
-               "getFormatExtensions",
+               "getFormatExtensions", //$NON-NLS-1$
                new Class[] { String.class });
 
          write =
             theExporter.getDeclaredMethod(
-               "write",
+               "write", //$NON-NLS-1$
                new Class[] { RenderedImage.class, int.class, File.class });
 
          available = true;
@@ -257,7 +257,7 @@ public class Exporter
                Object pluginObject = pluginClass.newInstance();
 
                Method isAvailable =
-                  pluginClass.getDeclaredMethod("isAvailable", new Class[] {
+                  pluginClass.getDeclaredMethod("isAvailable", new Class[] { //$NON-NLS-1$
                });
 
                Boolean avail = (Boolean) isAvailable.invoke(pluginObject, null);
@@ -265,7 +265,7 @@ public class Exporter
                if (avail.booleanValue())
                {
                   Method getName =
-                     pluginClass.getDeclaredMethod("getName", new Class[] {
+                     pluginClass.getDeclaredMethod("getName", new Class[] { //$NON-NLS-1$
                   });
 
                   nameVector.add(getName.invoke(pluginObject, null));

@@ -62,7 +62,7 @@ public class Division implements OperatorInterface, Serializable
    /** Returns the operator's name. */
    public String getName()
    {
-      return "div";
+      return "div"; //$NON-NLS-1$
    }
 
    /** Performs any initialization the operator requires. */

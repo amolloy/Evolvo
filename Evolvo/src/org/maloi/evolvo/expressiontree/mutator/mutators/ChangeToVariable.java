@@ -58,34 +58,34 @@ public class ChangeToVariable implements MutatorInterface
 
          if (variabletype < 0.25)
          {
-            if (chance < settings.getDoubleProperty("variable.x"))
+            if (chance < settings.getDoubleProperty("variable.x")) //$NON-NLS-1$
             {
                flag = true;
-               newVar = variables.getVariable("x");
+               newVar = variables.getVariable("x"); //$NON-NLS-1$
             }
          }
          else if (variabletype < 0.5)
          {
-            if (chance < settings.getDoubleProperty("variable.y"))
+            if (chance < settings.getDoubleProperty("variable.y")) //$NON-NLS-1$
             {
                flag = true;
-               newVar = variables.getVariable("y");
+               newVar = variables.getVariable("y"); //$NON-NLS-1$
             }
          }
          else if (variabletype < 0.75)
          {
-            if (chance < settings.getDoubleProperty("variable.r"))
+            if (chance < settings.getDoubleProperty("variable.r")) //$NON-NLS-1$
             {
                flag = true;
-               newVar = variables.getVariable("r");
+               newVar = variables.getVariable("r"); //$NON-NLS-1$
             }
          }
          else
          {
-            if (chance < settings.getDoubleProperty("variable.theta"))
+            if (chance < settings.getDoubleProperty("variable.theta")) //$NON-NLS-1$
             {
                flag = true;
-               newVar = variables.getVariable("theta");
+               newVar = variables.getVariable("theta"); //$NON-NLS-1$
             }
          }
       }
@@ -99,7 +99,7 @@ public class ChangeToVariable implements MutatorInterface
     */
    public String getName()
    {
-      return "change_to_variable";
+      return "change_to_variable"; //$NON-NLS-1$
    }
 
    /* (non-Javadoc)
@@ -107,7 +107,7 @@ public class ChangeToVariable implements MutatorInterface
     */
    public String getDisplayName()
    {
-      return "Change To Variable";
+      return "Change To Variable"; //$NON-NLS-1$
    }
 
 }

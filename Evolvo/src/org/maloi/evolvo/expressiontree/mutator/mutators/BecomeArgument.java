@@ -68,7 +68,7 @@ public class BecomeArgument implements MutatorInterface
     */
    public String getName()
    {
-      return "become_argument";
+      return "become_argument"; //$NON-NLS-1$
    }
 
    /* (non-Javadoc)
@@ -76,7 +76,7 @@ public class BecomeArgument implements MutatorInterface
     */
    public String getDisplayName()
    {
-      return "Become Argument";
+      return "Become Argument"; //$NON-NLS-1$
    }
 
 }

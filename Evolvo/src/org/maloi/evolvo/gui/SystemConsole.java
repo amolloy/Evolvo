@@ -29,7 +29,7 @@ public class SystemConsole extends TextDialog
 
    public SystemConsole()
    {
-      super("Initializing system console.");
+      super(GUIMessages.getString("SystemConsole.Initializing_system_console.")); //$NON-NLS-1$
    }
 
    static public SystemConsole getInstance()
@@ -50,7 +50,7 @@ public class SystemConsole extends TextDialog
    public void println(String s)
    {
        print(s);
-       print("\n");
+       print("\n"); //$NON-NLS-1$
        scrollToRow(++lastRow);
    }
    
@@ -63,7 +63,7 @@ public class SystemConsole extends TextDialog
       
       for (int i = 0; i < length; i++)
       {
-         println("\t" + elements[i].toString());
+         println(GUIMessages.getString("SystemConsole._t_3") + elements[i].toString()); //$NON-NLS-1$
       }
    }
 }

@@ -139,22 +139,22 @@ class DoubleBoundedRangeModel extends DefaultBoundedRangeModel
    /** Creates a human readable String describing the range model. */
    public String toString()
    {
-      StringBuffer sb = new StringBuffer("DoubleBoundedRangeModel[value=");
+      StringBuffer sb = new StringBuffer("DoubleBoundedRangeModel[value="); //$NON-NLS-1$
       sb.append(
          new Double((double) getValue() / (double) multiplier).toString());
-      sb.append(", extent=");
+      sb.append(", extent="); //$NON-NLS-1$
       sb.append(new Double(dblExtent).toString());
-      sb.append(", minimum=");
+      sb.append(", minimum="); //$NON-NLS-1$
       sb.append(new Double(dblMinimum).toString());
-      sb.append(", maximum=");
+      sb.append(", maximum="); //$NON-NLS-1$
       sb.append(new Double(dblMaximum).toString());
-      sb.append(", precision=");
+      sb.append(", precision="); //$NON-NLS-1$
       sb.append(new Integer(precision).toString());
-      sb.append(", multiplier=");
+      sb.append(", multiplier="); //$NON-NLS-1$
       sb.append(new Integer(multiplier).toString());
-      sb.append(", adj=");
+      sb.append(", adj="); //$NON-NLS-1$
       sb.append(new Boolean(getValueIsAdjusting()).toString());
-      sb.append("]");
+      sb.append("]"); //$NON-NLS-1$
 
       return sb.toString();
    }

@@ -90,7 +90,7 @@ public class Mandel implements OperatorInterface, Serializable
    /** Returns the operator's name. */
    public String getName()
    {
-      return "mandel";
+      return "mandel"; //$NON-NLS-1$
    }
 
    /** Performs any initialization the operator requires. */

@@ -127,7 +127,7 @@ public class DoubleField
 
    public void setFieldText(String s)
    {
-      int end = s.indexOf(".");
+      int end = s.indexOf("."); //$NON-NLS-1$
       
       if (end == -1)
       {
@@ -178,7 +178,7 @@ public class DoubleField
       
       select(0, getText().length()); // Select the entire text field.
 
-      firePropertyChange("value", oldValue, dbrm.getDoubleValue());
+      firePropertyChange("value", oldValue, dbrm.getDoubleValue()); //$NON-NLS-1$
    }
 
    /** Adds a ChangeListener. */
@@ -199,7 +199,7 @@ public class DoubleField
    static class DoubleDocument extends PlainDocument
    {
       /** The acceptable characters. */
-      byte[] validChars = new String("eE-+.0123456789").getBytes();
+      byte[] validChars = new String("eE-+.0123456789").getBytes(); //$NON-NLS-1$
       /** The number of acceptable characters. */
       int vcLength = validChars.length;
 

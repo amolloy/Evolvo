@@ -48,7 +48,7 @@ public class NewExpression implements MutatorInterface
     */
    public String getName()
    {
-      return "new_expression";
+      return "new_expression"; //$NON-NLS-1$
    }
 
    /* (non-Javadoc)
@@ -56,7 +56,7 @@ public class NewExpression implements MutatorInterface
     */
    public String getDisplayName()
    {
-      return "New Expression";
+      return "New Expression"; //$NON-NLS-1$
    }
 
 }

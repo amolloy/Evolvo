@@ -45,7 +45,7 @@ public class DoubleFieldSlider extends JPanel
    /** Default constructor. */
    public DoubleFieldSlider()
    {
-      this(new DoubleBoundedRangeModel(0.0, 0.0, 0.0, 1.0, 4), "");
+      this(new DoubleBoundedRangeModel(0.0, 0.0, 0.0, 1.0, 4), ""); //$NON-NLS-1$
    }
 
    /** Constructor that takes individual parameters. */
@@ -96,7 +96,7 @@ public class DoubleFieldSlider extends JPanel
    /** Sets the minor tick spacing of the slider. */
    public void setMinorTickSpacing(double ts)
    {
-      slider.setMinorTickSpacing(0.125);
+      slider.setMinorTickSpacing(ts);
    }
 
    /** Determines if the slider's ticks should be drawn. */

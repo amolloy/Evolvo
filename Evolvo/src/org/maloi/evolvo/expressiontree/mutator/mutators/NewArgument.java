@@ -61,7 +61,7 @@ public class NewArgument implements MutatorInterface
     */
    public String getName()
    {
-      return "new_argument";
+      return "new_argument"; //$NON-NLS-1$
    }
 
    /* (non-Javadoc)
@@ -69,7 +69,7 @@ public class NewArgument implements MutatorInterface
     */
    public String getDisplayName()
    {
-      return "New Argument";
+      return "New Argument"; //$NON-NLS-1$
    }
 
 }

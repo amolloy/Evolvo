@@ -71,7 +71,7 @@ public class CustomFileChooser extends JFileChooser
 
       Border previewBorder = BorderFactory.createEtchedBorder();
       preview.setBorder(
-         BorderFactory.createTitledBorder(previewBorder, "Preview"));
+         BorderFactory.createTitledBorder(previewBorder, GUIMessages.getString("CustomFileChooser.Preview_1"))); //$NON-NLS-1$
       preview.setPreferredSize(new Dimension(100, 85));
 
       previewPane.add(preview);
@@ -108,8 +108,8 @@ public class CustomFileChooser extends JFileChooser
 
       addChoosableFileFilter(
          new GenericFileFilter(
-            new String[] { "evo" },
-            "Evolvo Genotype Files",
+            new String[] { "evo" }, //$NON-NLS-1$
+            GUIMessages.getString("CustomFileChooser.Evolvo_Genotype_Files_Type"), //$NON-NLS-1$
             0));
 
       setAccessory(null);
@@ -125,8 +125,8 @@ public class CustomFileChooser extends JFileChooser
 
       addChoosableFileFilter(
          new GenericFileFilter(
-            new String[] { "evo" },
-            "Evolvo Genotype Files",
+            new String[] { "evo" }, //$NON-NLS-1$
+            GUIMessages.getString("CustomFileChooser.Evolvo_Genotype_Files_Type"), //$NON-NLS-1$
             0));
 
       setAccessory(previewPane);
@@ -162,7 +162,7 @@ public class CustomFileChooser extends JFileChooser
          {
             return;
          }
-         if (ce.getPropertyName().equals("SelectedFileChangedProperty"))
+         if (ce.getPropertyName().equals("SelectedFileChangedProperty")) //$NON-NLS-1$
          {
             File theFile =
                ((CustomFileChooser) (ce.getSource())).getSelectedFile();
