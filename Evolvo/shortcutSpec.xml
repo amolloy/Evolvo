@@ -1,0 +1,25 @@
+<shortcuts>
+   <programGroup defaultName="Evolvo" location="applications"/>
+   <shortcut
+      name="Evolvo"
+      target="$INSTALL_PATH\Evolvo.bat"
+      programGroup="yes"
+      desktop="yes"
+      startMenu="no"
+      startup="no"
+      applications="no"
+      initialState="noShow">
+      <createForPack name="Evolvo"/>
+   </shortcut>
+   <shortcut
+      name="Uninstall Evolvo"
+      target="$INSTALL_PATH\Uninstall.bat"
+      programGroup="yes"
+      desktop="no"
+      startMenu="no"
+      startup="no"
+      applications="no"
+      initialState="noShow">
+      <createForPack name="Evolvo"/>
+   </shortcut>
+</shortcuts>

@@ -1,0 +1,6 @@
+#!/bin/sh
+
+RUNPATH='$INSTALL_PATH'
+
+java -jar "${RUNPATH}/Evolvo.jar" "$@"
+
