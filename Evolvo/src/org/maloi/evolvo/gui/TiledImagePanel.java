@@ -34,7 +34,6 @@ import java.util.Hashtable;
 
 import javax.swing.event.ChangeEvent;
 
-import org.maloi.evolvo.debugtools.CallLogger;
 import org.maloi.evolvo.expressiontree.renderer.RendererInterface;
 import org.maloi.evolvo.image.TiledImage;
 
@@ -58,6 +57,7 @@ public class TiledImagePanel extends ImagePanel implements ImageConsumer
     * Creates an image panel, drawing a scaled up instance of a thumbnail
     * of the RendererInterface's image to act as a placeholder until 
     * the RendererInterface is done drawing the full sized version.
+    * 
     */
    public TiledImagePanel(RendererInterface ri, Image thumb)
    {
@@ -68,9 +68,6 @@ public class TiledImagePanel extends ImagePanel implements ImageConsumer
       identityTransform.setToIdentity(); // it should already be identity, but whatever
 
       image = new TiledImage(width, height, ri);
-
-      System.err.println(image.toString());
-      System.err.println(image.getSampleModel().toString());
 
       Graphics g = image.getGraphics();
 

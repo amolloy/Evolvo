@@ -171,7 +171,7 @@ public class RenderFrame extends JFrame
 
          int result = fileChooser.showExportDialog(RenderFrame.this);
 
-         if (result == fileChooser.CANCEL_OPTION)
+         if (result == CustomFileChooser.CANCEL_OPTION)
          {
             return;
          }

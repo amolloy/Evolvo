@@ -24,9 +24,7 @@ package org.maloi.evolvo.image.tiledimage;
 
 import java.awt.Point;
 import java.awt.image.BufferedImage;
-import java.awt.image.DataBuffer;
 import java.awt.image.DataBufferInt;
-import java.awt.image.ImageProducer;
 import java.awt.image.Raster;
 import java.awt.image.SampleModel;
 import java.awt.image.SinglePixelPackedSampleModel;
@@ -85,10 +83,15 @@ public class TiledRaster extends WritableRaster
 
    public TiledRaster(int width, int height)
    {
+      this(width, height, 0, 0);
+   }
+   
+   public TiledRaster(int width, int height, int startX, int startY)
+   {
       super(
          new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB)
             .getSampleModel(),
-         new Point(0, 0));
+         new Point(startX, startY));
 
       minX = 0;
       minY = 0;
@@ -97,8 +100,8 @@ public class TiledRaster extends WritableRaster
       numBands = 3;
       dataBuffer = null;
       parent = null;
-      sampleModelTranslateX = 0;
-      sampleModelTranslateY = 0;
+      sampleModelTranslateX = startX;
+      sampleModelTranslateY = startY;
 
       tileWidth = Math.round((width / TILE_SIZE) + 0.5f);
       tileHeight = Math.round((height / TILE_SIZE) + 0.5f);
@@ -220,6 +223,19 @@ public class TiledRaster extends WritableRaster
       //System.gc(); //  go ahead and force a garbage collection
    }
 
+   public void setPixel(int x, int y, int pix)
+   {
+      int tileX;
+      int tileY;
+
+      tileX = x / TILE_SIZE;
+      tileY = y / TILE_SIZE;
+
+      validateTile(tileX, tileY);
+
+      tiles[tileY * tileWidth + tileX].setPixel(x, y, pix);
+   }
+
    public void setPixels(int startX, int startY, int w, int h, int[] src)
    {
       int x;
@@ -262,7 +278,7 @@ public class TiledRaster extends WritableRaster
       }
    }
 
-   public int[] getPixels(int startX, int startY, int w, int h, int[] dest)
+   public int[] getData(int startX, int startY, int w, int h, int[] dest)
    {
       if (dest == null)
       {

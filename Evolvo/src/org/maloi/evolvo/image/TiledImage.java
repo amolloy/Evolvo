@@ -24,10 +24,11 @@ package org.maloi.evolvo.image;
 
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.Point;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
-import java.awt.image.DirectColorModel;
+import java.awt.image.DataBufferInt;
 import java.awt.image.ImageObserver;
 import java.awt.image.ImageProducer;
 import java.awt.image.Raster;
@@ -54,10 +55,11 @@ public class TiledImage extends Image implements RenderedImage
    {
       this.width = width;
       this.height = height;
-      
+
       raster = new TiledRaster(width, height);
-      
-      cm = (new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB).getColorModel());
+
+      cm =
+         (new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB).getColorModel());
    }
 
    public int getWidth(ImageObserver observer)
@@ -77,48 +79,61 @@ public class TiledImage extends Image implements RenderedImage
 
    public Graphics getGraphics()
    {
+      System.err.println("TiledImage.getGraphics();");
+
       // need to implement something here, I think, so that drawImage(...) can get data from us
       return new TiledImageGraphics(this);
    }
 
    public Object getProperty(String name, ImageObserver observer)
    {
-      System.err.println("getProperty(" + name + ", " + observer + ");");
       return null;
    }
 
    public void flush()
    {
-      
+
    }
-   
+
    // ***
    // RenderedImage
    // ***
 
    public WritableRaster copyData(WritableRaster raster)
    {
-      System.err.println("copyData(" + raster + ");");
+      System.err.println("TiledImage.copyData(" + raster + ");");
 
       return null;
    }
 
    public ColorModel getColorModel()
    {
-      System.err.println("getColorModel();");
-
       return cm;
    }
 
    public Raster getData()
    {
+      System.err.println("TiledImage.getData();");
+
       return raster;
    }
 
    public Raster getData(Rectangle rect)
    {
-      // Just returns its raster, without paying attention to the given rectangle. For our purposes, this seems to be fine.
-      return raster;
+      //System.err.println("TiledImage.getData(" + rect + ");");
+
+      SampleModel sm =
+         new BufferedImage(rect.width, rect.height, BufferedImage.TYPE_INT_RGB)
+            .getSampleModel();
+
+      DataBufferInt dataBuffer =
+         new DataBufferInt(
+            raster.getData(rect.x, rect.y, rect.width, rect.height, null),
+            rect.width * rect.height);
+
+      Point location = new Point(rect.x, rect.y);
+
+      return Raster.createRaster(sm, dataBuffer, location);
    }
 
    public int getHeight()
@@ -133,107 +148,79 @@ public class TiledImage extends Image implements RenderedImage
 
    public int getMinTileX()
    {
-      System.err.println("getMinTileX();");
-
       return 0;
    }
 
    public int getMinTileY()
    {
-      System.err.println("getMinTileY();");
-
       return 0;
    }
 
    public int getMinX()
    {
-      System.err.println("getMinX();");
       return 0;
    }
 
    public int getMinY()
    {
-      System.err.println("getMinY();");
       return 0;
    }
 
    public int getNumXTiles()
    {
-      System.err.println("getNumXTiles();");
-
       return raster.getNumXTiles();
    }
 
    public int getNumYTiles()
    {
-      System.err.println("getNumYTiles();");
-
       return raster.getNumYTiles();
    }
 
    public Object getProperty(String s)
    {
-      System.err.println("getProperty(" + s + ");");
-
       return null;
    }
 
    public String[] getPropertyNames()
    {
-      System.err.println("getPropertyNames();");
-
       return null;
    }
 
    public SampleModel getSampleModel()
    {
-      System.err.println("getSampleModel();");
-
       return raster.getSampleModel();
    }
 
    public Vector getSources()
    {
-      System.err.println("getSources();");
-
       return null;
    }
 
    public Raster getTile(int tileX, int tileY)
    {
-      System.err.println("getTile(" + tileX + ", " + tileY + "); ");
-
       return raster.getTile(tileX, tileY);
    }
 
    public int getTileGridXOffset()
    {
-      System.err.println("getTileGridXOffset();");
-
       return 0;
    }
 
    public int getTileGridYOffset()
    {
-      System.err.println("getTileGridYOffset();");
-
       return 0;
    }
 
    public int getTileHeight()
    {
-      System.err.println("getTileHeight();");
-
       return TILE_SIZE;
    }
 
    public int getTileWidth()
    {
-      System.err.println("getTileWidth();");
-
       return TILE_SIZE;
    }
-   
+
    public void setPixels(
       int startX,
       int startY,
@@ -242,5 +229,10 @@ public class TiledImage extends Image implements RenderedImage
       int[] pixels)
    {
       raster.setPixels(startX, startY, width, height, pixels);
+   }
+
+   public void setPixel(int x, int y, int pixel)
+   {
+      raster.setPixel(x, y, pixel);
    }
 }

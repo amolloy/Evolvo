@@ -22,11 +22,9 @@
 
 package org.maloi.evolvo.expressiontree.renderer;
 
-import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
 import java.awt.image.DirectColorModel;
 import java.awt.image.ImageConsumer;
-import java.awt.image.SinglePixelPackedSampleModel;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Vector;
@@ -317,7 +315,7 @@ public class TiledRenderer implements RendererInterface, Runnable
             return;
          }
 
-         theThread.yield(); // let other threads do their thing
+         Thread.yield(); // let other threads do their thing
       }
 
       feedConsumers(xoffset, yoffset, tileWidth, tileHeight, data);

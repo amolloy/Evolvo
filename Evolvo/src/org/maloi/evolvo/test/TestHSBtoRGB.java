@@ -1,8 +1,5 @@
 package org.maloi.evolvo.test;
 
-import java.awt.image.BufferedImage;
-import java.awt.image.SinglePixelPackedSampleModel;
-
 import org.maloi.evolvo.expressiontree.utilities.Tools;
 
 /**

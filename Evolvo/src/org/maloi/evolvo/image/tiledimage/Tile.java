@@ -24,7 +24,6 @@ package org.maloi.evolvo.image.tiledimage;
 
 import java.awt.Point;
 import java.awt.image.BufferedImage;
-import java.awt.image.DataBuffer;
 import java.awt.image.SampleModel;
 import java.awt.image.SinglePixelPackedSampleModel;
 import java.io.IOException;

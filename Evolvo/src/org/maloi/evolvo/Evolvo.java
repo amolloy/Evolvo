@@ -68,7 +68,7 @@ public class Evolvo extends JFrame implements ActionListener
    CustomFileChooser genericFileChooser;
    Properties prop;
    VariablePackage variables;
-   ImageButtonPanel imagePanel;
+   ImageButtonPanel buttonPanel;
    RendererInterface[] ri = new RendererInterface[9];
    Object macHandler = null; // Only used when run on a mac
 
@@ -302,12 +302,12 @@ public class Evolvo extends JFrame implements ActionListener
    {
       JPanel mainPanel = new JPanel();
 
-      imagePanel = new ImageButtonPanel(makeFirstGeneration());
+      buttonPanel = new ImageButtonPanel(makeFirstGeneration());
 
-      mainPanel.add(imagePanel);
+      mainPanel.add(buttonPanel);
       mainPanel.setVisible(true);
 
-      Dimension imageButtonPanelSize = imagePanel.getPreferredSize();
+      Dimension imageButtonPanelSize = buttonPanel.getPreferredSize();
 
       return mainPanel;
    }
@@ -361,7 +361,7 @@ public class Evolvo extends JFrame implements ActionListener
 
    void makeNewGeneration()
    {
-      int selected = imagePanel.getSelectedButton();
+      int selected = buttonPanel.getSelectedButton();
 
       Random randomNumber = new Random();
 
@@ -399,7 +399,7 @@ public class Evolvo extends JFrame implements ActionListener
          ri = makeFirstGeneration();
       }
 
-      imagePanel.setRenderers(ri, selected);
+      buttonPanel.setRenderers(ri, selected);
    }
 
    void doPreferencesDialog()
@@ -409,7 +409,7 @@ public class Evolvo extends JFrame implements ActionListener
 
    void saveGenotype()
    {
-      int selection = imagePanel.getSelectedButton();
+      int selection = buttonPanel.getSelectedButton();
 
       if (selection == -1)
       {
@@ -427,7 +427,7 @@ public class Evolvo extends JFrame implements ActionListener
 
    void displayGenotype()
    {
-      int selection = imagePanel.getSelectedButton();
+      int selection = buttonPanel.getSelectedButton();
 
       if (selection == -1)
       {
@@ -485,13 +485,13 @@ public class Evolvo extends JFrame implements ActionListener
                expressions,
                Constants.THUMBNAIL_WIDTH,
                Constants.THUMBNAIL_HEIGHT);
-         imagePanel.setRendererAtIndex(ri[0], 0);
+         buttonPanel.setRendererAtIndex(ri[0], 0);
       }
    }
 
    void renderImage()
    {
-      int selection = imagePanel.getSelectedButton();
+      int selection = buttonPanel.getSelectedButton();
 
       if (selection == -1)
       {
@@ -504,7 +504,7 @@ public class Evolvo extends JFrame implements ActionListener
       else
       {
          RenderFrame theRenderFrame = new RenderFrame(ri[selection], 
-            imagePanel.getImageForButton(selection));
+            buttonPanel.getImageForButton(selection));
       }
    }
 
@@ -546,7 +546,7 @@ public class Evolvo extends JFrame implements ActionListener
       }
       else if (cmd.equals("Stop"))
       {
-         imagePanel.stop();
+         buttonPanel.stop();
       }
       else if (cmd.equals("About Evolvo"))
       {

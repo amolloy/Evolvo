@@ -196,7 +196,7 @@ public class StandardRenderer implements RendererInterface, Runnable
             return;
          }
 
-         theThread.yield(); // let other threads do their thing
+         Thread.yield(); // let other threads do their thing
       }
 
       feedConsumers(data);

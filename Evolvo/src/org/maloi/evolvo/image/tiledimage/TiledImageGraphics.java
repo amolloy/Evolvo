@@ -36,11 +36,14 @@ import org.maloi.evolvo.image.TiledImage;
 
 public class TiledImageGraphics extends Graphics
 {
+   TiledImage image;
+
    public TiledImageGraphics(TiledImage image)
    {
+      this.image = image;
+
       System.err.println("TiledImageGraphics.constructor(" + image + ");");
    }
-
 
    /**
     * @see java.awt.Graphics#create()
@@ -49,7 +52,7 @@ public class TiledImageGraphics extends Graphics
    {
       System.err.println("TiledImageGraphics.create();");
 
-      return null;
+      return this;     
    }
 
    /**
@@ -476,28 +479,28 @@ public class TiledImageGraphics extends Graphics
     */
    public boolean drawImage(
       Image img,
-      int x,
-      int y,
-      int width,
-      int height,
+      int startX,
+      int startY,
+      int newWidth,
+      int newHeight,
       ImageObserver observer)
    {
       System.err.println(
          "TiledImageGraphics.drawImage("
             + img
             + ", "
-            + x
+            + startX
             + ", "
-            + y
+            + startY
             + ", "
-            + width
+            + newWidth
             + ", "
-            + height
+            + newHeight
             + ", "
             + observer
             + ");");
 
-      return false;
+     return false;
    }
 
    /**

@@ -49,7 +49,7 @@ public class GenotypeFileIO
 
       result = fileChooser.showOpenGeneratorDialog(parent);
 
-      if (result == fileChooser.CANCEL_OPTION)
+      if (result == CustomFileChooser.CANCEL_OPTION)
       {
          return null;
       }
@@ -116,7 +116,7 @@ public class GenotypeFileIO
    {
       int result = fileChooser.showSaveGeneratorDialog(parent);
 
-      if (result == fileChooser.CANCEL_OPTION)
+      if (result == CustomFileChooser.CANCEL_OPTION)
       {
          return;
       }
