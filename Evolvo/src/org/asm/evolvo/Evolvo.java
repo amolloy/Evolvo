@@ -405,15 +405,6 @@ public class Evolvo extends JFrame implements ActionListener
    void doPreferencesDialog()
    {
       settingsDialogBox.showDialog(this);
-
-      try
-      {
-         settings.storeProperties();
-      }
-      catch (Exception e)
-      {
-         System.out.println("Error storing new settings");
-      }
    }
 
    void saveGenotype()

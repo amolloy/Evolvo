@@ -33,6 +33,7 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -89,9 +90,8 @@ public class SettingsDialog implements ActionListener
       return _instance;
    }
 
-   protected SettingsDialog()
+   JComponent createStandardOptions()
    {
-      // create the generation options panel      
       JPanel generationOptions = new JPanel(new GridLayout(3, 1));
       Border generationOptionsBorder = BorderFactory.createEtchedBorder();
 
@@ -181,6 +181,11 @@ public class SettingsDialog implements ActionListener
       standardOptions.add(generationOptions);
       standardOptions.add(variableProbs);
 
+      return standardOptions;
+   }
+
+   JComponent createOperatorOptions()
+   {
       // create the operatorControlPanel panel
       Box operatorControlPanel = new Box(BoxLayout.Y_AXIS);
 
@@ -197,38 +202,13 @@ public class SettingsDialog implements ActionListener
             JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
             JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
-      // create the render options panel
-      JPanel renderSizeOptions = new JPanel(new GridLayout(2, 1));
-      Border renderSizeBorder = BorderFactory.createEtchedBorder();
-      renderSizeOptions.setBorder(
-         BorderFactory.createTitledBorder(renderSizeBorder, "Render Size"));
+      return scrollableControlPanel;
+   }
 
-      // width
-      JLabel widthLabel = new JLabel("Width");
-      renderSizeOptions.add(widthLabel);
-      widthField =
-         new IntegerField(6, settings.getIntegerProperty("render.width"));
-      renderSizeOptions.add(widthField);
-
-      // height
-      JLabel heightLabel = new JLabel("Height");
-      renderSizeOptions.add(heightLabel);
-      heightField =
-         new IntegerField(6, settings.getIntegerProperty("render.height"));
-      renderSizeOptions.add(heightField);
-
-      // Fill up the extra space...
-      JPanel fillerPanel = new JPanel();
-      Dimension filledSize = renderSizeOptions.getPreferredSize();
-      fillerPanel.setPreferredSize(new Dimension(300, 400 - filledSize.height));
-
-      // the actual render panel
-      Box renderOptionsPanel = new Box(BoxLayout.Y_AXIS);
-      renderOptionsPanel.add(renderSizeOptions);
-      renderOptionsPanel.add(fillerPanel);
-
+   JComponent createMutateOptions()
+   {
       // create the mutation options panel      
-      JPanel mutateOptions = new JPanel(new GridLayout(9, 1));
+      JPanel mutateOptions = new JPanel(new GridLayout(10, 1));
       Border mutateOptionsBorder = BorderFactory.createEtchedBorder();
 
       mutateOptions.setBorder(
@@ -319,6 +299,16 @@ public class SettingsDialog implements ActionListener
       mutateOptions.add(mutate_become_arg);
       mutateOptions.add(mutate_arg_to_child_arg);
 
+      // Put a little space between the lines...
+      JPanel fillerPanel = new JPanel();
+      fillerPanel.setPreferredSize(new Dimension(300, 10));
+      mutateOptions.add(fillerPanel, BorderLayout.CENTER);
+
+      return mutateOptions;
+   }
+
+   JComponent createAdvancedOptions()
+   {
       // Create the Advanced tab
       Box advancedOptions = new Box(BoxLayout.Y_AXIS);
       JPanel exporterOptions = new JPanel(new BorderLayout());
@@ -357,7 +347,7 @@ public class SettingsDialog implements ActionListener
       exporterOptions.add(pluginTextAndRescan, BorderLayout.SOUTH);
 
       // Put a little space between the lines...
-      fillerPanel = new JPanel();
+      JPanel fillerPanel = new JPanel();
       fillerPanel.setPreferredSize(new Dimension(300, 10));
       exporterOptions.add(fillerPanel, BorderLayout.CENTER);
 
@@ -366,19 +356,22 @@ public class SettingsDialog implements ActionListener
 
       // Fill up the extra space...
       fillerPanel = new JPanel();
-      filledSize = advancedOptions.getPreferredSize();
+      Dimension filledSize = advancedOptions.getPreferredSize();
       fillerPanel.setPreferredSize(new Dimension(300, 400 - filledSize.height));
 
       advancedOptions.add(fillerPanel);
 
-      // create the tabbed pane
+      return advancedOptions;
+   }
+
+   protected SettingsDialog()
+   {
       dialogTabbedPane = new JTabbedPane();
       dialogTabbedPane.setPreferredSize(new Dimension(550, 400));
-      dialogTabbedPane.add("Settings", standardOptions);
-      dialogTabbedPane.add("Operators", scrollableControlPanel);
-      dialogTabbedPane.add("Render", renderOptionsPanel);
-      dialogTabbedPane.add("Mutate", mutateOptions);
-      dialogTabbedPane.add("Advanced", advancedOptions);
+      dialogTabbedPane.add("Settings", createStandardOptions());
+      dialogTabbedPane.add("Operators", createOperatorOptions());
+      dialogTabbedPane.add("Mutate", createMutateOptions());
+      dialogTabbedPane.add("Advanced", createAdvancedOptions());
    }
 
    /** Creates the settings dialog box.
@@ -481,12 +474,7 @@ public class SettingsDialog implements ActionListener
                      ops[i].getName(),
                      fields[i].getValue());
                }
-               settings.setIntegerProperty(
-                  "render.width",
-                  widthField.getValue());
-               settings.setIntegerProperty(
-                  "render.height",
-                  heightField.getValue());
+
                settings.setDoubleProperty(
                   "mutate.change",
                   mutate_change.getValue());
@@ -524,6 +512,15 @@ public class SettingsDialog implements ActionListener
                   (String) preferredPlugin.getSelectedItem());
 
                settings.setProperty("plugins", plugins.getText());
+
+               try
+               {
+                  settings.storeProperties();
+               }
+               catch (Exception e)
+               {
+                  System.err.println("Error storing new settings");
+               }
             }
          }
       }
