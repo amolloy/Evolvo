@@ -28,6 +28,7 @@ import org.maloi.evolvo.expressiontree.operators.OperatorInterface;
 import org.maloi.evolvo.expressiontree.utilities.VariablePackage;
 import org.maloi.evolvo.expressiontree.vm.Instruction;
 import org.maloi.evolvo.expressiontree.vm.Machine;
+import org.maloi.evolvo.gui.SystemConsole;
 
 /**
  * Handles mathematic expressions in a tree structure, including
@@ -43,6 +44,8 @@ public class ExpressionTree implements Serializable
    /** Holds the cached value for this branch.  */
    double cachedValue;
    boolean cacheable = false;
+   
+   SystemConsole console = SystemConsole.getInstance();
 
    static VariablePackage vp = VariablePackage.getInstance();
 
@@ -95,6 +98,8 @@ public class ExpressionTree implements Serializable
       int len = operator.getNumberOfScalarParameters();
       StringBuffer theString = new StringBuffer();
 
+console.println(operator.getName());
+
       theString.append("(" + operator.getName() + " ");
 
       for (count = 0; count < len; count++)
@@ -104,6 +109,36 @@ public class ExpressionTree implements Serializable
          if (count < (len - 1))
          {
             theString.append(" ");
+         }
+      }
+      
+      len = operator.getNumberOfTripletParameters();
+      
+      if (len > 0)
+      {
+         console.println("Writing " + len + " triplet parameters");
+      
+         theString.append(" ");
+         
+         int base = count;
+         int endCount = len * 3 + base;
+      
+         console.println("base: " + base + " endCount: " + endCount);
+         
+         for (count = base; count < endCount; count += 3)
+         {
+            theString.append("<");
+            theString.append(params[count  ].toString());
+            theString.append(", ");
+            theString.append(params[count+1].toString());
+            theString.append(", ");
+            theString.append(params[count+2].toString());
+            theString.append(">");
+            
+            if (count < endCount)
+            {
+               theString.append(" ");
+            }
          }
       }
 

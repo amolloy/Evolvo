@@ -28,6 +28,7 @@ import org.maloi.evolvo.expressiontree.ExpressionTree;
 import org.maloi.evolvo.expressiontree.Value;
 import org.maloi.evolvo.expressiontree.operators.OperatorInterface;
 import org.maloi.evolvo.expressiontree.operators.OperatorList;
+import org.maloi.evolvo.expressiontree.operators.triplet.SimpleTriplet;
 import org.maloi.evolvo.settings.GlobalSettings;
 
 /**
@@ -56,6 +57,7 @@ public class ExpressionTreeGenerator
    static GlobalSettings settings = GlobalSettings.getInstance();
    /** A list of the available operators. */
    static OperatorInterface list[] = OperatorList.getScalarOperators();
+   static SimpleTriplet simpleTriplet = new SimpleTriplet();
 
    /** 
     *  Just prevent anyone from constructing us
@@ -94,70 +96,98 @@ public class ExpressionTreeGenerator
       c -= d * level;
 
       // Decide if we should make this a terminal node
-      // If we need to return a triplet, then this can't be a terminal node
-      if (!returnsTriplet && (randomNumber.nextDouble() > c))
-      { 
-         // Okay we want a terminal node, so decide if it should be a
-         // value or variable
-         if (randomNumber.nextDouble() > v)
+      if (randomNumber.nextDouble() > c)
+      {
+         if (returnsTriplet)
          {
-            // it's a value
-            root = new Value(randomNumber.nextDouble() * 2.0 - 1.0);
+            // We need a triplet for our terminator
+            // Triplets can't really terminate an ExpressionTree
+            // so we create a SimpleTriplet and populate it.
+            // We'll actually just call this function recursively
+            // for the three values.  Potentially that could mean
+            // this will not actually be quite like a terminating
+            // node.  That's okay.  This may make things more 
+            // interesting.  Or maybe not.
+
+            root = new ExpressionTree();
+            root.setOperator(simpleTriplet);
+
+            ExpressionTree params[] = new ExpressionTree[3];
+
+            for (int count = 0; count < 3; count++)
+            {
+               params[count] = generate(level + 1.0, randomNumber, false);
+            }
+            
+            root.setParams(params); // and then set the parameters
          }
          else
          {
-            boolean flag = false;
+            // scalar constant or variable
 
-            while (!flag)
+            // Okay we want a terminal node, so decide if it should be a
+            // value or variable
+            if (randomNumber.nextDouble() > v)
             {
-               // We need to decide which variable to use for this node.  
-               // Since each variable has its own chance of occuring, we need 
-               // to keep picking one and deciding based on a random number 
-               // and the variables likelyhood to occur until the program 
-               // decides to keep one.  NOTE: This could result in an 
-               // infinite loop if all variables have a probability of 0.0.  
-               // Currently, the settings package makes an attempt to prevent 
-               // this situation, though really I think a new algorithm is
-               // probably needed.
+               // it's a value
+               root = new Value(randomNumber.nextDouble() * 2.0 - 1.0);
+            }
+            else
+            {
+               boolean flag = false;
 
-               double variabletype = randomNumber.nextDouble();
-               double chance = randomNumber.nextDouble();
-               // This is really very messy and should be rewritten soon
-               if (variabletype < 0.25)
+               while (!flag)
                {
-                  if (chance < settings.getDoubleProperty("variable.x"))
-                  {
-                     flag = true;
-                     root = variables.getVariable("x");
-                  }
-               }
-               else if (variabletype < 0.5)
-               {
-                  if (chance < settings.getDoubleProperty("variable.y"))
-                  {
-                     flag = true;
-                     root = variables.getVariable("y");
-                  }
+                  // We need to decide which variable to use for this node.  
+                  // Since each variable has its own chance of occuring, we need 
+                  // to keep picking one and deciding based on a random number 
+                  // and the variables likelyhood to occur until the program 
+                  // decides to keep one.  NOTE: This could result in an 
+                  // infinite loop if all variables have a probability of 0.0.  
+                  // Currently, the settings package makes an attempt to prevent 
+                  // this situation, though really I think a new algorithm is
+                  // probably needed.
 
-               }
-               else if (variabletype < 0.75)
-               {
-                  if (chance < settings.getDoubleProperty("variable.r"))
+                  double variabletype = randomNumber.nextDouble();
+                  double chance = randomNumber.nextDouble();
+                  // This is really very messy and should be rewritten soon
+                  if (variabletype < 0.25)
                   {
-                     flag = true;
-                     root = variables.getVariable("r");
+                     if (chance < settings.getDoubleProperty("variable.x"))
+                     {
+                        flag = true;
+                        root = variables.getVariable("x");
+                     }
                   }
+                  else if (variabletype < 0.5)
+                  {
+                     if (chance < settings.getDoubleProperty("variable.y"))
+                     {
+                        flag = true;
+                        root = variables.getVariable("y");
+                     }
 
-               }
-               else
-               {
-                  if (chance < settings.getDoubleProperty("variable.theta"))
-                  {
-                     flag = true;
-                     root = variables.getVariable("theta");
                   }
+                  else if (variabletype < 0.75)
+                  {
+                     if (chance < settings.getDoubleProperty("variable.r"))
+                     {
+                        flag = true;
+                        root = variables.getVariable("r");
+                     }
+
+                  }
+                  else
+                  {
+                     if (chance
+                        < settings.getDoubleProperty("variable.theta"))
+                     {
+                        flag = true;
+                        root = variables.getVariable("theta");
+                     }
+                  }
+                  // messy
                }
-               // messy
             }
          }
       }
@@ -165,13 +195,13 @@ public class ExpressionTreeGenerator
       {
          // Okay, we decided to not make this a terminal node, so it's an 
          // operation
-                  
+
          root = new ExpressionTree(); // make a new expressionTree
          root.setOperator(Tools.pickRandomOp(randomNumber, returnsTriplet));
 
          // now that we have an operator, we need to define some parameters 
          // for it
-         
+
          // start with scalar parameters
          int count;
          int paramCount = root.getNumberOfScalarParams();
@@ -187,7 +217,7 @@ public class ExpressionTreeGenerator
             }
             root.setParams(params); // and then set the parameters
          }
-         
+
          // then the vector parameters
          paramCount = root.getNumberOfTripletParams();
 

@@ -58,6 +58,10 @@ import org.maloi.evolvo.expressiontree.operators.triplet.TripletSubtract;
 
 /**
  * Creates a list of the currently available operators.
+ * 
+ * SimpleTriplet is not included in the list, because it is not really
+ * an operator, and is intended only for use as a placeholder in 
+ * ExpressionTree's.
  */
 public class OperatorList
 {
@@ -100,7 +104,7 @@ public class OperatorList
       scalarList[26] = new Mux5();
       scalarList[27] = new Mux3();
       scalarList[28] = new TripletMagnitude();
-
+   
       tripletList[0] = new TripletAdd();
       tripletList[1] = new TripletSubtract();
 
