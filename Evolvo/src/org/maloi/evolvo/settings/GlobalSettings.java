@@ -109,6 +109,9 @@ public class GlobalSettings
          props.put("mutate.become_arg", "1.0");
          props.put("mutate.arg_to_child_arg", "1.0");
          props.put("mutate.change", "0.2");
+         
+         props.put("tilecache.maxtiles", "48");
+         props.put("tilecache.location", System.getProperty("java.io.tmpdir"));
 
          try
          {

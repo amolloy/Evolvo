@@ -27,7 +27,7 @@ import java.io.RandomAccessFile;
 
 public class Tile
 {
-   static final int TILE_SIZE = 128;
+   public static final int TILE_SIZE = 128;
    // All tiles are squares with this as their dimension
    static final int LOCATION_INVALID = 0x00;
    // the tile is invalid (not yet initialized)
@@ -104,6 +104,40 @@ public class Tile
       data[(x - xloc) + ((y - yloc) * TILE_SIZE)] = value;
    }
 
+   public void setPixels(
+      int startX,
+      int startY,
+      int w,
+      int h,
+      int data[],
+      int off,
+      int scansize)
+   {
+      validate();
+
+      int x;
+      int y;
+      int localYOffset;
+      int givenYOffset;
+
+      x = startX - xloc;
+      y = startY - yloc;
+      int endX = x + w;
+      int endY = y + h;
+
+      for (y = startY; y < endY; y++)
+      {
+         localYOffset = y * TILE_SIZE;
+         givenYOffset = (y - startY) * scansize;
+
+         for (x = startX; x < endX; x++)
+         {
+            this.data[localYOffset + x] =
+               data[off + givenYOffset + (x - startX)];
+         }
+      }
+   }
+
    public int getPixel(int x, int y)
    {
       validate();
@@ -158,5 +192,25 @@ public class Tile
       }
 
       location = LOCATION_MEMORY;
+   }
+
+   public boolean isValid()
+   {
+      return location == LOCATION_MEMORY;
+   }
+
+   public long getLastUsedTime()
+   {
+      return lastused;
+   }
+   
+   public int getXLocation()
+   {
+      return xloc;
+   }
+   
+   public int getYLocation()
+   {
+      return yloc;
    }
 }
