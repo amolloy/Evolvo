@@ -42,7 +42,7 @@ import javax.swing.event.MenuEvent;
 import javax.swing.event.MenuListener;
 
 import org.maloi.evolvo.expressiontree.renderer.RendererInterface;
-import org.maloi.evolvo.expressiontree.renderer.StandardRenderer;
+import org.maloi.evolvo.expressiontree.renderer.TiledRenderer;
 import org.maloi.evolvo.io.Exporter;
 import org.maloi.evolvo.io.GenotypeFileIO;
 import org.maloi.evolvo.resources.Constants;
@@ -71,7 +71,7 @@ public class RenderFrame extends JFrame
       int imageHeight = settings.getIntegerProperty("render.height.pixels");
 
       ri =
-         new StandardRenderer(
+         new TiledRenderer(
             renderer.getExpressions(),
             imageWidth,
             imageHeight);
