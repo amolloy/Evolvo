@@ -33,9 +33,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import org.maloi.evolvo.expressiontree.ExpressionTree;
-import org.maloi.evolvo.expressiontree.utilities.Tools;
 import org.maloi.evolvo.expressiontree.vm.Machine;
-import org.maloi.evolvo.expressiontree.vm.Stack;
 import org.maloi.evolvo.gui.CustomProgressMonitor;
 
 public class StandardRenderer implements RendererInterface, Runnable
@@ -132,12 +130,8 @@ public class StandardRenderer implements RendererInterface, Runnable
       int y;
       int x;
       int offset;
-      double red;
-      double green;
-      double blue;
       double ty;
       double tx;
-      Stack stack;
 
       Machine theMachine = expression.getMachine();
 

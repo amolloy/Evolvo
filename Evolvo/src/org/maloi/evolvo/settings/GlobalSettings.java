@@ -160,7 +160,7 @@ public class GlobalSettings
     */
    public String getStringProperty(String s)
    {
-      return (String)props.getProperty(s, ""); //$NON-NLS-1$
+      return props.getProperty(s, ""); //$NON-NLS-1$
    }
 
    /** Returns a property from the Properties object as a double. */

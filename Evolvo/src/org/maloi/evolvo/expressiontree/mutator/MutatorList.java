@@ -22,8 +22,15 @@
 
 package org.maloi.evolvo.expressiontree.mutator;
 
-import org.maloi.evolvo.expressiontree.mutator.mutators.*;
+import org.maloi.evolvo.expressiontree.mutator.mutators.ArgumentToChildArgument;
+import org.maloi.evolvo.expressiontree.mutator.mutators.BecomeArgument;
+import org.maloi.evolvo.expressiontree.mutator.mutators.ChangeFunction;
+import org.maloi.evolvo.expressiontree.mutator.mutators.ChangeToValue;
+import org.maloi.evolvo.expressiontree.mutator.mutators.ChangeToVariable;
 import org.maloi.evolvo.expressiontree.mutator.mutators.MutatorInterface;
+import org.maloi.evolvo.expressiontree.mutator.mutators.NewArgument;
+import org.maloi.evolvo.expressiontree.mutator.mutators.NewExpression;
+import org.maloi.evolvo.expressiontree.mutator.mutators.ScalarChangeValue;
 
 /**
  * @author Andy

@@ -59,7 +59,7 @@ import org.maloi.evolvo.gui.SplashWindow;
 import org.maloi.evolvo.gui.SystemConsole;
 import org.maloi.evolvo.gui.TextDialog;
 import org.maloi.evolvo.io.GenotypeFileIO;
-import org.maloi.evolvo.localization.*;
+import org.maloi.evolvo.localization.MessageStrings;
 import org.maloi.evolvo.resources.Constants;
 import org.maloi.evolvo.resources.LicenseText;
 import org.maloi.evolvo.settings.GlobalSettings;

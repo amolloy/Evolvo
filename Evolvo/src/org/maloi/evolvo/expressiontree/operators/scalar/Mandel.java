@@ -84,7 +84,7 @@ public class Mandel implements OperatorInterface, Serializable
       }
       while ((lengthz <= 4.0) && (Iteration < 255));
 
-      theStack.push((double) Iteration / 128.0 - 1.0);
+      theStack.push(Iteration / 128.0 - 1.0);
    }
 
    /** Returns the operator's name. */

@@ -49,7 +49,7 @@ public class Value extends ExpressionTree implements Serializable
 
    public ExpressionTree getClone()
    {
-      return (ExpressionTree) (new Value(v));
+      return new Value(v);
    }
 
    /** Returns the value's value as a string. */

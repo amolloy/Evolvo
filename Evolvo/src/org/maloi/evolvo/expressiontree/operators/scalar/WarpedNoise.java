@@ -87,7 +87,7 @@ public class WarpedNoise implements OperatorInterface, Serializable
    /** Returns the fractional part of a double. */
    double frac(double r)
    {
-      return (r - (double) (int) r);
+      return (r - Math.floor(r));
    }
 
    /** Perform the operation. */

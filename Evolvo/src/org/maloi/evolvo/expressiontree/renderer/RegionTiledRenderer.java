@@ -34,7 +34,6 @@ import javax.swing.event.ChangeListener;
 
 import org.maloi.evolvo.expressiontree.ExpressionTree;
 import org.maloi.evolvo.expressiontree.vm.Machine;
-import org.maloi.evolvo.expressiontree.vm.Stack;
 import org.maloi.evolvo.gui.CustomProgressMonitor;
 import org.maloi.evolvo.gui.SystemConsole;
 
@@ -276,10 +275,6 @@ public class RegionTiledRenderer implements RendererInterface, Runnable
       int offset;
       double tx;
       double ty;
-      double red;
-      double green;
-      double blue;
-      Stack stack;
 
       int data[] = new int[tileWidth * tileHeight];
 

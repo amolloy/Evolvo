@@ -30,8 +30,8 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 
-import org.maloi.evolvo.localization.MessageStrings;
 import org.maloi.evolvo.gui.SystemConsole;
+import org.maloi.evolvo.localization.MessageStrings;
 
 public class Tile
 {
