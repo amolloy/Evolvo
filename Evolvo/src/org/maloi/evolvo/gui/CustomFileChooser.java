@@ -179,7 +179,7 @@ public class CustomFileChooser extends JFileChooser
                      new StandardRenderer(expressions, 80, 50);
                   ri.addChangeListener(this);
 
-                  ImagePanel ip = new ImagePanel(ri);
+                  SwingImagePanel ip = new SwingImagePanel(ri);
 
                   preview.add(ip);
                   preview.setVisible(true);

@@ -126,14 +126,14 @@ public class RenderFrame extends JFrame
             "Generating Image...",
             "",
             0,
-            settings.getIntegerProperty("render.height.pixels") *
-            settings.getIntegerProperty("render.width.pixels"));
+            settings.getIntegerProperty("render.height.pixels")
+               * settings.getIntegerProperty("render.width.pixels"));
       pm.setProgress(0);
       pm.setMillisToDecideToPopup(750);
 
       ri.setProgressMonitor(pm);
 
-      panel = new ImagePanel(ri, thumb);
+      panel = new SwingImagePanel(ri, thumb);
 
       JScrollPane scrollPane =
          new JScrollPane(

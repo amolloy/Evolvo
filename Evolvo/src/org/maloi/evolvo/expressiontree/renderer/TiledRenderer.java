@@ -356,8 +356,6 @@ public class TiledRenderer implements RendererInterface, Runnable
       fireStateChange();
 
       finished = true;
-
-      System.err.println("Finished");
    }
 
    public int getWidth()
