@@ -318,7 +318,7 @@ public class TiledRaster extends WritableRaster
                   h = endY - y;
                }
 
-               tile.setPixels(x, y, w, h, pixels, totalOffset, w);
+               tile.setPixels(x, y, w, h, src, totalOffset, w);
             }
          }
       }

@@ -33,16 +33,11 @@ import java.awt.image.Raster;
 import java.awt.image.RenderedImage;
 import java.awt.image.SampleModel;
 import java.awt.image.WritableRaster;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.RandomAccessFile;
 import java.util.Vector;
 
 import org.maloi.evolvo.image.tiledimage.Tile;
 import org.maloi.evolvo.image.tiledimage.TiledImageGraphics;
 import org.maloi.evolvo.image.tiledimage.TiledRaster;
-import org.maloi.evolvo.settings.GlobalSettings;
 
 public class TiledImage extends Image implements RenderedImage
 {
