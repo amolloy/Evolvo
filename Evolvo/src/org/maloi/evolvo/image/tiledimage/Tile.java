@@ -94,26 +94,16 @@ public class Tile
       // on second thought, let's be lazy about it...
    }
 
-   public void validate()
+   public void validate(int[] mem)
    {
-      if (location == LOCATION_MEMORY)
-      {
-         return;
-      }
-      else if (location == LOCATION_DISK)
-      {
-         loadTile();
-         return;
-      }
-      else // location == LOCATION_INVALID
-         {
-         data = new int[TILE_SIZE * TILE_SIZE];
-        // for (int i = 0; i < data.length; i++)
-        // {
-        //    data[i] = 0;
-        // } // Java does this already, right?
-         location = LOCATION_MEMORY;
-      }
+   	data = mem;
+   	
+   	switch (location)
+   	{
+   		case LOCATION_MEMORY: break;
+   		case LOCATION_DISK: loadTile(); break;
+   		case LOCATION_INVALID: location = LOCATION_MEMORY; break;
+   	}
    }
 
    public int[] getData()
@@ -321,8 +311,6 @@ public class Tile
       }
 
       int dataOffset = 0;
-
-      data = new int[TILE_SIZE * TILE_SIZE];
 
       for (int dataCount = 0; dataCount < data.length; dataCount++)
       {

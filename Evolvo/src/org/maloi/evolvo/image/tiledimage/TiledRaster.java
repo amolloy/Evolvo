@@ -64,6 +64,9 @@ public class TiledRaster extends WritableRaster
    int tileCache[];
    int cacheCursor;
    
+   // pool of arrays for the tiles
+   int[][] cachePool;
+   
    Tile tiles[]; // the actual tiles
 
    Raster parent = null;
@@ -116,9 +119,11 @@ public class TiledRaster extends WritableRaster
       MAX_RESIDENT_TILES = settings.getIntegerProperty("tilecache.maxtiles"); //$NON-NLS-1$
 
       tileCache = new int[MAX_RESIDENT_TILES];
+      cachePool = new int[MAX_RESIDENT_TILES][];
       for (int i = 0; i < MAX_RESIDENT_TILES; i++)
       {
          tileCache[i] = -1;
+         cachePool[i] = new int[TILE_SIZE * TILE_SIZE * 3];
       }
       
       cacheCursor = 0;
@@ -226,14 +231,15 @@ public class TiledRaster extends WritableRaster
          return;
       }
 
+		// first expire any tile that might already be in this spot...
+		if (tileCache[cacheCursor] != -1)
+		{
+			tiles[tileCache[cacheCursor]].expire();
+		}
+
       // The tile isn't in memory, so we need to validate it, then make sure we 
       // haven't loaded too many tiles
-      tiles[whichTile].validate();
-      
-      if (tileCache[cacheCursor] != -1)
-      {
-         tiles[tileCache[cacheCursor]].expire();
-      }
+      tiles[whichTile].validate(cachePool[cacheCursor]);
       
       tileCache[cacheCursor] = whichTile;
 
