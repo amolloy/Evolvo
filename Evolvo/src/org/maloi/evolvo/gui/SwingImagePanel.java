@@ -64,6 +64,9 @@ public class SwingImagePanel extends ImagePanel implements ImageConsumer
 
       image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 
+      System.err.println(image.toString());
+      System.err.println(image.getSampleModel().toString());
+
       Graphics2D g2 = image.createGraphics();
 
       if (thumb != null)
