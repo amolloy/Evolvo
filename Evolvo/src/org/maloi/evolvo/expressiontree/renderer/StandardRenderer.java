@@ -163,10 +163,17 @@ public class StandardRenderer implements RendererInterface, Runnable
 
             stack = theMachine.execute();
 
-            red = Tools.map(stack.pop());
-            green = Tools.map(stack.pop());
-            blue = Tools.map(stack.pop());
+            double colorTriplet[] = stack.popTriplet();
+            colorTriplet = Tools.normalize(colorTriplet);
+            
+            //red = Tools.map(stack.pop());
+            //green = Tools.map(stack.pop());
+            //blue = Tools.map(stack.pop());
 
+            red = (colorTriplet[0] + 1.0) * 0.5;
+            green = (colorTriplet[1] + 1.0) * 0.5;
+            blue = (colorTriplet[2] + 1.0) * 0.5;
+            
             int rInt = (int) (red * 255.0);
             int gInt = (int) (green * 255.0);
             int bInt = (int) (blue * 255.0);

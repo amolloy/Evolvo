@@ -258,6 +258,7 @@ public class TiledRenderer implements RendererInterface, Runnable
    {
       int x;
       int y;
+      int i;
       int offset;
       double tx;
       double ty;
@@ -274,7 +275,10 @@ public class TiledRenderer implements RendererInterface, Runnable
 
          ty = ((double) (y + yoffset) / (double)height) * 2.0 - 1.0;
 
-         theMachine.setRegister(Machine.REGISTER_Y, ty);
+         for (i = 0; i < 3; i++)
+         {
+            theMachine.setRegister(Machine.REGISTER_Y, ty);
+         }
 
          for (x = 0; x < tileWidth; x++)
          {
@@ -288,9 +292,16 @@ public class TiledRenderer implements RendererInterface, Runnable
 
             stack = theMachine.execute();
 
-            red = Tools.map(stack.pop());
-            green = Tools.map(stack.pop());
-            blue = Tools.map(stack.pop());
+            double colorTriplet[] = stack.popTriplet();
+            colorTriplet = Tools.normalize(colorTriplet);
+            
+            //red = Tools.map(stack.pop());
+            //green = Tools.map(stack.pop());
+            //blue = Tools.map(stack.pop());
+
+            red = (colorTriplet[0] + 1.0) * 0.5;
+            green = (colorTriplet[1] + 1.0) * 0.5;
+            blue = (colorTriplet[2] + 1.0) * 0.5;
 
             int rInt = (int) (red * 255.0);
             int gInt = (int) (green * 255.0);
