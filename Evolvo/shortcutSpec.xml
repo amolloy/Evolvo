@@ -8,7 +8,8 @@
       startMenu="no"
       startup="no"
       applications="no"
-      initialState="noShow">
+      initialState="noShow"
+      iconFile="Evolvo.ico" >
       <createForPack name="Evolvo"/>
    </shortcut>
    <shortcut
