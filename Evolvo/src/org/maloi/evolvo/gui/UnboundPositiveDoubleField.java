@@ -24,6 +24,8 @@ package org.maloi.evolvo.gui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 
 import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
@@ -40,7 +42,7 @@ import javax.swing.text.PlainDocument;
  */
 public class UnboundPositiveDoubleField
    extends JTextField
-   implements ActionListener, ChangeListener
+   implements ActionListener, ChangeListener, FocusListener
 {
    /**
     * precision determines how many decimals are displayed - the value is 
@@ -63,12 +65,14 @@ public class UnboundPositiveDoubleField
    {
       this(0.0, 4);
    }
-   
+
    public UnboundPositiveDoubleField(double value, int precision)
    {
       this.precision = precision;
-      
+
       setValue(value);
+      
+      addFocusListener(this);
    }
 
    /** Handles all recieved ActionEvents. */
@@ -188,7 +192,17 @@ public class UnboundPositiveDoubleField
    public void setPrecision(int p)
    {
       precision = p;
-      
+
       setValue(value); // force it to redraw with the new precision
+   }
+
+   public void focusGained(FocusEvent e)
+   {
+   }
+
+   public void focusLost(FocusEvent e)
+   {
+      // Set our value when we lose focus
+      setValue(Double.parseDouble(getText()));
    }
 }

@@ -24,6 +24,8 @@ package org.maloi.evolvo.gui;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 
 import javax.swing.JTextField;
 import javax.swing.event.ChangeEvent;
@@ -40,7 +42,7 @@ import javax.swing.text.PlainDocument;
  */
 public class DoubleField
    extends JTextField
-   implements ActionListener, ChangeListener
+   implements ActionListener, ChangeListener, FocusListener
 {
    /** Range model used to determine valid values for the text field. */
    DoubleBoundedRangeModel dbrm;
@@ -98,6 +100,8 @@ public class DoubleField
 
       setPrecision(dbrm.getPrecision());
       setFieldText(Double.toString(dbrm.getDoubleValue()));
+      
+      addFocusListener(this);
    }
 
    /** Creates a new DoubleDocument document model. */
@@ -238,5 +242,15 @@ public class DoubleField
       precision = p;
 
       dbrm.setPrecision(p);
+   }
+   
+   public void focusGained(FocusEvent e)
+   {
+   }
+
+   public void focusLost(FocusEvent e)
+   {
+      // Set our value when we lose focus
+      setValue(Double.parseDouble(getText()));
    }
 }

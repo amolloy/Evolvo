@@ -41,17 +41,6 @@ import org.maloi.evolvo.settings.GlobalSettings;
 
 public class RenderOptionsPanel implements ActionListener
 {
-   // Properties:
-   // 
-   // render.width.units  =
-   // render.height.units = pixels, inches, or cm
-   // render.width
-   // render.height
-   // render.width.pixels
-   // render.height.pixels
-   // render.resolution.units = pixels/in or pixels/cm
-   // render.resolution
-
    final static String sizeUnits[] = { "pixels", "inches", "cm" };
    final static String resolutionUnits[] = { "pixels/in", "pixels/cm" };
 
@@ -218,7 +207,7 @@ public class RenderOptionsPanel implements ActionListener
          JOptionPane.showOptionDialog(
             null,
             new Object[] { createRenderOptionsPanel()},
-            "Settings",
+            "Select Size",
             JOptionPane.OK_CANCEL_OPTION,
             JOptionPane.PLAIN_MESSAGE,
             null,
@@ -238,11 +227,12 @@ public class RenderOptionsPanel implements ActionListener
       int heightPixels;
 
       int units_from;
-      ;
+
       double factor;
 
       // get width
       units_from = widthUnits.getSelectedIndex();
+      width      = widthField.getValue();
 
       factor =
          getConversionFactor(
@@ -255,6 +245,7 @@ public class RenderOptionsPanel implements ActionListener
 
       // get height
       units_from = heightUnits.getSelectedIndex();
+      height = heightField.getValue();
 
       factor =
          getConversionFactor(
