@@ -25,6 +25,9 @@
 
 	<!-- Go ahead and copy the splash image into the build directory -->
 	<copy file="${src}/Resources/splash.png" todir="${build}/Resources"/>
+   
+   <!-- Get the localization properties file in the build directory -->
+   <copy file="${src}/org/maloi/evolo/localization/EvolvoStrings_en_US.properties" todir="${build}/org/maloi/evolvo/localization"/>
 
 	<!-- Check what image exporters we have available -->
 	<available property="ImageIO" classname="javax.imageio.ImageIO"/>
