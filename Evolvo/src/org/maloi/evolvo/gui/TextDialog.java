@@ -43,7 +43,7 @@ import javax.swing.text.BadLocationException;
 
 public class TextDialog extends JFrame implements ActionListener
 {
-   JTextArea textArea;
+   protected JTextArea textArea;
    JScrollPane scrollPane;
 
    public TextDialog(String text)
@@ -88,7 +88,6 @@ public class TextDialog extends JFrame implements ActionListener
 
       pack();
       setResizable(false);
-      setVisible(true);
    }
 
    public void forcePaint()
@@ -135,4 +134,8 @@ public class TextDialog extends JFrame implements ActionListener
       }
    }
 
+	public void setVisible(boolean visible)
+	{
+        super.setVisible(visible);
+	}
 }

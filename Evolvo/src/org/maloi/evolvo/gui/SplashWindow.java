@@ -64,6 +64,7 @@ public class SplashWindow extends JWindow
    int width = 394;
    int height = 278;
    Area eraser = new Area(new Rectangle2D.Double(11.0, 260.0, 380.0, 14.0));
+   SystemConsole console = SystemConsole.getInstance();
 
    final static String copyright =
       ("Copyright (C) 2000 Andrew Molloy. "
@@ -243,5 +244,8 @@ public class SplashWindow extends JWindow
 
       // Repaint
       repaint();
+      
+      // Then add message to system console
+      console.println("Splash: " + s);
    }
 }

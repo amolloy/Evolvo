@@ -55,6 +55,7 @@ import org.maloi.evolvo.gui.ImageButtonPanel;
 import org.maloi.evolvo.gui.RenderFrame;
 import org.maloi.evolvo.gui.SettingsDialog;
 import org.maloi.evolvo.gui.SplashWindow;
+import org.maloi.evolvo.gui.SystemConsole;
 import org.maloi.evolvo.gui.TextDialog;
 import org.maloi.evolvo.io.GenotypeFileIO;
 import org.maloi.evolvo.resources.Constants;
@@ -71,16 +72,14 @@ public class Evolvo extends JFrame implements ActionListener
    ImageButtonPanel buttonPanel;
    RendererInterface[] ri = new RendererInterface[9];
    Object macHandler = null; // Only used when run on a mac
+   SystemConsole console;
 
    public Evolvo()
    {
       super("Evolvo");
 
-      SplashWindow Splash = new SplashWindow(false, this);
-
       if (!Constants.isMac)
       {
-         Splash.setMessage("Setting Look and Feel...");
          // Don't change L&F on Mac
          try
          {
@@ -91,6 +90,12 @@ public class Evolvo extends JFrame implements ActionListener
             //Do nothing-will automatically use default L&F if failure occurs  
          }
       }
+
+      console = SystemConsole.getInstance();
+
+      console.println("Creating splash screen");
+
+      SplashWindow Splash = new SplashWindow(false, this);
 
       Splash.setMessage("Loading preferences...");
       settings = GlobalSettings.getInstance();
@@ -180,6 +185,14 @@ public class Evolvo extends JFrame implements ActionListener
       menuitem.addActionListener(this);
       fileMenu.add(menuitem);
 
+      // Display system console
+      menuitem = new JMenuItem("Display System Console");
+      menuitem.setMnemonic(KeyEvent.VK_C);
+      menuitem.setAccelerator(
+         KeyStroke.getKeyStroke(KeyEvent.VK_C, Constants.KEY_MASK));
+      menuitem.addActionListener(this);
+      fileMenu.add(menuitem);
+
       // render saved genotype menu item
       menuitem = new JMenuItem("Render Saved Genotype");
       menuitem.setMnemonic(KeyEvent.VK_E);
@@ -212,7 +225,8 @@ public class Evolvo extends JFrame implements ActionListener
       {
          try
          {
-            Class macHandlerClass = Class.forName("org.maloi.evolvo.gui.MacMenu");
+            Class macHandlerClass =
+               Class.forName("org.maloi.evolvo.gui.MacMenu");
             Constructor macHandlerConstructor =
                macHandlerClass.getConstructor(
                   new Class[] { ActionListener.class });
@@ -443,6 +457,7 @@ public class Evolvo extends JFrame implements ActionListener
 
          TextDialog displayDialog = new TextDialog(displayString);
          displayDialog.scrollToRow(0);
+         displayDialog.setVisible(true);
       }
    }
 
@@ -503,8 +518,10 @@ public class Evolvo extends JFrame implements ActionListener
       }
       else
       {
-         RenderFrame theRenderFrame = new RenderFrame(ri[selection], 
-            buttonPanel.getImageForButton(selection));
+         RenderFrame theRenderFrame =
+            new RenderFrame(
+               ri[selection],
+               buttonPanel.getImageForButton(selection));
       }
    }
 
@@ -523,6 +540,10 @@ public class Evolvo extends JFrame implements ActionListener
       else if (cmd.equals("Display Genotype"))
       {
          displayGenotype();
+      }
+      else if (cmd.equals("Display System Console"))
+      {
+         console.setVisible(true);
       }
       else if (cmd.equals("Render Saved Genotype"))
       {
@@ -574,6 +595,7 @@ public class Evolvo extends JFrame implements ActionListener
    {
       TextDialog licenseDialog = new TextDialog(LicenseText.license);
       licenseDialog.scrollToRow(row);
+      licenseDialog.setVisible(true);
    }
 
    public static void main(String[] args)
