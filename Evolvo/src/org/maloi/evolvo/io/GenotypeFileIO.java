@@ -36,6 +36,7 @@ import org.maloi.evolvo.expressiontree.utilities.ExpressionTreeParser;
 import org.maloi.evolvo.expressiontree.utilities.SyntaxErrorException;
 import org.maloi.evolvo.expressiontree.utilities.Tools;
 import org.maloi.evolvo.gui.CustomFileChooser;
+import org.maloi.evolvo.gui.GenericFileFilter;
 import org.maloi.evolvo.settings.GlobalSettings;
 
 public class GenotypeFileIO
@@ -125,6 +126,27 @@ public class GenotypeFileIO
       if (theFile == null)
       {
          return;
+      }
+
+      String ext;
+
+      String filename = theFile.getName();
+      int length = filename.length();
+      int i = filename.lastIndexOf('.');
+      GenericFileFilter fileFilter =
+         (GenericFileFilter) fileChooser.getFileFilter();
+
+      int id = fileFilter.getID();
+
+      if (i > 0 && i < length - 1)
+      {
+         ext = filename.substring(i + 1).toLowerCase();
+      }
+      else
+      {
+         ext = fileFilter.getExtensions()[0].toLowerCase();
+         filename = theFile.getPath().concat(".").concat(ext);
+         theFile = new File(filename);
       }
 
       if (theFile.exists())

@@ -1,3 +1,12 @@
+0.6 - Added TiledImage to handle very large images. This does not mix well with 
+      the QuickTime exporter, which currently only works with the old AWT style
+      Image class. Also, requires a 1.4 JVM. To keep things going on OS X (which
+      is still stuck with a 1.3 JVM), Evolvo will automatically use a 1.3-
+      compatible image class on a 1.3 JVM. This class cannot handle very large
+      images very well.
+      
+      Also a few little bug fixes.
+
 0.5 - Replaced old ImageGenerator stuff with a more robust implementation based
       on Java's image producer/consumer model.  Made names of packages and classes
       compliant with the Java coding guidelines.  Now works correctly on OS X (at

@@ -1,8 +1,7 @@
 COMPILING FROM SOURCE
 
 The recommended method of compiling Evolvo from source is using Jakarta Ant
-(unless you're on Mac OS X - instructions for OS X build are below).  While
-Ant is not mandatory to build Evolvo, it sure makes things a lot easier,
+While Ant is not mandatory to build Evolvo, it sure makes things a lot easier,
 and I highly recommend it.  Ant can be found at:
 
 http://jakarta.apache.org/ant/
@@ -40,19 +39,6 @@ java evolvo
 
 If you are a Java developer, and haven't used Ant before, I strongly recommend
 that you check it out.  It could potentially make your life a whole lot easier.
-
-COMPILING ON OS X
-
-I've included a project file for Apple's Project Builder.  You can find it at:
-
-Mac-OSX/evolvo/evolvo.pbproj
-
-I highly recommend building Evolvo using this project file on OS X, as it 
-takes advantage of a couple of Java for OS X's features.  
-
-Please note that before this project, I have never used Project Builder,
-so there may be a few glitches in the project file.  I think it's pretty clean
-now, but if you have any troubles, please let me know.
 
 RUNNING EVOLVO
 
