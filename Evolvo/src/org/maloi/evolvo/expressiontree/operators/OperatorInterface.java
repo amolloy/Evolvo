@@ -25,7 +25,11 @@ package org.maloi.evolvo.expressiontree.operators;
 import org.maloi.evolvo.expressiontree.vm.Stack;
 
 /**
- * Defines the interface which all operators must implement
+ * Defines the interface which all operators must implement.
+ * 
+ * By convention, all operators which have mixed scalar and vector
+ * parameters must expect all scalar parameters to be placed on the
+ * stack first, followed by the vector parameters.
  */
 public interface OperatorInterface
 {

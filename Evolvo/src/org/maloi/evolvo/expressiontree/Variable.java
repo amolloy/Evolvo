@@ -85,7 +85,7 @@ public class Variable extends ExpressionTree implements Cloneable, Serializable
    }
 
    /** Returns the number of parameters this node expects. */
-   public int getNumParams()
+   public int getNumberOfScalarParams()
    {
       return 0;
    }

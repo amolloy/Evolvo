@@ -64,7 +64,7 @@ public class GlobalSettings
     */
    protected GlobalSettings()
    {
-      ops = OperatorList.getScalarOperators();
+      ops = OperatorList.getAllOperators();
       props = new Properties();
       try
       {

@@ -64,7 +64,7 @@ public class Value extends ExpressionTree implements Serializable
    }
 
    /** Returns the number of parameters this node expects. */
-   public int getNumParams()
+   public int getNumberOfScalarParams()
    {
       return 0;
    }

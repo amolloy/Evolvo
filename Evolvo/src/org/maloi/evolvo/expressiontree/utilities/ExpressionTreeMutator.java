@@ -96,7 +96,7 @@ public class ExpressionTreeMutator
             current =
                ExpressionTreeGenerator.generate(
                   level,
-                  new Random(r.nextLong()));
+                  new Random(r.nextLong()), false);
          }
          else if (whatMutation < (runningTotal += scalar_change_value))
          {
@@ -160,9 +160,9 @@ public class ExpressionTreeMutator
          {
             ExpressionTree oldParams[] = current.getParams();
             ExpressionTree newParams[];
-            current.setOperator(Tools.pickRandomOp(r));
+            current.setOperator(Tools.pickRandomOp(r, false));
 
-            newParams = new ExpressionTree[current.getNumParams()];
+            newParams = new ExpressionTree[current.getNumberOfScalarParams()];
 
             int oldNumParams = (oldParams == null) ? 0 : oldParams.length;
 
@@ -177,7 +177,7 @@ public class ExpressionTreeMutator
                   newParams[i] =
                      ExpressionTreeGenerator.generate(
                         level,
-                        new Random(r.nextLong()));
+                        new Random(r.nextLong()), false);
                }
             }
 
@@ -192,7 +192,7 @@ public class ExpressionTreeMutator
                params[which] =
                   ExpressionTreeGenerator.generate(
                      level,
-                     new Random(r.nextLong()));
+                     new Random(r.nextLong()), false);
                current.setParams(params);
             }
          }
@@ -207,7 +207,7 @@ public class ExpressionTreeMutator
          }
          else if (whatMutation < (runningTotal += arg_to_child_arg))
          {
-            if (current.getNumParams() != 0)
+            if (current.getNumberOfScalarParams() != 0)
             {
                ExpressionTree params[] = current.getParams();
                if ((params != null) && (params.length > 0))
@@ -228,7 +228,7 @@ public class ExpressionTreeMutator
 
       ExpressionTree params[] = current.getParams();
 
-      for (int i = 0; i < current.getNumParams(); i++)
+      for (int i = 0; i < current.getNumberOfScalarParams(); i++)
       {
          params[i] = mutate(level + 1.0, r, params[i]);
       }

@@ -33,12 +33,13 @@ import org.maloi.evolvo.settings.GlobalSettings;
 
 public class Tools
 {
-   static OperatorInterface[] list = OperatorList.getScalarOperators();
+   static OperatorInterface[] scalarList = OperatorList.getScalarOperators();
+   static OperatorInterface[] vectorList = OperatorList.getTripletOperators();
    static GlobalSettings settings = GlobalSettings.getInstance();
 
    static int[] masks;
    static int[] offsets;
-   
+
    static final double map_height = Math.pow(0.5, 2);
    static final double PI_OVER_TWO = Math.PI / 2.0;
 
@@ -59,11 +60,24 @@ public class Tools
    }
 
    /** Returns a randomly chosen operatorInterface object. */
-   static OperatorInterface pickRandomOp(Random whichOp)
+   static OperatorInterface pickRandomOp(
+      Random whichOp,
+      boolean returnsTriplet)
    {
       boolean flag = false;
-      OperatorInterface pick = list[0]; // keep the compiler happy
+      OperatorInterface pick = scalarList[0]; // keep the compiler happy
       double chance;
+
+      OperatorInterface[] list;
+      
+      if (returnsTriplet)
+      {
+         list = vectorList;
+      }
+      else
+      {
+         list = scalarList;
+      }
 
       // I don't really like this algorithm.
       // Probably should come up with something else in the near future.
@@ -130,7 +144,7 @@ public class Tools
       {
          h *= 6.0;
 
-         i = (int) h;
+         i = (int)h;
 
          f = h - i;
 

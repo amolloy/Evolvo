@@ -118,12 +118,6 @@ public class ExpressionTree implements Serializable
       return (operator.getName());
    }
 
-   /** Returns the number of parameter's this node's operator expects. */
-   public int getParamLength()
-   {
-      return (operator.getNumberOfScalarParameters());
-   }
-
    /** Set this node's parameters. 
      * <B>Note:</B> Currently does not check that p[] has the correct number of
      * elements.  If p[] has too many elements, the extras are simply thrown 
@@ -145,10 +139,16 @@ public class ExpressionTree implements Serializable
       }
    }
 
-   /** Returns the number of parameters this node expects. */
-   public int getNumParams()
+   /** Returns the number of scalar parameters this node expects. */
+   public int getNumberOfScalarParams()
    {
       return operator.getNumberOfScalarParameters();
+   }
+
+   /** Returns the number of triplet parameters this node expects. */
+   public int getNumberOfTripletParams()
+   {
+      return operator.getNumberOfTripletParameters();
    }
 
    /** Returns the parameters this node is holding. */

@@ -65,15 +65,20 @@ public class ExpressionTreeGenerator
    }
 
    /** Returns a generated expressionTree based on the given Random object. */
-   public static ExpressionTree generate(Random randomNumber)
+   public static ExpressionTree generate(
+      Random randomNumber,
+      boolean returnsTriplet)
    {
-      return generate(0.0, randomNumber);
+      return generate(0.0, randomNumber, returnsTriplet);
    }
 
    /** Returns a generated expressionTree based on the given Random object, 
     *  starting at the level<I>th</I> level of the tree. 
     */
-   public static ExpressionTree generate(double level, Random randomNumber)
+   public static ExpressionTree generate(
+      double level,
+      Random randomNumber,
+      boolean returnsTriplet)
    {
       // Start by making a new expressionTree
       ExpressionTree root = new ExpressionTree();
@@ -89,8 +94,10 @@ public class ExpressionTreeGenerator
       c -= d * level;
 
       // Decide if we should make this a terminal node
-      if (randomNumber.nextDouble() > c)
-      { // Okay we want a terminal node, so decide if it should be a
+      // If we need to return a triplet, then this can't be a terminal node
+      if (!returnsTriplet && (randomNumber.nextDouble() > c))
+      { 
+         // Okay we want a terminal node, so decide if it should be a
          // value or variable
          if (randomNumber.nextDouble() > v)
          {
@@ -158,25 +165,44 @@ public class ExpressionTreeGenerator
       {
          // Okay, we decided to not make this a terminal node, so it's an 
          // operation
+                  
          root = new ExpressionTree(); // make a new expressionTree
-         root.setOperator(Tools.pickRandomOp(randomNumber));
-
-         int count;
-         int numParams = root.getNumParams();
+         root.setOperator(Tools.pickRandomOp(randomNumber, returnsTriplet));
 
          // now that we have an operator, we need to define some parameters 
          // for it
-         if (numParams != 0)
+         
+         // start with scalar parameters
+         int count;
+         int paramCount = root.getNumberOfScalarParams();
+
+         if (paramCount != 0)
          {
             // so we make an array of expressionTrees...
-            ExpressionTree params[] = new ExpressionTree[numParams];
+            ExpressionTree params[] = new ExpressionTree[paramCount];
 
-            for (count = 0; count < numParams; count++)
+            for (count = 0; count < paramCount; count++)
             {
-               params[count] = generate(level + 1.0, randomNumber);
+               params[count] = generate(level + 1.0, randomNumber, false);
             }
             root.setParams(params); // and then set the parameters
          }
+         
+         // then the vector parameters
+         paramCount = root.getNumberOfTripletParams();
+
+         if (paramCount != 0)
+         {
+            // so we make an array of expressionTrees...
+            ExpressionTree params[] = new ExpressionTree[paramCount];
+
+            for (count = 0; count < paramCount; count++)
+            {
+               params[count] = generate(level + 1.0, randomNumber, true);
+            }
+            root.setParams(params); // and then set the parameters
+         }
+
       }
 
       return (root);

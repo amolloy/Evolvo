@@ -392,7 +392,7 @@ public class Evolvo extends JFrame implements ActionListener
          for (exprIndex = 0; exprIndex < 3; exprIndex++)
          {
             expressions[exprIndex] =
-               ExpressionTreeGenerator.generate(new Random(r.nextLong()));
+               ExpressionTreeGenerator.generate(new Random(r.nextLong()), false);
          }
 
          ri[riIndex] =

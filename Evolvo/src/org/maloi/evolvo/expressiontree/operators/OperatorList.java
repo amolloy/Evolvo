@@ -51,6 +51,7 @@ import org.maloi.evolvo.expressiontree.operators.scalar.Remainder;
 import org.maloi.evolvo.expressiontree.operators.scalar.Rint;
 import org.maloi.evolvo.expressiontree.operators.scalar.Sine;
 import org.maloi.evolvo.expressiontree.operators.scalar.Subtraction;
+import org.maloi.evolvo.expressiontree.operators.scalar.TripletMagnitude;
 import org.maloi.evolvo.expressiontree.operators.scalar.Xor;
 import org.maloi.evolvo.expressiontree.operators.triplet.TripletAdd;
 import org.maloi.evolvo.expressiontree.operators.triplet.TripletSubtract;
@@ -61,11 +62,14 @@ import org.maloi.evolvo.expressiontree.operators.triplet.TripletSubtract;
 public class OperatorList
 {
    static HashMap operatorHash;
-   static OperatorInterface scalarList[] = new OperatorInterface[28];
-   static OperatorInterface vectorList[] = new OperatorInterface[2];
+   static OperatorInterface scalarList[] = new OperatorInterface[29];
+   static OperatorInterface tripletList[] = new OperatorInterface[2];
+   static OperatorInterface completeList[];
 
    static {
       operatorHash = new HashMap(28);
+      completeList =
+         new OperatorInterface[scalarList.length + tripletList.length];
 
       scalarList[0] = new Addition();
       scalarList[1] = new Subtraction();
@@ -95,23 +99,28 @@ public class OperatorList
       scalarList[25] = new Remainder();
       scalarList[26] = new Mux5();
       scalarList[27] = new Mux3();
+      scalarList[28] = new TripletMagnitude();
 
-      vectorList[0] = new TripletAdd();
-      vectorList[1] = new TripletSubtract();
+      tripletList[0] = new TripletAdd();
+      tripletList[1] = new TripletSubtract();
+
+      int count = 0;
 
       // Perform any initialization code the operator might need,
       // as well as construct the HashMap of operators for the byName()
-      // method.      
+      // method and put together the complete list of operators  
       for (int i = 0; i < scalarList.length; i++)
       {
          scalarList[i].init();
          operatorHash.put(scalarList[i].getName().toLowerCase(), scalarList[i]);
+         completeList[count++] = scalarList[i];
       }
-      
-      for (int i = 0; i < vectorList.length; i++)
+
+      for (int i = 0; i < tripletList.length; i++)
       {
-         vectorList[i].init();
-         operatorHash.put(vectorList[i].getName().toLowerCase(), vectorList[i]);
+         tripletList[i].init();
+         operatorHash.put(tripletList[i].getName().toLowerCase(), tripletList[i]);
+         completeList[count++] = tripletList[i];
       }
    }
 
@@ -130,9 +139,15 @@ public class OperatorList
    }
 
    /** Return the list of vector operators available. */
-   public static OperatorInterface[] getVectorOperators()
+   public static OperatorInterface[] getTripletOperators()
    {
-      return vectorList;
+      return tripletList;
+   }
+
+   /** Return a complete list of operators available. */
+   public static OperatorInterface[] getAllOperators()
+   {
+      return completeList;
    }
 
    /**
@@ -148,6 +163,6 @@ public class OperatorList
          return null;
       }
 
-      return (OperatorInterface) operatorObject;
+      return (OperatorInterface)operatorObject;
    }
 }
