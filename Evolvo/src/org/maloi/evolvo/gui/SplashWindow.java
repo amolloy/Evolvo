@@ -52,6 +52,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JWindow;
 
+import org.maloi.evolvo.localization.MessageStrings;
 import org.maloi.evolvo.resources.Constants;
 
 public class SplashWindow extends JWindow
@@ -67,7 +68,7 @@ public class SplashWindow extends JWindow
    SystemConsole console = SystemConsole.getInstance();
 
    final static String copyright =
-      (GUIMessages.getString("SplashWindow.Warranty_Info")); //$NON-NLS-1$
+      (MessageStrings.getString("SplashWindow.Warranty_Info")); //$NON-NLS-1$
 
    public SplashWindow(boolean clickable, Frame owner)
    {
@@ -202,7 +203,7 @@ public class SplashWindow extends JWindow
       }
 
       // Now the version info
-      tl = new TextLayout(GUIMessages.getString("SplashWindow.Version") + Constants.VERSION, f, frc); //$NON-NLS-1$
+      tl = new TextLayout(MessageStrings.getString("SplashWindow.Version") + Constants.VERSION, f, frc); //$NON-NLS-1$
 
       Rectangle2D bounds = tl.getBounds();
 

@@ -35,6 +35,7 @@ import javax.swing.event.ChangeListener;
 
 import org.maloi.evolvo.expressiontree.renderer.RendererInterface;
 import org.maloi.evolvo.expressiontree.utilities.VariablePackage;
+import org.maloi.evolvo.localization.MessageStrings;
 import org.maloi.evolvo.resources.Constants;
 import org.maloi.evolvo.settings.GlobalSettings;
 
@@ -93,7 +94,7 @@ public class ImageButtonPanel extends JPanel implements ChangeListener
       CustomProgressMonitor pm =
          new CustomProgressMonitor(
             this,
-            GUIMessages.getString("ImageButtonPanel.Generating_Image..._1"), //$NON-NLS-1$
+            MessageStrings.getString("ImageButtonPanel.Generating_Image..._1"), //$NON-NLS-1$
             "", //$NON-NLS-1$
             0,
             Constants.THUMBNAIL_HEIGHT);
@@ -146,7 +147,7 @@ public class ImageButtonPanel extends JPanel implements ChangeListener
       CustomProgressMonitor pm =
          new CustomProgressMonitor(
             this,
-            GUIMessages.getString("ImageButtonPanel.Generating_Images..._3"), //$NON-NLS-1$
+            MessageStrings.getString("ImageButtonPanel.Generating_Images..._3"), //$NON-NLS-1$
             "", //$NON-NLS-1$
             0,
             totalScanLines);

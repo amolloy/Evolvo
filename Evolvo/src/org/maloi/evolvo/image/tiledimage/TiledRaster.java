@@ -36,6 +36,7 @@ import java.io.RandomAccessFile;
 import java.nio.channels.FileChannel;
 
 import org.maloi.evolvo.gui.SystemConsole;
+import org.maloi.evolvo.localization.MessageStrings;
 import org.maloi.evolvo.settings.GlobalSettings;
 
 /**
@@ -122,7 +123,7 @@ public class TiledRaster extends WritableRaster
       }
       catch (IOException ioe)
       {
-         console.println(TiledImageMessages.getString("TiledRaster.Could_not_create_temporary_file")); //$NON-NLS-1$
+         console.println(MessageStrings.getString("TiledRaster.Could_not_create_temporary_file")); //$NON-NLS-1$
          console.printStackTrace(ioe);
       }
 
@@ -137,7 +138,7 @@ public class TiledRaster extends WritableRaster
       }
       catch (FileNotFoundException fnfe)
       {
-         console.println(TiledImageMessages.getString("TiledRaster.Cache_file_not_found.")); //$NON-NLS-1$
+         console.println(MessageStrings.getString("TiledRaster.Cache_file_not_found.")); //$NON-NLS-1$
          console.printStackTrace(fnfe);
       }
 
@@ -150,7 +151,7 @@ public class TiledRaster extends WritableRaster
       }
       catch (IOException ioe)
       {
-         console.println(TiledImageMessages.getString("TiledRaster.Could_not_set_file_length")); //$NON-NLS-1$
+         console.println(MessageStrings.getString("TiledRaster.Could_not_set_file_length")); //$NON-NLS-1$
          console.printStackTrace(ioe);
       }
 

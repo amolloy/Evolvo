@@ -41,6 +41,8 @@ import javax.swing.JTextArea;
 import javax.swing.JViewport;
 import javax.swing.text.BadLocationException;
 
+import org.maloi.evolvo.localization.MessageStrings;
+
 public class TextDialog extends JFrame implements ActionListener
 {
    protected JTextArea textArea;
@@ -77,7 +79,7 @@ public class TextDialog extends JFrame implements ActionListener
 
       JPanel buttonPanel = new JPanel();
 
-      JButton closeButton = new JButton(GUIMessages.getString("TextDialog.Close")); //$NON-NLS-1$
+      JButton closeButton = new JButton(MessageStrings.getString("TextDialog.Close")); //$NON-NLS-1$
       closeButton.setMnemonic(KeyEvent.VK_C);
       closeButton.addActionListener(this);
 
@@ -132,7 +134,7 @@ public class TextDialog extends JFrame implements ActionListener
    {
       String cmd = e.getActionCommand();
 
-      if (cmd.equals(GUIMessages.getString("TextDialog.Close"))) //$NON-NLS-1$
+      if (cmd.equals(MessageStrings.getString("TextDialog.Close"))) //$NON-NLS-1$
       {
          setVisible(false);
          dispose();

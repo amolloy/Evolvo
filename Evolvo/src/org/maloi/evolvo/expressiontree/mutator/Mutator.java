@@ -56,17 +56,17 @@ public class Mutator
    }
 
    static {
-      new_expression = settings.getDoubleProperty("mutate.new_expression");
+      new_expression = settings.getDoubleProperty("mutate.new_expression"); //$NON-NLS-1$
       scalar_change_value =
-         settings.getDoubleProperty("mutate.scalar_change_value");
-      to_variable = settings.getDoubleProperty("mutate.to_variable");
-      to_scalar = settings.getDoubleProperty("mutate.to_scalar");
-      change_function = settings.getDoubleProperty("mutate.change_function");
+         settings.getDoubleProperty("mutate.scalar_change_value"); //$NON-NLS-1$
+      to_variable = settings.getDoubleProperty("mutate.to_variable"); //$NON-NLS-1$
+      to_scalar = settings.getDoubleProperty("mutate.to_scalar"); //$NON-NLS-1$
+      change_function = settings.getDoubleProperty("mutate.change_function"); //$NON-NLS-1$
       new_expression_arg =
-         settings.getDoubleProperty("mutate.new_expression_arg");
-      become_arg = settings.getDoubleProperty("mutate.become_arg");
-      arg_to_child_arg = settings.getDoubleProperty("mutate.arg_to_child_arg");
-      change = settings.getDoubleProperty("mutate.change");
+         settings.getDoubleProperty("mutate.new_expression_arg"); //$NON-NLS-1$
+      become_arg = settings.getDoubleProperty("mutate.become_arg"); //$NON-NLS-1$
+      arg_to_child_arg = settings.getDoubleProperty("mutate.arg_to_child_arg"); //$NON-NLS-1$
+      change = settings.getDoubleProperty("mutate.change"); //$NON-NLS-1$
 
       totalProbs =
          scalar_change_value

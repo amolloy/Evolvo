@@ -139,7 +139,7 @@ public class OperatorList
     */
    private OperatorList()
    {
-      throw new RuntimeException("operatorList: Should not have gotten here!");
+      throw new RuntimeException("operatorList: Should not have gotten here!"); //$NON-NLS-1$
    }
 
    /** Return the list of scalar operators available. */

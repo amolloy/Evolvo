@@ -30,6 +30,7 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 
+import org.maloi.evolvo.localization.MessageStrings;
 import org.maloi.evolvo.gui.SystemConsole;
 
 public class Tile
@@ -286,7 +287,7 @@ public class Tile
       }
       catch (IOException ioe)
       {
-         console.println(TiledImageMessages.getString("Tile.Could_not_write_tile_to_disk.")); //$NON-NLS-1$
+         console.println(MessageStrings.getString("Tile.Could_not_write_tile_to_disk.")); //$NON-NLS-1$
       }
 
       location = LOCATION_DISK;
@@ -305,7 +306,7 @@ public class Tile
       }
       catch (IOException ioe)
       {
-         console.println(TiledImageMessages.getString("Tile.Could_not_read_tile_from_disk.")); //$NON-NLS-1$
+         console.println(MessageStrings.getString("Tile.Could_not_read_tile_from_disk.")); //$NON-NLS-1$
          console.printStackTrace(ioe);
       }
 

@@ -32,6 +32,7 @@ import java.util.Vector;
 
 import org.maloi.evolvo.gui.SystemConsole;
 import org.maloi.evolvo.io.exporters.v1.ExporterInterface;
+import org.maloi.evolvo.localization.MessageStrings;
 import org.maloi.evolvo.settings.GlobalSettings;
 
 public class Exporter
@@ -105,7 +106,7 @@ public class Exporter
       if (pluginVector.size() == 0)
       {
          available = false;
-         console.println(IOMessages.getString("Exporter.No_exporters_available")); //$NON-NLS-1$
+         console.println(MessageStrings.getString("Exporter.No_exporters_available")); //$NON-NLS-1$
          return;
       }
 

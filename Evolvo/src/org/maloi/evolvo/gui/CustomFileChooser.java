@@ -40,6 +40,7 @@ import org.maloi.evolvo.expressiontree.renderer.RendererInterface;
 import org.maloi.evolvo.expressiontree.renderer.StandardRenderer;
 import org.maloi.evolvo.io.Exporter;
 import org.maloi.evolvo.io.GenotypeFileIO;
+import org.maloi.evolvo.localization.MessageStrings;
 import org.maloi.evolvo.settings.GlobalSettings;
 
 public class CustomFileChooser extends JFileChooser
@@ -71,7 +72,7 @@ public class CustomFileChooser extends JFileChooser
 
       Border previewBorder = BorderFactory.createEtchedBorder();
       preview.setBorder(
-         BorderFactory.createTitledBorder(previewBorder, GUIMessages.getString("CustomFileChooser.Preview_1"))); //$NON-NLS-1$
+         BorderFactory.createTitledBorder(previewBorder, MessageStrings.getString("CustomFileChooser.Preview_1"))); //$NON-NLS-1$
       preview.setPreferredSize(new Dimension(100, 85));
 
       previewPane.add(preview);
@@ -109,7 +110,7 @@ public class CustomFileChooser extends JFileChooser
       addChoosableFileFilter(
          new GenericFileFilter(
             new String[] { "evo" }, //$NON-NLS-1$
-            GUIMessages.getString("CustomFileChooser.Evolvo_Genotype_Files_Type"), //$NON-NLS-1$
+            MessageStrings.getString("CustomFileChooser.Evolvo_Genotype_Files_Type"), //$NON-NLS-1$
             0));
 
       setAccessory(null);
@@ -126,7 +127,7 @@ public class CustomFileChooser extends JFileChooser
       addChoosableFileFilter(
          new GenericFileFilter(
             new String[] { "evo" }, //$NON-NLS-1$
-            GUIMessages.getString("CustomFileChooser.Evolvo_Genotype_Files_Type"), //$NON-NLS-1$
+            MessageStrings.getString("CustomFileChooser.Evolvo_Genotype_Files_Type"), //$NON-NLS-1$
             0));
 
       setAccessory(previewPane);

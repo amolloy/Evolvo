@@ -35,6 +35,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 
+import org.maloi.evolvo.localization.MessageStrings;
 import org.maloi.evolvo.settings.GlobalSettings;
 
 public class RenderOptionsPanel implements ActionListener
@@ -109,11 +110,11 @@ public class RenderOptionsPanel implements ActionListener
       JPanel renderSizeOptions = new JPanel(new GridLayout(3, 2));
       Border renderSizeBorder = BorderFactory.createEtchedBorder();
       renderSizeOptions.setBorder(
-         BorderFactory.createTitledBorder(renderSizeBorder, GUIMessages.getString("RenderOptionsPanel.Render"))); //$NON-NLS-1$
+         BorderFactory.createTitledBorder(renderSizeBorder, MessageStrings.getString("RenderOptionsPanel.Render"))); //$NON-NLS-1$
 
       // width
       width = settings.getDoubleProperty("render.width"); //$NON-NLS-1$
-      JLabel widthLabel = new JLabel(GUIMessages.getString("RenderOptionsPanel.Width")); //$NON-NLS-1$
+      JLabel widthLabel = new JLabel(MessageStrings.getString("RenderOptionsPanel.Width")); //$NON-NLS-1$
       renderSizeOptions.add(widthLabel);
       widthField = new UnboundPositiveDoubleField(width, 2);
       renderSizeOptions.add(widthField);
@@ -144,7 +145,7 @@ public class RenderOptionsPanel implements ActionListener
 
       // height
       height = settings.getDoubleProperty("render.height"); //$NON-NLS-1$
-      JLabel heightLabel = new JLabel(GUIMessages.getString("RenderOptionsPanel.Height")); //$NON-NLS-1$
+      JLabel heightLabel = new JLabel(MessageStrings.getString("RenderOptionsPanel.Height")); //$NON-NLS-1$
       renderSizeOptions.add(heightLabel);
       heightField = new UnboundPositiveDoubleField(height, 2);
       renderSizeOptions.add(heightField);
@@ -176,7 +177,7 @@ public class RenderOptionsPanel implements ActionListener
 
       // resolution
       resolution = settings.getDoubleProperty("render.resolution"); //$NON-NLS-1$
-      JLabel resolutionLabel = new JLabel(GUIMessages.getString("RenderOptionsPanel.Resolution")); //$NON-NLS-1$
+      JLabel resolutionLabel = new JLabel(MessageStrings.getString("RenderOptionsPanel.Resolution")); //$NON-NLS-1$
       renderSizeOptions.add(resolutionLabel);
       resolutionField = new UnboundPositiveDoubleField(resolution, 2);
       renderSizeOptions.add(resolutionField);
@@ -207,7 +208,7 @@ public class RenderOptionsPanel implements ActionListener
          JOptionPane.showOptionDialog(
             null,
             new Object[] { createRenderOptionsPanel()},
-            GUIMessages.getString("RenderOptionsPanel.Select_Size"), //$NON-NLS-1$
+            MessageStrings.getString("RenderOptionsPanel.Select_Size"), //$NON-NLS-1$
             JOptionPane.OK_CANCEL_OPTION,
             JOptionPane.PLAIN_MESSAGE,
             null,
@@ -282,7 +283,7 @@ public class RenderOptionsPanel implements ActionListener
       }
       catch (Exception e)
       {
-         console.println(GUIMessages.getString("RenderOptionsPanel.Error_storing_new_settings")); //$NON-NLS-1$
+         console.println(MessageStrings.getString("RenderOptionsPanel.Error_storing_new_settings")); //$NON-NLS-1$
       }
 
       return true;
@@ -378,7 +379,7 @@ public class RenderOptionsPanel implements ActionListener
 
       if (factor == 0.0)
       {
-         console.println(GUIMessages.getString("RenderOptionsPanel.Factor_was_not_set.")); //$NON-NLS-1$
+         console.println(MessageStrings.getString("RenderOptionsPanel.Factor_was_not_set.")); //$NON-NLS-1$
       }
 
       return factor;

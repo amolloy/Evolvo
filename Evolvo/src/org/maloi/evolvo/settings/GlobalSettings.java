@@ -32,6 +32,7 @@ import javax.swing.JOptionPane;
 
 import org.maloi.evolvo.expressiontree.operators.OperatorInterface;
 import org.maloi.evolvo.expressiontree.operators.OperatorList;
+import org.maloi.evolvo.localization.MessageStrings;
 import org.maloi.evolvo.resources.Constants;
 
 /**
@@ -122,7 +123,7 @@ public class GlobalSettings
          }
          catch (IOException ioe)
          {
-            JOptionPane.showMessageDialog(null, SettingsMessages.getString("GlobalSettings.Cannot_create_settings_file.")); //$NON-NLS-1$
+            JOptionPane.showMessageDialog(null, MessageStrings.getString("GlobalSettings.Cannot_create_settings_file.")); //$NON-NLS-1$
             System.exit(1);
          }
       }
@@ -218,7 +219,7 @@ public class GlobalSettings
       throws IOException, FileNotFoundException
    {
       FileOutputStream fout = new FileOutputStream(fn);
-      props.store(fout, SettingsMessages.getString("GlobalSettings.Evolution_Properties_69")); //$NON-NLS-1$
+      props.store(fout, MessageStrings.getString("GlobalSettings.Evolution_Properties_69")); //$NON-NLS-1$
       fout.close();
    }
 

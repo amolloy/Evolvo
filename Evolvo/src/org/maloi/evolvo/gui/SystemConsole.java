@@ -21,6 +21,8 @@
  */
 package org.maloi.evolvo.gui;
 
+import org.maloi.evolvo.localization.MessageStrings;
+
 public class SystemConsole extends TextDialog
 {
    static SystemConsole _instance;
@@ -29,7 +31,7 @@ public class SystemConsole extends TextDialog
 
    public SystemConsole()
    {
-      super(GUIMessages.getString("SystemConsole.Initializing_system_console.")); //$NON-NLS-1$
+      super(MessageStrings.getString("SystemConsole.Initializing_system_console.")); //$NON-NLS-1$
    }
 
    static public SystemConsole getInstance()
@@ -63,7 +65,7 @@ public class SystemConsole extends TextDialog
       
       for (int i = 0; i < length; i++)
       {
-         println(GUIMessages.getString("SystemConsole._t_3") + elements[i].toString()); //$NON-NLS-1$
+         println(MessageStrings.getString("SystemConsole._t_3") + elements[i].toString()); //$NON-NLS-1$
       }
    }
 }

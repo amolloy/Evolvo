@@ -44,6 +44,7 @@ import javax.swing.border.Border;
 
 import org.maloi.evolvo.expressiontree.operators.OperatorInterface;
 import org.maloi.evolvo.io.Exporter;
+import org.maloi.evolvo.localization.MessageStrings;
 import org.maloi.evolvo.resources.Constants;
 import org.maloi.evolvo.settings.GlobalSettings;
 
@@ -100,7 +101,7 @@ public class SettingsDialog implements ActionListener
       generationOptions.setBorder(
          BorderFactory.createTitledBorder(
             generationOptionsBorder,
-            GUIMessages.getString("SettingsDialog.Generation_Options"))); //$NON-NLS-1$
+            MessageStrings.getString("SettingsDialog.Generation_Options"))); //$NON-NLS-1$
 
       complexity =
          new DoubleFieldSlider(
@@ -109,7 +110,7 @@ public class SettingsDialog implements ActionListener
             0.0,
             1.0,
             4,
-            GUIMessages.getString("SettingsDialog.Complexity")); //$NON-NLS-1$
+            MessageStrings.getString("SettingsDialog.Complexity")); //$NON-NLS-1$
       depreciation =
          new DoubleFieldSlider(
             settings.getDoubleProperty("depreciation"), //$NON-NLS-1$
@@ -117,7 +118,7 @@ public class SettingsDialog implements ActionListener
             0.0,
             1.0,
             4,
-            GUIMessages.getString("SettingsDialog.Depreciation")); //$NON-NLS-1$
+            MessageStrings.getString("SettingsDialog.Depreciation")); //$NON-NLS-1$
       variableProb =
          new DoubleFieldSlider(
             settings.getDoubleProperty("variable.probability"), //$NON-NLS-1$
@@ -125,7 +126,7 @@ public class SettingsDialog implements ActionListener
             0.0,
             1.0,
             4,
-            GUIMessages.getString("SettingsDialog.Variable_Probability")); //$NON-NLS-1$
+            MessageStrings.getString("SettingsDialog.Variable_Probability")); //$NON-NLS-1$
 
       generationOptions.add(complexity);
       generationOptions.add(depreciation);
@@ -138,7 +139,7 @@ public class SettingsDialog implements ActionListener
       variableProbs.setBorder(
          BorderFactory.createTitledBorder(
             variableProbsBorder,
-            GUIMessages.getString("SettingsDialog.Variable_Probabilities"))); //$NON-NLS-1$
+            MessageStrings.getString("SettingsDialog.Variable_Probabilities"))); //$NON-NLS-1$
 
       x =
          new DoubleFieldSlider(
@@ -216,7 +217,7 @@ public class SettingsDialog implements ActionListener
       mutateOptions.setBorder(
          BorderFactory.createTitledBorder(
             mutateOptionsBorder,
-            GUIMessages.getString("SettingsDialog.Mutation_Options"))); //$NON-NLS-1$
+            MessageStrings.getString("SettingsDialog.Mutation_Options"))); //$NON-NLS-1$
 
       mutate_change =
          new DoubleFieldSlider(
@@ -225,7 +226,7 @@ public class SettingsDialog implements ActionListener
             0.0,
             1.0,
             4,
-            GUIMessages.getString("SettingsDialog.Change_Probability")); //$NON-NLS-1$
+            MessageStrings.getString("SettingsDialog.Change_Probability")); //$NON-NLS-1$
       mutate_new_expression =
          new DoubleFieldSlider(
             settings.getDoubleProperty("mutate.new_expression"), //$NON-NLS-1$
@@ -233,7 +234,7 @@ public class SettingsDialog implements ActionListener
             0.0,
             1.0,
             4,
-            GUIMessages.getString("SettingsDialog.New_Expression")); //$NON-NLS-1$
+            MessageStrings.getString("SettingsDialog.New_Expression")); //$NON-NLS-1$
       mutate_scalar_change_value =
          new DoubleFieldSlider(
             settings.getDoubleProperty("mutate.scalar_change_value"), //$NON-NLS-1$
@@ -241,7 +242,7 @@ public class SettingsDialog implements ActionListener
             0.0,
             1.0,
             4,
-            GUIMessages.getString("SettingsDialog.Change_Scalar_Value")); //$NON-NLS-1$
+            MessageStrings.getString("SettingsDialog.Change_Scalar_Value")); //$NON-NLS-1$
       mutate_to_variable =
          new DoubleFieldSlider(
             settings.getDoubleProperty("mutate.to_variable"), //$NON-NLS-1$
@@ -249,7 +250,7 @@ public class SettingsDialog implements ActionListener
             0.0,
             1.0,
             4,
-            GUIMessages.getString("SettingsDialog.Change_to_a_Variable")); //$NON-NLS-1$
+            MessageStrings.getString("SettingsDialog.Change_to_a_Variable")); //$NON-NLS-1$
       mutate_to_scalar =
          new DoubleFieldSlider(
             settings.getDoubleProperty("mutate.to_scalar"), //$NON-NLS-1$
@@ -257,7 +258,7 @@ public class SettingsDialog implements ActionListener
             0.0,
             1.0,
             4,
-            GUIMessages.getString("SettingsDialog.Change_to_a_Scalar")); //$NON-NLS-1$
+            MessageStrings.getString("SettingsDialog.Change_to_a_Scalar")); //$NON-NLS-1$
       mutate_change_function =
          new DoubleFieldSlider(
             settings.getDoubleProperty("mutate.change_function"), //$NON-NLS-1$
@@ -265,7 +266,7 @@ public class SettingsDialog implements ActionListener
             0.0,
             1.0,
             4,
-            GUIMessages.getString("SettingsDialog.Change_Functions")); //$NON-NLS-1$
+            MessageStrings.getString("SettingsDialog.Change_Functions")); //$NON-NLS-1$
       mutate_new_expression_arg =
          new DoubleFieldSlider(
             settings.getDoubleProperty("mutate.new_expression_arg"), //$NON-NLS-1$
@@ -273,7 +274,7 @@ public class SettingsDialog implements ActionListener
             0.0,
             1.0,
             4,
-            GUIMessages.getString("SettingsDialog.Generate_A_New_Argument")); //$NON-NLS-1$
+            MessageStrings.getString("SettingsDialog.Generate_A_New_Argument")); //$NON-NLS-1$
       mutate_become_arg =
          new DoubleFieldSlider(
             settings.getDoubleProperty("mutate.become_arg"), //$NON-NLS-1$
@@ -281,7 +282,7 @@ public class SettingsDialog implements ActionListener
             0.0,
             1.0,
             4,
-            GUIMessages.getString("SettingsDialog.Become_A_Child_Argument")); //$NON-NLS-1$
+            MessageStrings.getString("SettingsDialog.Become_A_Child_Argument")); //$NON-NLS-1$
       mutate_arg_to_child_arg =
          new DoubleFieldSlider(
             settings.getDoubleProperty("mutate.arg_to_child_arg"), //$NON-NLS-1$
@@ -289,7 +290,7 @@ public class SettingsDialog implements ActionListener
             0.0,
             1.0,
             4,
-            GUIMessages.getString("SettingsDialog.Change_Argument_To_Child_Argument")); //$NON-NLS-1$
+            MessageStrings.getString("SettingsDialog.Change_Argument_To_Child_Argument")); //$NON-NLS-1$
 
       mutateOptions.add(mutate_change);
       mutateOptions.add(mutate_new_expression);
@@ -317,7 +318,7 @@ public class SettingsDialog implements ActionListener
       Border advancedOptionsBorder = BorderFactory.createEtchedBorder();
 
       exporterOptions.setBorder(
-         BorderFactory.createTitledBorder(advancedOptionsBorder, GUIMessages.getString("SettingsDialog.Exporter"))); //$NON-NLS-1$
+         BorderFactory.createTitledBorder(advancedOptionsBorder, MessageStrings.getString("SettingsDialog.Exporter"))); //$NON-NLS-1$
 
       // Create the preferred exporter drop down box
       String preferredPluginName = settings.getStringProperty("usePlugin"); //$NON-NLS-1$
@@ -327,7 +328,7 @@ public class SettingsDialog implements ActionListener
       preferredPlugin.setEnabled(Exporter.isAvailable());
       preferredPlugin.setSelectedItem(preferredPluginName);
 
-      JButton rescanButton = new JButton(GUIMessages.getString("SettingsDialog.Rescan")); //$NON-NLS-1$
+      JButton rescanButton = new JButton(MessageStrings.getString("SettingsDialog.Rescan")); //$NON-NLS-1$
       rescanButton.addActionListener(this);
 
       Dimension fillerSize = new Dimension(5, 0);
@@ -370,10 +371,10 @@ public class SettingsDialog implements ActionListener
    {
       dialogTabbedPane = new JTabbedPane();
       dialogTabbedPane.setPreferredSize(new Dimension(550, 400));
-      dialogTabbedPane.add(GUIMessages.getString("SettingsDialog.Settings"), createStandardOptions()); //$NON-NLS-1$
-      dialogTabbedPane.add(GUIMessages.getString("SettingsDialog.Operators"), createOperatorOptions()); //$NON-NLS-1$
-      dialogTabbedPane.add(GUIMessages.getString("SettingsDialog.Mutate"), createMutateOptions()); //$NON-NLS-1$
-      dialogTabbedPane.add(GUIMessages.getString("SettingsDialog.Advanced"), createAdvancedOptions()); //$NON-NLS-1$
+      dialogTabbedPane.add(MessageStrings.getString("SettingsDialog.Settings"), createStandardOptions()); //$NON-NLS-1$
+      dialogTabbedPane.add(MessageStrings.getString("SettingsDialog.Operators"), createOperatorOptions()); //$NON-NLS-1$
+      dialogTabbedPane.add(MessageStrings.getString("SettingsDialog.Mutate"), createMutateOptions()); //$NON-NLS-1$
+      dialogTabbedPane.add(MessageStrings.getString("SettingsDialog.Advanced"), createAdvancedOptions()); //$NON-NLS-1$
    }
 
    /** Creates the settings dialog box.
@@ -391,7 +392,7 @@ public class SettingsDialog implements ActionListener
             JOptionPane.showOptionDialog(
                f,
                new Object[] { dialogTabbedPane },
-               GUIMessages.getString("SettingsDialog.Settings"), //$NON-NLS-1$
+               MessageStrings.getString("SettingsDialog.Settings"), //$NON-NLS-1$
                JOptionPane.OK_CANCEL_OPTION,
                JOptionPane.PLAIN_MESSAGE,
                null,
@@ -404,7 +405,7 @@ public class SettingsDialog implements ActionListener
             {
                JOptionPane.showMessageDialog(
                   f,
-                  GUIMessages.getString("SettingsDialog.Depreciation_must_not_be_less_than_0.001.")); //$NON-NLS-1$
+                  MessageStrings.getString("SettingsDialog.Depreciation_must_not_be_less_than_0.001.")); //$NON-NLS-1$
                exitFlag = false;
                continue;
             }
@@ -425,7 +426,7 @@ public class SettingsDialog implements ActionListener
             {
                JOptionPane.showMessageDialog(
                   f,
-                  GUIMessages.getString("SettingsDialog.At_least_one_operator_must_have_probability_greater_than_or_equal_to_0.1.")); //$NON-NLS-1$
+                  MessageStrings.getString("SettingsDialog.At_least_one_operator_must_have_probability_greater_than_or_equal_to_0.1.")); //$NON-NLS-1$
                exitFlag = false;
                continue;
             }
@@ -451,7 +452,7 @@ public class SettingsDialog implements ActionListener
             {
                JOptionPane.showMessageDialog(
                   f,
-                  GUIMessages.getString("SettingsDialog.At_least_one_variable_must_have_probability_greater_than_or_equal_to_0.1.")); //$NON-NLS-1$
+                  MessageStrings.getString("SettingsDialog.At_least_one_variable_must_have_probability_greater_than_or_equal_to_0.1.")); //$NON-NLS-1$
                exitFlag = false;
             }
             else
@@ -519,7 +520,7 @@ public class SettingsDialog implements ActionListener
                }
                catch (Exception e)
                {
-                  console.println(GUIMessages.getString("SettingsDialog.Error_storing_new_settings")); //$NON-NLS-1$
+                  console.println(MessageStrings.getString("SettingsDialog.Error_storing_new_settings")); //$NON-NLS-1$
                }
             }
          }
@@ -554,7 +555,7 @@ public class SettingsDialog implements ActionListener
 
    public void actionPerformed(ActionEvent e)
    {
-      if (e.getSource().equals(GUIMessages.getString("SettingsDialog.Rescan"))) //$NON-NLS-1$
+      if (e.getSource().equals(MessageStrings.getString("SettingsDialog.Rescan"))) //$NON-NLS-1$
       {
          // Go ahead and add the plugins field to the settings...
          settings.setProperty("plugins", plugins.getText()); //$NON-NLS-1$

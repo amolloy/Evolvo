@@ -45,6 +45,7 @@ import org.maloi.evolvo.expressiontree.renderer.RendererInterface;
 import org.maloi.evolvo.expressiontree.renderer.TiledRenderer;
 import org.maloi.evolvo.io.Exporter;
 import org.maloi.evolvo.io.GenotypeFileIO;
+import org.maloi.evolvo.localization.MessageStrings;
 import org.maloi.evolvo.resources.Constants;
 import org.maloi.evolvo.settings.GlobalSettings;
 
@@ -54,7 +55,7 @@ public class RenderFrame extends JFrame
    RendererInterface ri;
    GlobalSettings settings = GlobalSettings.getInstance();
 
-   final JMenuItem exportMenuItem = new JMenuItem(GUIMessages.getString("RenderFrame.Export_Menu")); //$NON-NLS-1$
+   final JMenuItem exportMenuItem = new JMenuItem(MessageStrings.getString("RenderFrame.Export_Menu")); //$NON-NLS-1$
 
    public RenderFrame(RendererInterface renderer, Image thumb)
    {
@@ -79,7 +80,7 @@ public class RenderFrame extends JFrame
 
       JMenuItem menuitem;
 
-      JMenu fileMenu = new JMenu(GUIMessages.getString("RenderFrame.File_Menu")); //$NON-NLS-1$
+      JMenu fileMenu = new JMenu(MessageStrings.getString("RenderFrame.File_Menu")); //$NON-NLS-1$
       fileMenu.setMnemonic(KeyEvent.VK_F);
 
       fileMenu.addMenuListener(new renderMenuListener());
@@ -92,7 +93,7 @@ public class RenderFrame extends JFrame
       exportMenuItem.addActionListener(new exportPerformer());
       fileMenu.add(exportMenuItem);
 
-      menuitem = new JMenuItem(GUIMessages.getString("RenderFrame.Save_Genotype_Menu")); //$NON-NLS-1$
+      menuitem = new JMenuItem(MessageStrings.getString("RenderFrame.Save_Genotype_Menu")); //$NON-NLS-1$
       menuitem.setMnemonic(KeyEvent.VK_S);
       menuitem.setAccelerator(
          KeyStroke.getKeyStroke(KeyEvent.VK_S, Constants.KEY_MASK));
@@ -108,7 +109,7 @@ public class RenderFrame extends JFrame
       fileMenu.addSeparator();
 
       // Close item
-      menuitem = new JMenuItem(GUIMessages.getString("RenderFrame.Close_Menu")); //$NON-NLS-1$
+      menuitem = new JMenuItem(MessageStrings.getString("RenderFrame.Close_Menu")); //$NON-NLS-1$
       menuitem.setMnemonic(KeyEvent.VK_C);
       menuitem.setAccelerator(
          KeyStroke.getKeyStroke(KeyEvent.VK_C, Constants.KEY_MASK));
@@ -123,7 +124,7 @@ public class RenderFrame extends JFrame
       CustomProgressMonitor pm =
          new CustomProgressMonitor(
             this,
-            GUIMessages.getString("RenderFrame.Generating_Image..."), //$NON-NLS-1$
+            MessageStrings.getString("RenderFrame.Generating_Image..."), //$NON-NLS-1$
             "", //$NON-NLS-1$
             0,
             settings.getIntegerProperty("render.height.pixels") //$NON-NLS-1$
@@ -213,7 +214,7 @@ public class RenderFrame extends JFrame
          if (theFile.exists())
          {
             switch (JOptionPane
-               .showConfirmDialog(null, GUIMessages.getString("RenderFrame.File_exists_prompt"))) //$NON-NLS-1$
+               .showConfirmDialog(null, MessageStrings.getString("RenderFrame.File_exists_prompt"))) //$NON-NLS-1$
             {
                case JOptionPane.NO_OPTION :
                case JOptionPane.CANCEL_OPTION :
@@ -228,7 +229,7 @@ public class RenderFrame extends JFrame
          }
          catch (IOException ioe)
          {
-            JOptionPane.showMessageDialog(null, GUIMessages.getString("RenderFrame.Error_saving_file.")); //$NON-NLS-1$
+            JOptionPane.showMessageDialog(null, MessageStrings.getString("RenderFrame.Error_saving_file.")); //$NON-NLS-1$
          }
       }
    }
