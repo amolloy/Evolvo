@@ -188,5 +188,7 @@ public class UnboundPositiveDoubleField
    public void setPrecision(int p)
    {
       precision = p;
+      
+      setValue(value); // force it to redraw with the new precision
    }
 }

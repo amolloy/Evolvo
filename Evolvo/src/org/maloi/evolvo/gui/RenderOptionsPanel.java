@@ -288,7 +288,7 @@ public class RenderOptionsPanel implements ActionListener
                         factor = 1 / resolution;
                         break;
                      case R_UNITS_PIXELS_PER_CENT :
-                        factor = 1 / (resolution * CENTS_TO_INCHES);
+                        factor = 1 / (resolution * INCHES_TO_CENTS);
                         break;
                   }
                   break;
@@ -296,7 +296,7 @@ public class RenderOptionsPanel implements ActionListener
                   switch (units_resolution)
                   {
                      case R_UNITS_PIXELS_PER_INCH :
-                        factor = 1 / (resolution * INCHES_TO_CENTS);
+                        factor = 1 / (resolution * CENTS_TO_INCHES);
                         break;
                      case R_UNITS_PIXELS_PER_CENT :
                         factor = 1 / resolution;
@@ -315,7 +315,7 @@ public class RenderOptionsPanel implements ActionListener
                         factor = resolution;
                         break;
                      case R_UNITS_PIXELS_PER_CENT :
-                        factor = resolution * CENTS_TO_INCHES;
+                        factor = resolution * INCHES_TO_CENTS;
                         break;
                   }
                   break;
