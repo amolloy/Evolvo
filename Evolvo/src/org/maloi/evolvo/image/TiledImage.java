@@ -24,17 +24,25 @@ package org.maloi.evolvo.image;
 
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.Rectangle;
+import java.awt.image.ColorModel;
 import java.awt.image.ImageObserver;
 import java.awt.image.ImageProducer;
+import java.awt.image.Raster;
+import java.awt.image.RenderedImage;
+import java.awt.image.SampleModel;
+import java.awt.image.WritableRaster;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.util.Vector;
 
 import org.maloi.evolvo.image.tiledimage.Tile;
+import org.maloi.evolvo.image.tiledimage.TiledImageGraphics;
 import org.maloi.evolvo.settings.GlobalSettings;
 
-public class TiledImage extends Image
+public class TiledImage extends Image implements RenderedImage
 {
    public final static int TILE_SIZE = Tile.TILE_SIZE;
 
@@ -126,7 +134,7 @@ public class TiledImage extends Image
       this.source = source;
    }
 
-   Tile getTile(int tilex, int tiley)
+   Tile validateTile(int tilex, int tiley)
    {
       int whichTile = (tiley * tileWidth) + tilex;
 
@@ -192,11 +200,12 @@ public class TiledImage extends Image
    public Graphics getGraphics()
    {
       // need to implement something here, I think, so that drawImage(...) can get data from us
-      return null;
+      return new TiledImageGraphics(this);
    }
 
    public Object getProperty(String name, ImageObserver observer)
    {
+      System.err.println("getProperty(" + name + ", " + observer + ");");
       return null;
    }
 
@@ -244,7 +253,7 @@ public class TiledImage extends Image
       {
          for (tileX = startTileX; tileX < endTileX; tileX++)
          {
-            tile = getTile(tileX, tileY);
+            tile = validateTile(tileX, tileY);
 
             xoffset = tile.getXLocation() - startX;
             if (xoffset < 0)
@@ -278,5 +287,146 @@ public class TiledImage extends Image
             tile.setPixels(x, y, w, h, pixels, totalOffset, w);
          }
       }
+   }
+
+   // ***
+   // RenderedImage
+   // ***
+
+   public WritableRaster copyData(WritableRaster raster)
+   {
+      System.err.println("copyData(" + raster + ");");
+
+      return null;
+   }
+
+   public ColorModel getColorModel()
+   {
+      System.err.println("getColorModel();");
+
+      return null;
+   }
+
+   public Raster getData()
+   {
+      System.err.println("getData();");
+      return null;
+   }
+
+   public Raster getData(Rectangle rect)
+   {
+      System.err.println("getData(" + rect + ");");
+      return null;
+   }
+
+   public int getHeight()
+   {
+      return height;
+   }
+
+   public int getWidth()
+   {
+      return width;
+   }
+
+   public int getMinTileX()
+   {
+      System.err.println("getMinTileX();");
+      return 0;
+   }
+
+   public int getMinTileY()
+   {
+      System.err.println("getMinTileY();");
+      return 0;
+   }
+
+   public int getMinX()
+   {
+      System.err.println("getMinX();");
+      return 0;
+   }
+
+   public int getMinY()
+   {
+      System.err.println("getMinY();");
+      return 0;
+   }
+
+   public int getNumXTiles()
+   {
+      System.err.println("getNumXTiles();");
+
+      return tileWidth;
+   }
+
+   public int getNumYTiles()
+   {
+      System.err.println("getNumYTiles();");
+
+      return tileHeight;
+   }
+
+   public Object getProperty(String s)
+   {
+      System.err.println("getProperty(" + s + ");");
+
+      return null;
+   }
+
+   public String[] getPropertyNames()
+   {
+      System.err.println("getPropertyNames();");
+
+      return null;
+   }
+
+   public SampleModel getSampleModel()
+   {
+      System.err.println("getSampleModel();");
+
+      return null;
+   }
+
+   public Vector getSources()
+   {
+      System.err.println("getSources();");
+
+      return null;
+   }
+
+   public Raster getTile(int tileX, int tileY)
+   {
+      System.err.println("getTile(" + tileX + ", " + tileY + "); ");
+
+      return null;
+   }
+
+   public int getTileGridXOffset()
+   {
+      System.err.println("getTileGridXOffset();");
+
+      return 0;
+   }
+
+   public int getTileGridYOffset()
+   {
+      System.err.println("getTileGridYOffset();");
+
+      return 0;
+   }
+
+   public int getTileHeight()
+   {
+      System.err.println("getTileHeight();");
+
+      return TILE_SIZE;
+   }
+
+   public int getTileWidth()
+   {
+      System.err.println("getTileWidth();");
+
+      return TILE_SIZE;
    }
 }

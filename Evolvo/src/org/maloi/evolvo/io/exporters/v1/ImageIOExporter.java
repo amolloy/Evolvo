@@ -26,6 +26,7 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.awt.image.ImageObserver;
+import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.IOException;
 
@@ -65,19 +66,11 @@ public class ImageIOExporter implements ExporterInterface, ImageObserver
       return new String[] { format };
    }
 
-   public void write(BufferedImage i, int which, File f) throws IOException
+   public void write(Image i, int which, File f) throws IOException
    {
-      BufferedImage bi =
-         new BufferedImage(
-            i.getWidth(this),
-            i.getHeight(this),
-            BufferedImage.TYPE_INT_RGB);
-
-      Graphics g = bi.getGraphics();
-
-      g.drawImage(i, 0, 0, this);
-
-      ImageIO.write(bi, descriptions[which], f);
+      // The given image MUST be a RenderedImage
+      
+      ImageIO.write((RenderedImage)i, descriptions[which], f);
    }
 
    private String[] getWriterFormatNames()

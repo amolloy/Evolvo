@@ -92,7 +92,7 @@ public class QuickTimeExporter
       return new String[] { format };
    }
 
-   public void write(BufferedImage i, int which, File f) throws IOException
+   public void write(Image i, int which, File f) throws IOException
    {
       if (!available)
       {

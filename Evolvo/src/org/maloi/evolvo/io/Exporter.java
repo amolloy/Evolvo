@@ -153,7 +153,7 @@ public class Exporter
          write =
             theExporter.getDeclaredMethod(
                "write",
-               new Class[] { BufferedImage.class, int.class, File.class });
+               new Class[] { Image.class, int.class, File.class });
 
          available = true;
       }
