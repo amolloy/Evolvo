@@ -30,6 +30,7 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
 import java.awt.image.ImageConsumer;
+import java.awt.image.RenderedImage;
 import java.awt.image.WritableRaster;
 import java.util.Hashtable;
 
@@ -103,7 +104,7 @@ public class SwingImagePanel extends ImagePanel implements ImageConsumer
       return new Dimension(width, height);
    }
 
-   public Image getImage()
+   public RenderedImage getImage()
    {
       return image;
    }

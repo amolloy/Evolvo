@@ -38,9 +38,13 @@ package org.maloi.evolvo.io.exporters.v1;
 
 import java.awt.Frame;
 import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Vector;
+
+import org.maloi.evolvo.image.tiledimage.TiledImageInterface;
 
 import quicktime.Errors;
 import quicktime.QTException;
@@ -105,10 +109,42 @@ public class QuickTimeExporter
       return new String[] { format };
    }
 
-   public void write(Image i, int which, File f) throws IOException
+   public void write(RenderedImage inImage, int which, File f)
+      throws IOException
    {
       if (!available)
       {
+         return;
+      }
+
+      Image image;
+
+      // see what sort of Image image is...
+      // is it a TiledImage?
+      if (inImage instanceof TiledImageInterface)
+      {
+         // why yes, it is... Use its getImage() method to get an Image from it
+         image = ((TiledImageInterface) inImage).getImage();
+         
+         
+      }
+      // is it a BufferedImage?
+      else if (inImage instanceof BufferedImage)
+      {
+         // yes - it can just be cast to Image
+         image = (Image) inImage;
+      }
+      // is it just a plain old standard Image?
+      else if (inImage instanceof Image)
+      {
+         // yes - again, just cast it to Image
+         image = (Image)inImage;
+      }
+      // if it's anything else, we don't know what to do...
+      else
+      {
+         System.err.println(
+            "QuickTimeExporter: Don't know what to do with this: " + inImage);
          return;
       }
 
@@ -116,8 +152,8 @@ public class QuickTimeExporter
       {
          QTSession.open();
 
-         int width = i.getWidth(null);
-         int height = i.getHeight(null);
+         int width = image.getWidth(null);
+         int height = image.getHeight(null);
 
          Frame frame = new Frame();
          QTCanvas canvas = new QTCanvas();
@@ -128,7 +164,7 @@ public class QuickTimeExporter
 
          QDGraphics offscreen = new QDGraphics(new QDRect(0, 0, width, height));
 
-         QTImageDrawer imageDrawer = new QTImageDrawer(i);
+         QTImageDrawer imageDrawer = new QTImageDrawer(image);
 
          imageDrawer.setRedrawing(true);
          canvas.setClient(imageDrawer, true);

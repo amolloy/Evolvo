@@ -75,8 +75,8 @@ public class TiledRaster extends WritableRaster
 
       image =
          new BufferedImage(TILE_SIZE, TILE_SIZE, BufferedImage.TYPE_INT_RGB);
-		
-		tileSampleModel = image.getSampleModel();
+
+      tileSampleModel = image.getSampleModel();
 
       masks = ((SinglePixelPackedSampleModel) tileSampleModel).getBitMasks();
    }
@@ -109,15 +109,13 @@ public class TiledRaster extends WritableRaster
       tiles = new Tile[tileWidth * tileHeight];
 
       MAX_RESIDENT_TILES = settings.getIntegerProperty("tilecache.maxtiles");
-      String pathToCache = settings.getStringProperty("tilecache.location");
 
       try
       {
          tempFile =
             File.createTempFile(
-               "evolvoCache" + this.hashCode(),
-               null,
-               new File(pathToCache));
+               "evo",
+               null);
       }
       catch (IOException ioe)
       {
@@ -125,6 +123,7 @@ public class TiledRaster extends WritableRaster
          ioe.printStackTrace();
       }
 
+      // this doesn't appear to actually work...
       tempFile.deleteOnExit();
 
       RandomAccessFile raFile = null;
@@ -249,7 +248,11 @@ public class TiledRaster extends WritableRaster
 
    public void flush()
    {
+      // release all of the tiles...      
       tiles = null;
+
+      // and delete the file
+      tempFile.delete();
 
       //System.gc(); //  go ahead and force a garbage collection
    }
@@ -402,8 +405,6 @@ public class TiledRaster extends WritableRaster
          TILE_SIZE,
          TILE_SIZE,
          theTile.getData());
-         
-      
 
       return returnRaster;
    }

@@ -22,7 +22,7 @@
 
 package org.maloi.evolvo.io.exporters.v1;
 
-import java.awt.Image;
+import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.IOException;
 
@@ -56,7 +56,7 @@ public interface ExporterInterface
     * which - Index of exporter to use (from getFormatDescriptions)
     * f     - The File to write to
     */
-   public void write(Image i, int which, File f) throws IOException;
+   public void write(RenderedImage i, int which, File f) throws IOException;
 
    /**
     * Checks to see if the exporter can be used on this system.

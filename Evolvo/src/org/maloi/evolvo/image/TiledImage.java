@@ -22,7 +22,6 @@
 
 package org.maloi.evolvo.image;
 
-import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.Rectangle;
@@ -30,7 +29,6 @@ import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
 import java.awt.image.DataBufferInt;
 import java.awt.image.ImageConsumer;
-import java.awt.image.ImageObserver;
 import java.awt.image.ImageProducer;
 import java.awt.image.Raster;
 import java.awt.image.RenderedImage;
@@ -40,10 +38,10 @@ import java.util.Enumeration;
 import java.util.Vector;
 
 import org.maloi.evolvo.image.tiledimage.Tile;
-import org.maloi.evolvo.image.tiledimage.TiledImageGraphics;
+import org.maloi.evolvo.image.tiledimage.TiledImageInterface;
 import org.maloi.evolvo.image.tiledimage.TiledRaster;
 
-public class TiledImage extends Image implements RenderedImage, ImageProducer, Cloneable
+public class TiledImage implements RenderedImage, ImageProducer, TiledImageInterface
 {
    public final static int TILE_SIZE = Tile.TILE_SIZE;
 
@@ -69,91 +67,6 @@ public class TiledImage extends Image implements RenderedImage, ImageProducer, C
       consumers = new Vector(2);
       observers = new Vector(2);
    }
-
-   // ***
-   // Image
-   // ***
-
-   public void flush()
-   {
-   	raster = null;
-   	
-      System.err.println("TiledImage.flush();");
-   }
-
-   public Graphics getGraphics()
-   {
-      // need to implement something here, I think, so that drawImage(...) can get data from us
-      System.err.println("TiledImage.getGraphics();");
-
-      return new TiledImageGraphics(this);
-   }
-
-   public int getHeight(ImageObserver observer)
-   {
-      System.err.println("TiledImage.getHeight(observer=" + observer + ");");
-
-		addObserver(observer);
-
-      return height;
-   }
-
-   public Object getProperty(String name, ImageObserver observer)
-   {
-   	System.err.println("TiledImage.getProperty("+name+", "+observer+");");
-   	
-   	addObserver(observer);
-   	
-      return null;
-   }
-
-   public Image getScaledInstance(int width, int height, int hints)
-   {
-      System.err.println("TiledImage.getScaledInstance();");
-
-      return null;
-   }
-
-   public ImageProducer getSource()
-   {
-      System.err.println("TiledImage.getSource();");
-
-      return this;
-   }
-   
-   public int getWidth(ImageObserver observer)
-   {
-      System.err.println("TiledImage.getWidth(observer=" + observer +");");
-
-		addObserver(observer);
-
-      return width;
-   }
-
-	boolean isObserver(ImageObserver observer)
-	{
-		return observers.contains(observer);
-	}
-	
-	void addObserver(ImageObserver observer)
-	{
-		if ((observer != null) && (!isObserver(observer)))
-		{
-			observers.add(observer);
-			
-			sendImageDone();
-		}
-	}
-
-	void sendImageDone()
-	{
-		System.err.println("Observers:");
-		
-	   for (Enumeration e = observers.elements(); e.hasMoreElements();)
-	   {
-	      System.err.println("\t" + e.nextElement());
-	   }
-	}
 
    // ***
    // RenderedImage
@@ -347,7 +260,48 @@ public class TiledImage extends Image implements RenderedImage, ImageProducer, C
 
       for (Enumeration e = consumers.elements(); e.hasMoreElements();)
       {
-         System.err.println("\t" + e.nextElement());
+         ImageConsumer ic = (ImageConsumer)e.nextElement();
+         
+         System.err.println("\t" + ic);
+         
+         ic.setDimensions(width, height);
+         
+         for (int h = 0; h < height; h++)
+         {
+            ic.setPixels (0, h, width, 1, cm, getPixels(0, h, width, 1), 0, width);
+         }
+         
+         ic.imageComplete(ImageConsumer.STATICIMAGEDONE);
       }
    }
+   
+   // ***
+   // TiledImageInterface
+   // ***
+   
+   public Image getImage()
+   {
+      Image i = java.awt.Toolkit.getDefaultToolkit().createImage(this);
+      
+      return i;
+   }
+   
+   public void flush()
+   {
+      raster.flush();
+   }
+
+   // ***
+   // TiledImage
+   // ***
+   
+   public int[] getPixels(
+      int startX,
+      int startY,
+      int width,
+      int height)
+   {
+      return raster.getData(startX, startY, width, height, null);
+   }
+
 }

@@ -23,7 +23,7 @@
 package org.maloi.evolvo.gui;
 
 import java.awt.Dimension;
-import java.awt.Image;
+import java.awt.image.RenderedImage;
 
 import javax.swing.JPanel;
 import javax.swing.event.ChangeListener;
@@ -35,7 +35,7 @@ public abstract class ImagePanel extends JPanel implements ChangeListener
       return null;
    }
    
-   public Image getImage()
+   public RenderedImage getImage()
    {
       return null;
    }

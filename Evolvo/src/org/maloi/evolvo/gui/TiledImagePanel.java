@@ -22,7 +22,6 @@
 
 package org.maloi.evolvo.gui;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -30,6 +29,7 @@ import java.awt.Image;
 import java.awt.geom.AffineTransform;
 import java.awt.image.ColorModel;
 import java.awt.image.ImageConsumer;
+import java.awt.image.RenderedImage;
 import java.util.Hashtable;
 
 import javax.swing.event.ChangeEvent;
@@ -69,19 +69,19 @@ public class TiledImagePanel extends ImagePanel implements ImageConsumer
 
       image = new TiledImage(width, height, ri);
 
-      Graphics g = image.getGraphics();
-
-      if (thumb != null)
-      {
-         g.drawImage(thumb, 0, 0, width, height, this);
-      }
-      else
-      {
-         g.setColor(Color.BLACK);
-         g.fillRect(0, 0, width, height);
-      }
-
-      g.dispose();
+//      Graphics g = image.getGraphics();
+//
+//      if (thumb != null)
+//      {
+//         g.drawImage(thumb, 0, 0, width, height, this);
+//      }
+//      else
+//      {
+//         g.setColor(Color.BLACK);
+//         g.fillRect(0, 0, width, height);
+//      }
+//
+//      g.dispose();
       repaint();
 
       ri.addChangeListener(this);
@@ -108,15 +108,16 @@ public class TiledImagePanel extends ImagePanel implements ImageConsumer
       return new Dimension(width, height);
    }
 
-   public Image getImage()
+   public RenderedImage getImage()
    {
       return image;
    }
 
    public void flush()
    {
+      // free the resources used by the image
       image.flush();
-      
+
       image = null;
    }
 

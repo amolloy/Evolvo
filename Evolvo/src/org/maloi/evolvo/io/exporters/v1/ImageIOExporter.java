@@ -64,11 +64,9 @@ public class ImageIOExporter implements ExporterInterface, ImageObserver
       return new String[] { format };
    }
 
-   public void write(Image i, int which, File f) throws IOException
+   public void write(RenderedImage i, int which, File f) throws IOException
    {
-      // The given image MUST be a RenderedImage
-      
-      ImageIO.write((RenderedImage)i, descriptions[which], f);
+      ImageIO.write(i, descriptions[which], f);
    }
 
    private String[] getWriterFormatNames()

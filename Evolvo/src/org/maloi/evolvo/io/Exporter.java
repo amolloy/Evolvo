@@ -22,7 +22,7 @@
 
 package org.maloi.evolvo.io;
 
-import java.awt.Image;
+import java.awt.image.RenderedImage;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -152,7 +152,7 @@ public class Exporter
          write =
             theExporter.getDeclaredMethod(
                "write",
-               new Class[] { Image.class, int.class, File.class });
+               new Class[] { RenderedImage.class, int.class, File.class });
 
          available = true;
       }
@@ -204,7 +204,7 @@ public class Exporter
       return null;
    }
 
-   public static void write(Image i, int which, File f) throws IOException
+   public static void write(RenderedImage i, int which, File f) throws IOException
    {
       if (available)
       {
