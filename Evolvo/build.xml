@@ -1,23 +1,15 @@
 <project name="Evolvo" default="dist" basedir=".">
 
-<!-- If you wish to build an installer using IzPack, -->
-<!-- you must list the location IzPack's compiler    -->
-<!-- here:                                           -->
-<property name="IzPack.location" 
- value="C:/program files/IzPack"/>
-
 <!-- Set this to "Off" for distribution build, -->
 <!-- or "on" for development build.            -->
 <!-- (Or do "ant -DDEBUG=off"             -->
-<property name="DEBUG" value="on"/>
+<property name="DEBUG" value="Off"/>
 
 <!-- set global properties for this build -->
 <property name="src"        value="src"/>
 <property name="build"      value="build"/>
 <property name="dist"       value="dist"/>
 <property name="debug_dist" value="debug"/>
-<property name="inst.jar"   value="installer-jar"/>
-<property name="inst.dir"   value="installer"/>
 <property name="optimize"   value="off"/>
 
 <!-- Make sure we're using a 1.3+ compiler -->
@@ -29,9 +21,6 @@
 	<!-- Create the build directory structure used by compile -->
 	<mkdir dir="${build}"/>
 	<mkdir dir="${build}/Resources"/>
-	<mkdir dir="${inst.jar}"/>
-	<mkdir dir="${inst.dir}"/>
-	<mkdir dir="${inst.dir}/evolvo"/>
 	<mkdir dir="${dist}"/>
 
 	<!-- Go ahead and copy the splash image into the build directory -->
@@ -86,7 +75,7 @@
 <target name="dist" depends="compile">
 	<!-- Go ahead and copy the precompiled MacMenu.class from plaf/osx into the
 	build directory. This should be handled much more gracefully in the future -->
-	<copy file="${src}/plaf/osx/MacMenu.class" todir="${build}/org/maloi/evolvo/gui/"/>
+<!--	<copy file="${src}/plaf/osx/MacMenu.class" todir="${build}/org/maloi/evolvo/gui/"/> -->
 	
 	<!-- Put everything in ${build} into the Evolvo-${DSTAMP}.jar file -->
 	<jar jarfile="${jardir}/Evolvo-${DSTAMP}.jar" basedir="${build}"
@@ -101,81 +90,6 @@
 	<delete dir="${dist}"/>
 	<delete dir="${debug_dist}"/>
 	<delete dir="${build_demo}"/>
-	<delete dir="${inst.jar}"/>
-	<delete dir="${inst.dir}"/>
-</target>
-
-<target name="installer" depends="init">
-	<copy file="${src}/Resources/Evolvo.bat" todir="${inst.jar}"/>
-	<copy file="${src}/Resources/evolvo" todir="${inst.jar}"/>
-	<copy file="${src}/Resources/Uninstall.bat" todir="${inst.jar}"/>
-	<copy file="${src}/Resources/Evolvo.ico" todir="${inst.jar}"/>
-
-	<javac srcdir="${src}" destdir="${build}"
-	 debug="off" optimize="on">
-		<exclude name="org/maloi/evolvo/io/exporters/v1/ImageIOExporter.java"
-		 unless="ImageIO"/>
-		<!--
-		<exclude name="org/maloi/evolvo/io/exporters/v1/QuickTimeExporter.java"
-		 unless="QuickTime"/>
-		-->
-		<exclude name="org/maloi/evolvo/gui/MacMenu.java"
-		 unless="Mac"/>
-	</javac>
-
-	<jar jarfile="${inst.jar}/Evolvo.jar" basedir="${build}"
-	 manifest="MANIFEST.MF">
-		<fileset dir="${src}/Resources"/>
-	</jar>
-
-	<taskdef name="izpack" classpath="${IzPack.location}/lib/compiler.jar"
-	 classname="com.izforge.izpack.ant.IzPackTask"/>
-
-	<izpack input="installer.xml"
-	 output="${inst.dir}/evolvo/Evolvo-Install.jar"
-	 installerType="standard-kunststoff"
-	 basedir="."
-	 izPackDir="${IzPack.location}/"/>
-
-	<copy file="${src}/Resources/Setup.bat" todir="${inst.dir}/evolvo"/>
-	<copy file="${src}/Resources/setup" todir="${inst.dir}/evolvo"/>
-	<copy file="README" todir="${inst.dir}/evolvo"/>
-	<copy file="HISTORY" todir="${inst.dir}/evolvo"/>
-	<copy file="${src}/LICENSE" todir="${inst.dir}/evolvo"/>
-
-	<tar destfile="${inst.dir}/evolvo.tar.gz" compression="gzip">
-		<tarfileset dir="${inst.dir}/evolvo" prefix ="evolvo"/>
-	</tar>
-
-	<zip destfile="${inst.dir}/evolvo.zip" basedir="${inst.dir}/evolvo"/>
-	<delete dir="${inst.dir}/evolvo"/>
-    
-	<!-- Create the Mac OS X Application -->
-	<echo message="Creating OS X Package..."/>
-	<echo message="Copying application skeleton to installer directory."/>
-    
-	<copy todir="${inst.dir}/Evolvo.app">
-		<fileset dir="${src}/MacOSX/Evolvo.app"/>
-	</copy>
-    
-	<echo message="Copying OS X icon file into application skeleton."/>
-    
-	<copy file="${src}/Resources/Evolvo.icns" 
-	 todir="${inst.dir}/Evolvo.app/Contents/Resources"/>
-    
-	<echo message="Copying Java jar file into application skeleton."/>
-    
-	<copy file="${inst.jar}/Evolvo.jar" 
-	 todir="${inst.dir}/Evolvo.app/Contents/Resources/Java"/>
-    
-	<echo message="tar'ing OS X application package (to ease copying to an OS X box)"/>    
-    
-	<tar destfile="${inst.dir}/Evolvo.app.tar.gz" compression="gzip">
-		<tarfileset dir="${inst.dir}/Evolvo.app" prefix ="Evolvo.app"/>
-	</tar>
-    
-	<echo message="OS X Application Package created succesfully."/>
-	<!-- End of Mac OS X Application package section -->
 </target>
    
 </project>
