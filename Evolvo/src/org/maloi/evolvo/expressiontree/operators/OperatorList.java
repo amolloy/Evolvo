@@ -35,6 +35,7 @@ import org.maloi.evolvo.expressiontree.operators.scalar.Beta;
 import org.maloi.evolvo.expressiontree.operators.scalar.Ceil;
 import org.maloi.evolvo.expressiontree.operators.scalar.Cosine;
 import org.maloi.evolvo.expressiontree.operators.scalar.Division;
+import org.maloi.evolvo.expressiontree.operators.scalar.DotProduct;
 import org.maloi.evolvo.expressiontree.operators.scalar.Exponent;
 import org.maloi.evolvo.expressiontree.operators.scalar.Floor;
 import org.maloi.evolvo.expressiontree.operators.scalar.Ifs;
@@ -51,8 +52,10 @@ import org.maloi.evolvo.expressiontree.operators.scalar.Remainder;
 import org.maloi.evolvo.expressiontree.operators.scalar.Rint;
 import org.maloi.evolvo.expressiontree.operators.scalar.Sine;
 import org.maloi.evolvo.expressiontree.operators.scalar.Subtraction;
-import org.maloi.evolvo.expressiontree.operators.scalar.TripletMagnitude;
+import org.maloi.evolvo.expressiontree.operators.scalar.Magnitude;
 import org.maloi.evolvo.expressiontree.operators.scalar.Xor;
+import org.maloi.evolvo.expressiontree.operators.triplet.CrossProduct;
+import org.maloi.evolvo.expressiontree.operators.triplet.Scale;
 import org.maloi.evolvo.expressiontree.operators.triplet.TripletAdd;
 import org.maloi.evolvo.expressiontree.operators.triplet.TripletSubtract;
 
@@ -66,12 +69,12 @@ import org.maloi.evolvo.expressiontree.operators.triplet.TripletSubtract;
 public class OperatorList
 {
    static HashMap operatorHash;
-   static OperatorInterface scalarList[] = new OperatorInterface[29];
-   static OperatorInterface tripletList[] = new OperatorInterface[2];
+   static OperatorInterface scalarList[] = new OperatorInterface[30];
+   static OperatorInterface tripletList[] = new OperatorInterface[4];
    static OperatorInterface completeList[];
 
    static {
-      operatorHash = new HashMap(28);
+      operatorHash = new HashMap();
       completeList =
          new OperatorInterface[scalarList.length + tripletList.length];
 
@@ -103,10 +106,13 @@ public class OperatorList
       scalarList[25] = new Remainder();
       scalarList[26] = new Mux5();
       scalarList[27] = new Mux3();
-      scalarList[28] = new TripletMagnitude();
+      scalarList[28] = new Magnitude();
+      scalarList[29] = new DotProduct();
    
       tripletList[0] = new TripletAdd();
       tripletList[1] = new TripletSubtract();
+      tripletList[2] = new Scale();
+      tripletList[3] = new CrossProduct();
 
       int count = 0;
 
@@ -160,7 +166,7 @@ public class OperatorList
     */
    public static OperatorInterface byName(String name)
    {
-      Object operatorObject = operatorHash.get(name);
+      Object operatorObject = operatorHash.get(name.toLowerCase());
 
       if (operatorObject == null)
       {

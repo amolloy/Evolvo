@@ -35,6 +35,7 @@ import javax.swing.event.ChangeListener;
 import org.maloi.evolvo.expressiontree.ExpressionTree;
 import org.maloi.evolvo.expressiontree.utilities.Tools;
 import org.maloi.evolvo.expressiontree.vm.Machine;
+import org.maloi.evolvo.expressiontree.vm.Stack;
 import org.maloi.evolvo.gui.CustomProgressMonitor;
 import org.maloi.evolvo.gui.SystemConsole;
 
@@ -58,8 +59,8 @@ public class TiledRenderer implements RendererInterface, Runnable
    Vector consumers = new Vector(2);
    Vector listeners = new Vector(2);
 
-   Machine theMachines[];
-   ExpressionTree[] expressions;
+   Machine theMachine;
+   ExpressionTree expression;
    int width;
    int height;
    boolean finished = false;
@@ -71,9 +72,9 @@ public class TiledRenderer implements RendererInterface, Runnable
 
    Thread theThread;
 
-   public TiledRenderer(ExpressionTree[] expressions, int width, int height)
+   public TiledRenderer(ExpressionTree expression, int width, int height)
    {
-      this.expressions = expressions;
+      this.expression = expression;
       this.width = width;
       this.height = height;
 
@@ -154,12 +155,7 @@ public class TiledRenderer implements RendererInterface, Runnable
       int yleftover;
       int i;
 
-      theMachines = new Machine[3];
-
-      for (i = 0; i < expressions.length; i++)
-      {
-         theMachines[i] = expressions[i].getMachine();
-      }
+      theMachine = expression.getMachine();
 
       // calculate how many tiles there will be
       xcount = width / tileSize;
@@ -270,6 +266,7 @@ public class TiledRenderer implements RendererInterface, Runnable
       double hue;
       double saturation;
       double value;
+      Stack stack;
 
       int data[] = new int[tileWidth * tileHeight];
 
@@ -281,7 +278,7 @@ public class TiledRenderer implements RendererInterface, Runnable
 
          for (i = 0; i < 3; i++)
          {
-            theMachines[i].setRegister(Machine.REGISTER_Y, ty);
+            theMachine.setRegister(Machine.REGISTER_Y, ty);
          }
 
          for (x = 0; x < tileWidth; x++)
@@ -290,18 +287,20 @@ public class TiledRenderer implements RendererInterface, Runnable
 
             for (i = 0; i < 3; i++)
             {
-               theMachines[i].setRegister(Machine.REGISTER_X, tx);
-               theMachines[i].setRegister(
+               theMachine.setRegister(Machine.REGISTER_X, tx);
+               theMachine.setRegister(
                   Machine.REGISTER_R,
                   Math.sqrt((tx * tx) + (ty * ty)));
-               theMachines[i].setRegister(
+               theMachine.setRegister(
                   Machine.REGISTER_THETA,
                   Math.atan2(tx, ty));
             }
 
-            hue = Tools.map(theMachines[0].execute());
-            saturation = Tools.map(theMachines[1].execute());
-            value = Tools.map(theMachines[2].execute());
+            stack = theMachine.execute();
+
+            hue = Tools.map(stack.pop());
+            saturation = Tools.map(stack.pop());
+            value = Tools.map(stack.pop());
 
             data[offset + x] = Tools.HSVtoRGB(hue, saturation, value);
             //               java.awt.Color.HSBtoRGB(
@@ -395,9 +394,9 @@ public class TiledRenderer implements RendererInterface, Runnable
       return height;
    }
 
-   public ExpressionTree[] getExpressions()
+   public ExpressionTree getExpression()
    {
-      return expressions;
+      return expression;
    }
 
    public void addChangeListener(ChangeListener cl)

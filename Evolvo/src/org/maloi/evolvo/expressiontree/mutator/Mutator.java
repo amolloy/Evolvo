@@ -101,35 +101,35 @@ public class Mutator
 
          if (whatMutation < (runningTotal = new_expression))
          {
-            current = mutators[0].doMutation(current, level, r);
+            current = mutators[0].doMutation(current.getClone(), level, r);
          }
          else if (whatMutation < (runningTotal += scalar_change_value))
          {
-            current = mutators[1].doMutation(current, level, r);
+            current = mutators[1].doMutation(current.getClone(), level, r);
          }
          else if (whatMutation < (runningTotal += to_variable))
          {
-            current = mutators[2].doMutation(current, level, r);
+            current = mutators[2].doMutation(current.getClone(), level, r);
          }
          else if (whatMutation < (runningTotal += to_scalar))
          {
-            current = mutators[3].doMutation(current, level, r);
+            current = mutators[3].doMutation(current.getClone(), level, r);
          }
          else if (whatMutation < (runningTotal += change_function))
          {
-            current = mutators[4].doMutation(current, level, r);
+            current = mutators[4].doMutation(current.getClone(), level, r);
          }
          else if (whatMutation < (runningTotal += new_expression_arg))
          {
-            current = mutators[5].doMutation(current, level, r);
+            current = mutators[5].doMutation(current.getClone(), level, r);
          }
          else if (whatMutation < (runningTotal += become_arg))
          {
-            current = mutators[6].doMutation(current, level, r);
+            current = mutators[6].doMutation(current.getClone(), level, r);
          }
          else if (whatMutation < (runningTotal += arg_to_child_arg))
          {
-            current = mutators[7].doMutation(current, level, r);
+            current = mutators[7].doMutation(current.getClone(), level, r);
          }
       }
 

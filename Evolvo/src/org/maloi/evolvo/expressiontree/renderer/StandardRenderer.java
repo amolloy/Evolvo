@@ -35,6 +35,7 @@ import javax.swing.event.ChangeListener;
 import org.maloi.evolvo.expressiontree.ExpressionTree;
 import org.maloi.evolvo.expressiontree.utilities.Tools;
 import org.maloi.evolvo.expressiontree.vm.Machine;
+import org.maloi.evolvo.expressiontree.vm.Stack;
 import org.maloi.evolvo.gui.CustomProgressMonitor;
 
 public class StandardRenderer implements RendererInterface, Runnable
@@ -45,7 +46,7 @@ public class StandardRenderer implements RendererInterface, Runnable
    Vector consumers = new Vector(2);
    Vector listeners = new Vector(2);
 
-   ExpressionTree[] expressions;
+   ExpressionTree expression;
    int width;
    int height;
    boolean finished = false;
@@ -55,9 +56,9 @@ public class StandardRenderer implements RendererInterface, Runnable
 
    Thread theThread;
    
-   public StandardRenderer(ExpressionTree[] expressions, int width, int height)
+   public StandardRenderer(ExpressionTree expression, int width, int height)
    {
-      this.expressions = expressions;
+      this.expression = expression;
       this.width = width;
       this.height = height;
 
@@ -137,13 +138,9 @@ public class StandardRenderer implements RendererInterface, Runnable
       double value;
       double ty;
       double tx;
+      Stack stack;
 
-      Machine theMachines[] = new Machine[3];
-
-      for (i = 0; i < expressions.length; i++)
-      {
-         theMachines[i] = expressions[i].getMachine();
-      }
+      Machine theMachine = expression.getMachine();
 
       int data[] = new int[height * width];
 
@@ -153,10 +150,7 @@ public class StandardRenderer implements RendererInterface, Runnable
 
          ty = ((double) y / (double) height) * 2.0 - 1.0;
 
-         for (i = 0; i < 3; i++)
-         {
-            theMachines[i].setRegister(Machine.REGISTER_Y, ty);
-         }
+         theMachine.setRegister(Machine.REGISTER_Y, ty);
 
          for (x = 0; x < width; x++)
          {
@@ -164,18 +158,20 @@ public class StandardRenderer implements RendererInterface, Runnable
 
             for (i = 0; i < 3; i++)
             {
-               theMachines[i].setRegister(Machine.REGISTER_X, tx);
-               theMachines[i].setRegister(
+               theMachine.setRegister(Machine.REGISTER_X, tx);
+               theMachine.setRegister(
                   Machine.REGISTER_R,
                   Math.sqrt((tx * tx) + (ty * ty)));
-               theMachines[i].setRegister(
+               theMachine.setRegister(
                   Machine.REGISTER_THETA,
                   Math.atan2(tx, ty));
             }
 
-            hue = Tools.map(theMachines[0].execute());
-            saturation = Tools.map(theMachines[1].execute());
-            value = Tools.map(theMachines[2].execute());
+            stack = theMachine.execute();
+
+            hue = Tools.map(stack.pop());
+            saturation = Tools.map(stack.pop());
+            value = Tools.map(stack.pop());
 
             data[offset + x] = data[offset + x] = Tools.HSVtoRGB(hue, saturation, value);
                //java.awt.Color.HSBtoRGB(
@@ -242,9 +238,9 @@ public class StandardRenderer implements RendererInterface, Runnable
       return height;
    }
 
-   public ExpressionTree[] getExpressions()
+   public ExpressionTree getExpression()
    {
-      return expressions;
+      return expression;
    }
 
    public void addChangeListener(ChangeListener cl)

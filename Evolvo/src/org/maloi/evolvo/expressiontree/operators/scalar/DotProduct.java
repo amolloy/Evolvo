@@ -27,10 +27,8 @@ import org.maloi.evolvo.expressiontree.vm.Stack;
 
 /**
  * @author Andy
- * 
- * Returns the magnitude of the given triplet
  */
-public class TripletMagnitude implements OperatorInterface
+public class DotProduct implements OperatorInterface
 {
 
    /* (non-Javadoc)
@@ -38,7 +36,7 @@ public class TripletMagnitude implements OperatorInterface
     */
    public String getName()
    {
-      return "magnitude";
+      return "dotProduct";
    }
 
    /* (non-Javadoc)
@@ -62,7 +60,7 @@ public class TripletMagnitude implements OperatorInterface
     */
    public int getNumberOfTripletParameters()
    {
-      return 1;
+      return 2;
    }
 
    /* (non-Javadoc)
@@ -78,9 +76,12 @@ public class TripletMagnitude implements OperatorInterface
     */
    public void perform(Stack theStack)
    {
-      double[] op = theStack.popTriplet();
-      
-      theStack.push(Math.sqrt(op[0]*op[0] + op[1]*op[1] + op[2]*op[2]));
-   }
+      double a[] = theStack.popTriplet();
+      double b[] = theStack.popTriplet();
+      double result;
 
+      result = a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
+
+      theStack.push(result);
+   }
 }

@@ -48,7 +48,7 @@ public class NewArgument implements MutatorInterface
             ExpressionTreeGenerator.generate(
                level,
                new Random(r.nextLong()),
-               old.returnsTriplet());
+               params[which].returnsTriplet());
 
          old.setParams(params);
       }

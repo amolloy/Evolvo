@@ -81,7 +81,8 @@ public class Machine
       registers[reg] = value;
    }
 
-   public double execute()
+   // returns the program stack, which should contain all return values
+   public Stack execute()
    {
       Stack programStack = new Stack();
       int pc = 0;
@@ -102,7 +103,7 @@ public class Machine
          }
       }
 
-      return programStack.pop();
+      return programStack;
    }
 
    public String toString()

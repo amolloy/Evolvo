@@ -49,7 +49,6 @@ import org.maloi.evolvo.expressiontree.mutator.Mutator;
 import org.maloi.evolvo.expressiontree.renderer.RendererInterface;
 import org.maloi.evolvo.expressiontree.renderer.StandardRenderer;
 import org.maloi.evolvo.expressiontree.utilities.ExpressionTreeGenerator;
-import org.maloi.evolvo.expressiontree.utilities.Tools;
 import org.maloi.evolvo.expressiontree.utilities.VariablePackage;
 import org.maloi.evolvo.gui.CustomFileChooser;
 import org.maloi.evolvo.gui.ImageButtonPanel;
@@ -75,8 +74,7 @@ public class Evolvo extends JFrame implements ActionListener
    Object macHandler = null; // Only used when run on a mac
    SystemConsole console;
 
-   static
-   {
+   static {
       // Set some OS X specific settings (has no affect on other platforms)
       System.setProperty("apple.laf.useScreenMenuBar", "true");
       //System.setProperty("com.apple.mrj.application.apple.menu.about.name",
@@ -84,7 +82,7 @@ public class Evolvo extends JFrame implements ActionListener
       //System.setProperty("apple.awt.brushMetalLook", "true");
       System.setProperty("apple.awt.textantialising", "true");
    }
-   
+
    public Evolvo()
    {
       super("Evolvo");
@@ -167,13 +165,13 @@ public class Evolvo extends JFrame implements ActionListener
    private void logSystemInfo()
    {
       Properties sysProps = System.getProperties();
-      
+
       console.println("System Properties:");
-     
+
       for (Enumeration e = sysProps.propertyNames(); e.hasMoreElements();)
       {
          String key = (String)e.nextElement();
-         
+
          console.println(key + "=" + sysProps.getProperty(key));
       }
    }
@@ -382,22 +380,17 @@ public class Evolvo extends JFrame implements ActionListener
    {
       int riIndex;
       int exprIndex;
-      ExpressionTree[] expressions;
+      ExpressionTree expression;
       Random r = new Random();
 
       for (riIndex = 0; riIndex < 9; riIndex++)
       {
-         expressions = new ExpressionTree[3];
-
-         for (exprIndex = 0; exprIndex < 3; exprIndex++)
-         {
-            expressions[exprIndex] =
-               ExpressionTreeGenerator.generate(new Random(r.nextLong()), false);
-         }
+         expression =
+            ExpressionTreeGenerator.generate(new Random(r.nextLong()), true);
 
          ri[riIndex] =
             new StandardRenderer(
-               expressions,
+               expression,
                Constants.THUMBNAIL_WIDTH,
                Constants.THUMBNAIL_HEIGHT);
       }
@@ -413,28 +406,21 @@ public class Evolvo extends JFrame implements ActionListener
 
       if (selected != -1)
       {
-         ExpressionTree[] originalExpressions = ri[selected].getExpressions();
+         ExpressionTree originalExpression = ri[selected].getExpression();
 
          for (int i = 0; i < 9; i++)
          {
             // Don't do anything to the selected button
             if (i != selected)
             {
-               ExpressionTree[] expressions = new ExpressionTree[3];
+               Random newRandom = new Random(randomNumber.nextLong());
 
-               for (int k = 0; k < 3; k++)
-               {
-                  Random newRandom = new Random(randomNumber.nextLong());
-
-                  expressions[k] =
-                     Mutator.mutate(
-                        newRandom,
-                        originalExpressions[k].getClone());
-               }
+               ExpressionTree expression =
+                  Mutator.mutate(newRandom, originalExpression.getClone());
 
                ri[i] =
                   new StandardRenderer(
-                     expressions,
+                     expression,
                      Constants.THUMBNAIL_WIDTH,
                      Constants.THUMBNAIL_HEIGHT);
             }
@@ -467,7 +453,7 @@ public class Evolvo extends JFrame implements ActionListener
       }
       else
       {
-         GenotypeFileIO.putGenotypeToFile(this, ri[selection].getExpressions());
+         GenotypeFileIO.putGenotypeToFile(this, ri[selection].getExpression());
       }
    }
 
@@ -485,7 +471,7 @@ public class Evolvo extends JFrame implements ActionListener
       }
       else
       {
-         String displayString = Tools.toString(ri[selection].getExpressions());
+         String displayString = ri[selection].getExpression().toString();
 
          TextDialog displayDialog = new TextDialog(displayString);
          displayDialog.scrollToRow(0);
@@ -495,14 +481,14 @@ public class Evolvo extends JFrame implements ActionListener
 
    void renderLoadedImage()
    {
-      ExpressionTree[] expressions = GenotypeFileIO.getGenotypeFromFile(this);
+      ExpressionTree expression = GenotypeFileIO.getGenotypeFromFile(this);
 
-      if (expressions != null)
+      if (expression != null)
       {
          RenderFrame theRenderFrame =
             new RenderFrame(
                new StandardRenderer(
-                  expressions,
+                  expression,
                   settings.getIntegerProperty("render.width"),
                   settings.getIntegerProperty("render.height")),
                null);
@@ -523,13 +509,13 @@ public class Evolvo extends JFrame implements ActionListener
          return;
       }
 
-      ExpressionTree[] expressions = GenotypeFileIO.getGenotypeFromFile(this);
+      ExpressionTree expression = GenotypeFileIO.getGenotypeFromFile(this);
 
-      if (expressions != null)
+      if (expression != null)
       {
          ri[0] =
             new StandardRenderer(
-               expressions,
+               expression,
                Constants.THUMBNAIL_WIDTH,
                Constants.THUMBNAIL_HEIGHT);
          buttonPanel.setRendererAtIndex(ri[0], 0);

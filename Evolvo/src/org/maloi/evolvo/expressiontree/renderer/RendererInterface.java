@@ -37,6 +37,6 @@ public interface RendererInterface extends ImageProducer
    public void setSize(int w, int h);
    public int getWidth();
    public int getHeight();
-   public ExpressionTree[] getExpressions();
+   public ExpressionTree getExpression();
    public void addChangeListener(ChangeListener cl);
 }

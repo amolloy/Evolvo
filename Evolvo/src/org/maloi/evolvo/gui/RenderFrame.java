@@ -71,7 +71,7 @@ public class RenderFrame extends JFrame
       int imageHeight = settings.getIntegerProperty("render.height.pixels");
 
       ri =
-         new TiledRenderer(renderer.getExpressions(), imageWidth, imageHeight);
+         new TiledRenderer(renderer.getExpression(), imageWidth, imageHeight);
 
       setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
@@ -166,7 +166,7 @@ public class RenderFrame extends JFrame
 
    void saveGenotype()
    {
-      GenotypeFileIO.putGenotypeToFile(this, ri.getExpressions());
+      GenotypeFileIO.putGenotypeToFile(this, ri.getExpression());
    }
 
    class exportPerformer implements ActionListener

@@ -51,19 +51,6 @@ public class ExpressionTree implements Serializable
    {
       params = null;
       operator = null;
-
-      try
-      {
-         if (!(this instanceof Value) && !(this instanceof Variable))
-         {
-            throw new Exception("Piss off, man");
-         }
-      }
-      catch (Exception e)
-      {
-         e.printStackTrace();
-         System.exit(1);
-      }
    }
 
    /** Creates a new expressionTree with operator op and parameters prms[] */
@@ -251,7 +238,7 @@ public class ExpressionTree implements Serializable
       {
          params[i].buildMachine(myMachine);
       }
-      for (int i = 0; i < numTripletParams; i += 3)
+      for (int i = 0; i < numTripletParams; i++)
       {
          params[i + numScalarParams].buildMachine(myMachine);
       }

@@ -48,7 +48,7 @@ public class ArgumentToChildArgument implements MutatorInterface
 
       int source =
          (int) (r.nextDouble() * (numScalarParams + numTripletParams));
-      boolean returnsTriplet = source > numScalarParams;
+      boolean returnsTriplet = source >= numScalarParams;
 
       int dest =
          (int) (r.nextDouble()
@@ -60,6 +60,7 @@ public class ArgumentToChildArgument implements MutatorInterface
       }
 
       ExpressionTree child = old.getParams()[source];
+
       int childNumScalarParams = child.getNumberOfScalarParams();
       int childNumTripletParams = child.getNumberOfTripletParams();
 
@@ -74,9 +75,14 @@ public class ArgumentToChildArgument implements MutatorInterface
       int childSource =
          (int) (r.nextDouble()
             * (returnsTriplet ? childNumTripletParams : childNumScalarParams));
-            
+
+      if (returnsTriplet)
+      {
+         childSource += childNumScalarParams;
+      }
+
       old.getParams()[dest] = child.getParams()[childSource].getClone();
-      
+
       return old;
    }
 

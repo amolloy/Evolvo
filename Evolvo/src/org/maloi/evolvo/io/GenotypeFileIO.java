@@ -34,7 +34,6 @@ import javax.swing.JOptionPane;
 import org.maloi.evolvo.expressiontree.ExpressionTree;
 import org.maloi.evolvo.expressiontree.utilities.ExpressionTreeParser;
 import org.maloi.evolvo.expressiontree.utilities.SyntaxErrorException;
-import org.maloi.evolvo.expressiontree.utilities.Tools;
 import org.maloi.evolvo.gui.CustomFileChooser;
 import org.maloi.evolvo.gui.GenericFileFilter;
 import org.maloi.evolvo.settings.GlobalSettings;
@@ -44,7 +43,7 @@ public class GenotypeFileIO
    static GlobalSettings settings = GlobalSettings.getInstance();
    static CustomFileChooser fileChooser = CustomFileChooser.getInstance();
 
-   public static ExpressionTree[] getGenotypeFromFile(Component parent)
+   public static ExpressionTree getGenotypeFromFile(Component parent)
    {
       int result;
 
@@ -79,10 +78,10 @@ public class GenotypeFileIO
       }
    }
 
-   public static ExpressionTree[] loadFile(File theFile)
+   public static ExpressionTree loadFile(File theFile)
       throws SyntaxErrorException, IOException
    {
-      ExpressionTree[] expressions = new ExpressionTree[3];
+      ExpressionTree expression;
 
       FileReader reader = new FileReader(theFile);
       StreamTokenizer st = new StreamTokenizer(reader);
@@ -100,20 +99,16 @@ public class GenotypeFileIO
 
       int i;
 
-      for (i = 0; i < 3; i++)
-      {
-         expressions[i] = new ExpressionTree();
-         expressions[i] = ExpressionTreeParser.parse(st);
-      }
+      expression = ExpressionTreeParser.parse(st);
 
       reader.close();
 
-      return expressions;
+      return expression;
    }
 
    public static void putGenotypeToFile(
       Component parent,
-      ExpressionTree[] expressions)
+      ExpressionTree expression)
    {
       int result = fileChooser.showSaveGeneratorDialog(parent);
 
@@ -167,7 +162,7 @@ public class GenotypeFileIO
 
          writer.write("// Evolvo Saved Genotype\n\n");
 
-         writer.write(Tools.toString(expressions));
+         writer.write(expression.toString());
 
          writer.close();
       }

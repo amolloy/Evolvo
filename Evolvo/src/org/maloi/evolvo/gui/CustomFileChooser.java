@@ -171,12 +171,12 @@ public class CustomFileChooser extends JFileChooser
             {
                preview.removeAll();
 
-               ExpressionTree[] expressions = GenotypeFileIO.loadFile(theFile);
+               ExpressionTree expression = GenotypeFileIO.loadFile(theFile);
 
-               if (expressions != null)
+               if (expression != null)
                {
                   RendererInterface ri =
-                     new StandardRenderer(expressions, 80, 50);
+                     new StandardRenderer(expression, 80, 50);
                   ri.addChangeListener(this);
 
                   SwingImagePanel ip = new SwingImagePanel(ri);
