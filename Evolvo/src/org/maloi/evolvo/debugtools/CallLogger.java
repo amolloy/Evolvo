@@ -77,9 +77,6 @@ public class CallLogger implements InvocationHandler
          console.println(e.getMessage());
       }
 
-      finally
-      {
-         return invocationResult;
-      }
+      return invocationResult;
    }
 }

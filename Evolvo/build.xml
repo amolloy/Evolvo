@@ -20,152 +20,162 @@
 <property name="inst.dir"   value="installer"/>
 <property name="optimize"   value="off"/>
 
-
 <!-- Make sure we're using a 1.3+ compiler -->
 <property name="build.compiler" value="modern"/>
 
 <target name="init">
-   <!-- Create the time stamp -->
-   <tstamp/>
-   <!-- Create the build directory structure used by compile -->
-   <mkdir dir="${build}"/>
-   <mkdir dir="${build}/Resources"/>
-   <mkdir dir="${inst.jar}"/>
-   <mkdir dir="${inst.dir}"/>
-   <mkdir dir="${inst.dir}/evolvo"/>
-   <mkdir dir="${dist}"/>
+	<!-- Create the time stamp -->
+	<tstamp/>
+	<!-- Create the build directory structure used by compile -->
+	<mkdir dir="${build}"/>
+	<mkdir dir="${build}/Resources"/>
+	<mkdir dir="${inst.jar}"/>
+	<mkdir dir="${inst.dir}"/>
+	<mkdir dir="${inst.dir}/evolvo"/>
+	<mkdir dir="${dist}"/>
 
-   <!-- Go ahead and copy the splash image into the build directory -->
-   <copy file="${src}/Resources/splash.png" todir="${build}/Resources"/>
+	<!-- Go ahead and copy the splash image into the build directory -->
+	<copy file="${src}/Resources/splash.png" todir="${build}/Resources"/>
 
-   <!-- Check what image exporters we have available -->
-   <available property="ImageIO" classname="javax.imageio.ImageIO"/>
-   <available property="QuickTime" classname="quicktime.QTSession"/>
-   <available property="Mac" classname="com.apple.mrj.MRJQuitHandler"/>
+	<!-- Check what image exporters we have available -->
+	<available property="ImageIO" classname="javax.imageio.ImageIO"/>
+	<!-- No more support for QuickTime until Apple finished monkeying -->
+	<!-- with its API                                                 -->
+	<!--<available property="QuickTime" classname="quicktime.QTSession"/>-->
+	<available property="Mac" classname="com.apple.mrj.MRJQuitHandler"/>
 
-   <!-- Make adjustments to dist path if DEBUG is set -->
-   <condition property="jardir" value="${debug_dist}">
-      <equals arg1="${DEBUG}" arg2="on"/>
-   </condition>
-   <condition property="jardir" value="${dist}">
-      <not>
-         <equals arg1="${DEBUG}" arg2="on"/>
-      </not>
-   </condition>
-   <condition property="optimize" value="on">
-      <not>
-         <equals arg1="${DEBUG}" arg2="on"/>
-      </not>
-   </condition>
+	<!-- Make adjustments to dist path if DEBUG is set -->
+	<condition property="jardir" value="${debug_dist}">
+		<equals arg1="${DEBUG}" arg2="on"/>
+	</condition>
 
-   <!-- Now make the appropriate directory -->
-   <mkdir dir="${jardir}"/>
+	<condition property="jardir" value="${dist}">
+		<not>
+			<equals arg1="${DEBUG}" arg2="on"/>
+		</not>
+	</condition>
+
+	<condition property="optimize" value="on">
+		<not>
+			<equals arg1="${DEBUG}" arg2="on"/>
+		</not>
+	</condition>
+
+	<!-- Now make the appropriate directory -->
+	<mkdir dir="${jardir}"/>
 </target>
 
 <target name="compile" depends="init">
-   <!-- Compile the java code from ${src} into ${build} -->
-   <javac srcdir="${src}" destdir="${build}" excludes="evolvoDemo.java"
-          debug="${DEBUG}" optimize="${optimize}">
-      <exclude name="org/maloi/evolvo/io/exporters/v1/ImageIOExporter.java"
-       unless="ImageIO"/>
-      <exclude name="org/maloi/evolvo/io/exporters/v1/QuickTimeExporter.java"
-       unless="QuickTime"/>
-      <exclude name="org/maloi/evolvo/gui/MacMenu.java"
-       unless="Mac"/>
-   </javac>
+	<!-- Compile the java code from ${src} into ${build} -->
+	<javac srcdir="${src}" destdir="${build}" 
+		debug="${DEBUG}" optimize="${optimize}">
+		<exclude name="org/maloi/evolvo/io/exporters/v1/ImageIOExporter.java"
+		 unless="ImageIO"/>
+
+		<!-- no quicktime for now -->
+		<!-- 
+		<exclude name="org/maloi/evolvo/io/exporters/v1/QuickTimeExporter.java"
+	     unless="QuickTime"/>
+	    -->
+    
+		<exclude name="org/maloi/evolvo/gui/MacMenu.java"
+		 unless="Mac"/>
+	</javac>
 </target>
 
 <target name="dist" depends="compile">
-   <!-- Go ahead and copy the precompiled MacMenu.class from plaf/osx into the
-        build directory. This should be handled much more gracefully in the future -->
-   <copy file="${src}/plaf/osx/MacMenu.class" todir="${build}/org/maloi/evolvo/gui/"/>
+	<!-- Go ahead and copy the precompiled MacMenu.class from plaf/osx into the
+	build directory. This should be handled much more gracefully in the future -->
+	<copy file="${src}/plaf/osx/MacMenu.class" todir="${build}/org/maloi/evolvo/gui/"/>
 	
-   <!-- Put everything in ${build} into the Evolvo-${DSTAMP}.jar file -->
-   <jar jarfile="${jardir}/Evolvo-${DSTAMP}.jar" basedir="${build}"
-        manifest="MANIFEST.MF">
-	<fileset dir="${src}/Resources"/>
-   </jar>
+	<!-- Put everything in ${build} into the Evolvo-${DSTAMP}.jar file -->
+	<jar jarfile="${jardir}/Evolvo-${DSTAMP}.jar" basedir="${build}"
+	 manifest="MANIFEST.MF">
+		<fileset dir="${src}/Resources"/>
+	</jar>
 </target>
 
 <target name="clean">
-   <!-- Delete the ${build} and ${dist} directory trees -->
-   <delete dir="${build}"/>
-   <delete dir="${dist}"/>
-   <delete dir="${debug_dist}"/>
-   <delete dir="${build_demo}"/>
-   <delete dir="${inst.jar}"/>
-   <delete dir="${inst.dir}"/>
+	<!-- Delete the ${build} and ${dist} directory trees -->
+	<delete dir="${build}"/>
+	<delete dir="${dist}"/>
+	<delete dir="${debug_dist}"/>
+	<delete dir="${build_demo}"/>
+	<delete dir="${inst.jar}"/>
+	<delete dir="${inst.dir}"/>
 </target>
 
 <target name="installer" depends="init">
-   <copy file="${src}/Resources/Evolvo.bat" todir="${inst.jar}"/>
-   <copy file="${src}/Resources/evolvo" todir="${inst.jar}"/>
-   <copy file="${src}/Resources/Uninstall.bat" todir="${inst.jar}"/>
-   <copy file="${src}/Resources/Evolvo.ico" todir="${inst.jar}"/>
+	<copy file="${src}/Resources/Evolvo.bat" todir="${inst.jar}"/>
+	<copy file="${src}/Resources/evolvo" todir="${inst.jar}"/>
+	<copy file="${src}/Resources/Uninstall.bat" todir="${inst.jar}"/>
+	<copy file="${src}/Resources/Evolvo.ico" todir="${inst.jar}"/>
 
-   <javac srcdir="${src}" destdir="${build}"
-          debug="off" optimize="on">
-      <exclude name="org/maloi/evolvo/io/exporters/v1/ImageIOExporter.java"
-       unless="ImageIO"/>
-      <exclude name="org/maloi/evolvo/io/exporters/v1/QuickTimeExporter.java"
-       unless="QuickTime"/>
-      <exclude name="org/maloi/evolvo/gui/MacMenu.java"
-       unless="Mac"/>
-   </javac>
+	<javac srcdir="${src}" destdir="${build}"
+	 debug="off" optimize="on">
+		<exclude name="org/maloi/evolvo/io/exporters/v1/ImageIOExporter.java"
+		 unless="ImageIO"/>
+		<!--
+		<exclude name="org/maloi/evolvo/io/exporters/v1/QuickTimeExporter.java"
+		 unless="QuickTime"/>
+		-->
+		<exclude name="org/maloi/evolvo/gui/MacMenu.java"
+		 unless="Mac"/>
+	</javac>
 
-   <jar jarfile="${inst.jar}/Evolvo.jar" basedir="${build}"
-        manifest="MANIFEST.MF">
-	<fileset dir="${src}/Resources"/>
-   </jar>
+	<jar jarfile="${inst.jar}/Evolvo.jar" basedir="${build}"
+	 manifest="MANIFEST.MF">
+		<fileset dir="${src}/Resources"/>
+	</jar>
 
-   <taskdef name="izpack" classpath="${IzPack.location}/lib/compiler.jar"
-    classname="com.izforge.izpack.ant.IzPackTask"/>
+	<taskdef name="izpack" classpath="${IzPack.location}/lib/compiler.jar"
+	 classname="com.izforge.izpack.ant.IzPackTask"/>
 
-    <izpack input="installer.xml"
-     output="${inst.dir}/evolvo/Evolvo-Install.jar"
-     installerType="standard-kunststoff"
-     basedir="."
-     izPackDir="${IzPack.location}/"/>
+	<izpack input="installer.xml"
+	 output="${inst.dir}/evolvo/Evolvo-Install.jar"
+	 installerType="standard-kunststoff"
+	 basedir="."
+	 izPackDir="${IzPack.location}/"/>
 
-    <copy file="${src}/Resources/Setup.bat" todir="${inst.dir}/evolvo"/>
-    <copy file="${src}/Resources/setup" todir="${inst.dir}/evolvo"/>
-    <copy file="README" todir="${inst.dir}/evolvo"/>
-    <copy file="HISTORY" todir="${inst.dir}/evolvo"/>
-    <copy file="${src}/LICENSE" todir="${inst.dir}/evolvo"/>
+	<copy file="${src}/Resources/Setup.bat" todir="${inst.dir}/evolvo"/>
+	<copy file="${src}/Resources/setup" todir="${inst.dir}/evolvo"/>
+	<copy file="README" todir="${inst.dir}/evolvo"/>
+	<copy file="HISTORY" todir="${inst.dir}/evolvo"/>
+	<copy file="${src}/LICENSE" todir="${inst.dir}/evolvo"/>
 
-    <tar destfile="${inst.dir}/evolvo.tar.gz" compression="gzip">
-       <tarfileset dir="${inst.dir}/evolvo" prefix ="evolvo"/>
-    </tar>
+	<tar destfile="${inst.dir}/evolvo.tar.gz" compression="gzip">
+		<tarfileset dir="${inst.dir}/evolvo" prefix ="evolvo"/>
+	</tar>
 
-    <zip destfile="${inst.dir}/evolvo.zip" basedir="${inst.dir}/evolvo"/>
-    <delete dir="${inst.dir}/evolvo"/>
+	<zip destfile="${inst.dir}/evolvo.zip" basedir="${inst.dir}/evolvo"/>
+	<delete dir="${inst.dir}/evolvo"/>
     
-    <!-- Create the Mac OS X Application -->
-    <echo message="Creating OS X Package..."/>
-    <echo message="Copying application skeleton to installer directory."/>
+	<!-- Create the Mac OS X Application -->
+	<echo message="Creating OS X Package..."/>
+	<echo message="Copying application skeleton to installer directory."/>
     
-    <copy todir="${inst.dir}/Evolvo.app">
-       <fileset dir="${src}/MacOSX/Evolvo.app"/>
-    </copy>
+	<copy todir="${inst.dir}/Evolvo.app">
+		<fileset dir="${src}/MacOSX/Evolvo.app"/>
+	</copy>
     
-    <echo message="Copying OS X icon file into application skeleton."/>
+	<echo message="Copying OS X icon file into application skeleton."/>
     
-    <copy file="${src}/Resources/Evolvo.icns" 
-    	  todir="${inst.dir}/Evolvo.app/Contents/Resources"/>
+	<copy file="${src}/Resources/Evolvo.icns" 
+	 todir="${inst.dir}/Evolvo.app/Contents/Resources"/>
     
-    <echo message="Copying Java jar file into application skeleton."/>
+	<echo message="Copying Java jar file into application skeleton."/>
     
-    <copy file="${inst.jar}/Evolvo.jar" 
-    	  todir="${inst.dir}/Evolvo.app/Contents/Resources/Java"/>
+	<copy file="${inst.jar}/Evolvo.jar" 
+	 todir="${inst.dir}/Evolvo.app/Contents/Resources/Java"/>
     
 	<echo message="tar'ing OS X application package (to ease copying to an OS X box)"/>    
     
-    <tar destfile="${inst.dir}/Evolvo.app.tar.gz" compression="gzip">
-       <tarfileset dir="${inst.dir}/Evolvo.app" prefix ="Evolvo.app"/>
-    </tar>
+	<tar destfile="${inst.dir}/Evolvo.app.tar.gz" compression="gzip">
+		<tarfileset dir="${inst.dir}/Evolvo.app" prefix ="Evolvo.app"/>
+	</tar>
     
-    <echo message="OS X Application Package created succesfully."/>
-    <!-- End of Mac OS X Application package section -->
+	<echo message="OS X Application Package created succesfully."/>
+	<!-- End of Mac OS X Application package section -->
 </target>
    
 </project>
