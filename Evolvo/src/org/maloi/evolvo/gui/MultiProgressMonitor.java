@@ -26,12 +26,12 @@ import java.awt.Component;
 
 import javax.swing.ProgressMonitor;
 
-public class CustomProgressMonitor
+public class MultiProgressMonitor
 {
    ProgressMonitor pm;
    int progress;
 
-   public CustomProgressMonitor(
+   public MultiProgressMonitor(
       Component parentComponent,
       Object message,
       String note,

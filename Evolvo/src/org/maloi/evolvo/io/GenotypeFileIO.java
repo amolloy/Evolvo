@@ -34,22 +34,23 @@ import javax.swing.JOptionPane;
 import org.maloi.evolvo.expressiontree.ExpressionTree;
 import org.maloi.evolvo.expressiontree.utilities.ExpressionTreeParser;
 import org.maloi.evolvo.expressiontree.utilities.SyntaxErrorException;
-import org.maloi.evolvo.gui.CustomFileChooser;
+import org.maloi.evolvo.gui.LoadGenomeFileChooser;
+import org.maloi.evolvo.gui.SaveGenomeFileChooser;
 import org.maloi.evolvo.gui.GenericFileFilter;
 import org.maloi.evolvo.settings.GlobalSettings;
 
 public class GenotypeFileIO
 {
    static GlobalSettings settings = GlobalSettings.getInstance();
-   static CustomFileChooser fileChooser = CustomFileChooser.getInstance();
 
    public static ExpressionTree getGenotypeFromFile(Component parent)
    {
       int result;
+      LoadGenomeFileChooser fileChooser = new LoadGenomeFileChooser();
+      
+      result = fileChooser.showOpenDialog(parent);
 
-      result = fileChooser.showOpenGeneratorDialog(parent);
-
-      if (result == CustomFileChooser.CANCEL_OPTION)
+      if (result == SaveGenomeFileChooser.CANCEL_OPTION)
       {
          return null;
       }
@@ -108,9 +109,10 @@ public class GenotypeFileIO
       Component parent,
       ExpressionTree expression)
    {
-      int result = fileChooser.showSaveGeneratorDialog(parent);
+      SaveGenomeFileChooser fileChooser = new SaveGenomeFileChooser();
+      int result = fileChooser.showSaveDialog(parent);
 
-      if (result == CustomFileChooser.CANCEL_OPTION)
+      if (result == SaveGenomeFileChooser.CANCEL_OPTION)
       {
          return;
       }

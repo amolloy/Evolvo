@@ -91,8 +91,8 @@ public class ImageButtonPanel extends JPanel implements ChangeListener
 
       imageButtonGroup.remove(buttons[i]);
 
-      CustomProgressMonitor pm =
-         new CustomProgressMonitor(
+      MultiProgressMonitor pm =
+         new MultiProgressMonitor(
             this,
             MessageStrings.getString("ImageButtonPanel.Generating_Image..._1"), //$NON-NLS-1$
             "", //$NON-NLS-1$
@@ -144,8 +144,8 @@ public class ImageButtonPanel extends JPanel implements ChangeListener
 
       imageButtonGroup = new CustomButtonGroup();
 
-      CustomProgressMonitor pm =
-         new CustomProgressMonitor(
+      MultiProgressMonitor pm =
+         new MultiProgressMonitor(
             this,
             MessageStrings.getString("ImageButtonPanel.Generating_Images..._3"), //$NON-NLS-1$
             "", //$NON-NLS-1$

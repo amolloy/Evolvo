@@ -121,8 +121,8 @@ public class RenderFrame extends JFrame
       menubar.add(fileMenu);
       setJMenuBar(menubar);
 
-      CustomProgressMonitor pm =
-         new CustomProgressMonitor(
+      MultiProgressMonitor pm =
+         new MultiProgressMonitor(
             this,
             MessageStrings.getString("RenderFrame.Generating_Image..."), //$NON-NLS-1$
             "", //$NON-NLS-1$
@@ -174,11 +174,11 @@ public class RenderFrame extends JFrame
    {
       public void actionPerformed(ActionEvent e)
       {
-         CustomFileChooser fileChooser = CustomFileChooser.getInstance();
+         SaveImageFileChooser fileChooser = new SaveImageFileChooser();
 
-         int result = fileChooser.showExportDialog(RenderFrame.this);
+         int result = fileChooser.showSaveDialog(RenderFrame.this);
 
-         if (result == CustomFileChooser.CANCEL_OPTION)
+         if (result == SaveGenomeFileChooser.CANCEL_OPTION)
          {
             return;
          }

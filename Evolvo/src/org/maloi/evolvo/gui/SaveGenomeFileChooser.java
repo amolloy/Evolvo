@@ -20,23 +20,32 @@
  *  $Id$
  */
 
-package org.maloi.evolvo.expressiontree.renderer;
+package org.maloi.evolvo.gui;
 
-import java.awt.image.ImageProducer;
+import java.awt.Dimension;
 
-import javax.swing.event.ChangeListener;
+import javax.swing.JFileChooser;
 
-import org.maloi.evolvo.expressiontree.ExpressionTree;
-import org.maloi.evolvo.gui.MultiProgressMonitor;
+import org.maloi.evolvo.localization.MessageStrings;
+import org.maloi.evolvo.settings.GlobalSettings;
 
-public interface RendererInterface extends ImageProducer
+public class SaveGenomeFileChooser extends JFileChooser
 {
-   public boolean isFinished();
-   public void stop();
-   public void setProgressMonitor(MultiProgressMonitor pm);
-   public void setSize(int w, int h);
-   public int getWidth();
-   public int getHeight();
-   public ExpressionTree getExpression();
-   public void addChangeListener(ChangeListener cl);
+   static GlobalSettings settings = GlobalSettings.getInstance();
+   static Dimension maxDimensions;
+
+   public SaveGenomeFileChooser()
+   {
+      super();
+
+      resetChoosableFileFilters();
+
+      setAcceptAllFileFilterUsed(false);
+
+      addChoosableFileFilter(
+         new GenericFileFilter(
+            new String[] { "evo" }, //$NON-NLS-1$
+            MessageStrings.getString("CustomFileChooser.Evolvo_Genotype_Files_Type"), //$NON-NLS-1$
+            0));   
+   }
 }

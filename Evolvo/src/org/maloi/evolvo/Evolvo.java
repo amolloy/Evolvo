@@ -51,7 +51,7 @@ import org.maloi.evolvo.expressiontree.renderer.RendererInterface;
 import org.maloi.evolvo.expressiontree.renderer.StandardRenderer;
 import org.maloi.evolvo.expressiontree.utilities.ExpressionTreeGenerator;
 import org.maloi.evolvo.expressiontree.utilities.VariablePackage;
-import org.maloi.evolvo.gui.CustomFileChooser;
+import org.maloi.evolvo.gui.SaveGenomeFileChooser;
 import org.maloi.evolvo.gui.ExplorerFrame;
 import org.maloi.evolvo.gui.ImageButtonPanel;
 import org.maloi.evolvo.gui.RenderFrame;
@@ -69,7 +69,7 @@ public class Evolvo extends JFrame implements ActionListener
 {
    static GlobalSettings settings;
    static SettingsDialog settingsDialogBox;
-   CustomFileChooser genericFileChooser;
+   SaveGenomeFileChooser saveFileChooser;
    Properties prop;
    VariablePackage variables;
    ImageButtonPanel buttonPanel;
@@ -118,9 +118,6 @@ public class Evolvo extends JFrame implements ActionListener
 
       Splash.setMessage(MessageStrings.getString("Evolvo.Creating_preferences_dialog..._8")); //$NON-NLS-1$
       settingsDialogBox = SettingsDialog.getInstance();
-
-      Splash.setMessage(MessageStrings.getString("Evolvo.Creating_file_chooser_dialog..._9")); //$NON-NLS-1$
-      genericFileChooser = CustomFileChooser.getInstance();
 
       Splash.setMessage(MessageStrings.getString("Evolvo.Reading_preferences..._10")); //$NON-NLS-1$
       prop = settings.getProperties();

@@ -195,8 +195,8 @@ public class ExplorerFrame extends JFrame
             x2,
             y2);
 
-      CustomProgressMonitor pm =
-         new CustomProgressMonitor(
+      MultiProgressMonitor pm =
+         new MultiProgressMonitor(
             this,
             MessageStrings.getString("RenderFrame.Generating_Image..."),
             "",
@@ -340,11 +340,11 @@ public class ExplorerFrame extends JFrame
    {
       public void actionPerformed(ActionEvent e)
       {
-         CustomFileChooser fileChooser = CustomFileChooser.getInstance();
+         SaveImageFileChooser fileChooser = new SaveImageFileChooser(); 
 
-         int result = fileChooser.showExportDialog(ExplorerFrame.this);
+         int result = fileChooser.showSaveDialog(ExplorerFrame.this);
 
-         if (result == CustomFileChooser.CANCEL_OPTION)
+         if (result == SaveGenomeFileChooser.CANCEL_OPTION)
          {
             return;
          }

@@ -34,7 +34,7 @@ import javax.swing.event.ChangeListener;
 
 import org.maloi.evolvo.expressiontree.ExpressionTree;
 import org.maloi.evolvo.expressiontree.vm.Machine;
-import org.maloi.evolvo.gui.CustomProgressMonitor;
+import org.maloi.evolvo.gui.MultiProgressMonitor;
 
 public class StandardRenderer implements RendererInterface, Runnable
 {
@@ -50,7 +50,7 @@ public class StandardRenderer implements RendererInterface, Runnable
    boolean finished = false;
    boolean stopFlag = false;
    boolean started = false;
-   CustomProgressMonitor pm = null;
+   MultiProgressMonitor pm = null;
 
    Thread theThread;
 
@@ -114,7 +114,7 @@ public class StandardRenderer implements RendererInterface, Runnable
       stopFlag = true;
    }
 
-   public void setProgressMonitor(CustomProgressMonitor pm)
+   public void setProgressMonitor(MultiProgressMonitor pm)
    {
       this.pm = pm;
    }

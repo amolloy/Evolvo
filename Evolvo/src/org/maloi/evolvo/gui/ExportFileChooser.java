@@ -43,7 +43,7 @@ import org.maloi.evolvo.io.GenotypeFileIO;
 import org.maloi.evolvo.localization.MessageStrings;
 import org.maloi.evolvo.settings.GlobalSettings;
 
-public class CustomFileChooser extends JFileChooser
+public class ExportFileChooser extends JFileChooser
 {
    static GlobalSettings settings = GlobalSettings.getInstance();
 
@@ -54,19 +54,19 @@ public class CustomFileChooser extends JFileChooser
    static final JPanel previewPane = new JPanel();
    static final JPanel preview = new JPanel();
 
-   static CustomFileChooser _instance = null;
+   static ExportFileChooser _instance = null;
 
-   public static CustomFileChooser getInstance()
+   public static ExportFileChooser getInstance()
    {
       if (_instance == null)
       {
-         _instance = new CustomFileChooser();
+         _instance = new ExportFileChooser();
       }
 
       return _instance;
    }
 
-   CustomFileChooser()
+   ExportFileChooser()
    {
       super();
 
@@ -166,7 +166,7 @@ public class CustomFileChooser extends JFileChooser
          if (ce.getPropertyName().equals("SelectedFileChangedProperty")) //$NON-NLS-1$
          {
             File theFile =
-               ((CustomFileChooser) (ce.getSource())).getSelectedFile();
+               ((ExportFileChooser) (ce.getSource())).getSelectedFile();
 
             try
             {
