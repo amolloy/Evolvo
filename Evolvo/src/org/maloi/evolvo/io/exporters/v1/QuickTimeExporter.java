@@ -101,7 +101,7 @@ public class QuickTimeExporter
       try
       {
          System.err.println(which + " " + subTypes[which]);
-         
+
          QTSession.open();
 
          int width = i.getWidth(null);
@@ -153,6 +153,10 @@ public class QuickTimeExporter
       catch (ClassNotFoundException e)
       {
          return false;
+      }
+      catch (QTException e)
+      {
+         e.printStackTrace();
       }
 
       return true;
@@ -218,7 +222,7 @@ public class QuickTimeExporter
       catch (QTException e)
       {
          available = false;
-         System.err.println(e);
+         e.printStackTrace();
       }
    }
 }
