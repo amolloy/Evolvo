@@ -51,10 +51,10 @@ public class Exporter
    static Method write;
 
    static int exporterID = 0;
-
+	
+	static SystemConsole console = SystemConsole.getInstance();
+	
    static boolean available = false;
-
-   static SystemConsole console = SystemConsole.getInstance();
 
    static {
       init();
@@ -161,7 +161,7 @@ public class Exporter
       }
       catch (Exception e)
       {
-         e.printStackTrace();
+         console.printStackTrace(e);
       }
    }
 
@@ -178,7 +178,7 @@ public class Exporter
          }
          catch (Exception e)
          {
-            e.printStackTrace();
+            console.printStackTrace(e);
          }
       }
 
@@ -200,7 +200,7 @@ public class Exporter
          }
          catch (Exception e)
          {
-            e.printStackTrace();
+            console.printStackTrace(e);
          }
       }
 
@@ -219,8 +219,7 @@ public class Exporter
          }
          catch (Exception e)
          {
-            //	    e.getCause().printStackTrace();
-            e.printStackTrace();
+				console.printStackTrace(e);
          }
       }
    }
