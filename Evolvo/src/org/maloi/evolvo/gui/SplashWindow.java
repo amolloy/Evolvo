@@ -126,13 +126,13 @@ public class SplashWindow extends JWindow
       {
          // Not in the jar file, look for it in the regular file system
          splashImage = new ImageIcon("Resources/splash.png");
+      }
 
-         // If the image's width is -1, it didn't load
-         if (splashImage.getIconWidth() == -1)
-         {
-            // so get rid of our ImageIcon
-            splashImage = null;
-         }
+      // If the image's width is -1, it didn't load
+      if (splashImage.getIconWidth() == -1)
+      {
+         // so get rid of our ImageIcon
+         splashImage = null;
       }
 
       if (splashImage == null)
