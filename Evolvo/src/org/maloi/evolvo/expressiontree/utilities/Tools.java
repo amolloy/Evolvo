@@ -38,8 +38,8 @@ public class Tools
    static OperatorInterface[] vectorList = OperatorList.getTripletOperators();
    static GlobalSettings settings = GlobalSettings.getInstance();
 
-   static int[] masks;
-   static int[] offsets;
+   public static int[] masks;
+   public static int[] offsets;
 
    static final double map_height = Math.pow(0.5, 2);
    static final double PI_OVER_TWO = Math.PI / 2.0;

@@ -263,9 +263,9 @@ public class TiledRenderer implements RendererInterface, Runnable
       int offset;
       double tx;
       double ty;
-      double hue;
-      double saturation;
-      double value;
+      double red;
+      double green;
+      double blue;
       Stack stack;
 
       int data[] = new int[tileWidth * tileHeight];
@@ -274,7 +274,7 @@ public class TiledRenderer implements RendererInterface, Runnable
       {
          offset = y * tileWidth;
 
-         ty = ((double) (y + yoffset) / (double) height) * 2.0 - 1.0;
+         ty = ((double) (y + yoffset) / (double)height) * 2.0 - 1.0;
 
          for (i = 0; i < 3; i++)
          {
@@ -283,30 +283,31 @@ public class TiledRenderer implements RendererInterface, Runnable
 
          for (x = 0; x < tileWidth; x++)
          {
-            tx = ((double) (x + xoffset) / (double) width) * 2.0 - 1.0;
+            tx = ((double) (x + xoffset) / (double)width) * 2.0 - 1.0;
 
-            for (i = 0; i < 3; i++)
-            {
-               theMachine.setRegister(Machine.REGISTER_X, tx);
-               theMachine.setRegister(
-                  Machine.REGISTER_R,
-                  Math.sqrt((tx * tx) + (ty * ty)));
-               theMachine.setRegister(
-                  Machine.REGISTER_THETA,
-                  Math.atan2(tx, ty));
-            }
+            theMachine.setRegister(Machine.REGISTER_X, tx);
+            theMachine.setRegister(
+               Machine.REGISTER_R,
+               Math.sqrt((tx * tx) + (ty * ty)));
+            theMachine.setRegister(Machine.REGISTER_THETA, Math.atan2(tx, ty));
 
             stack = theMachine.execute();
 
-            hue = Tools.map(stack.pop());
-            saturation = Tools.map(stack.pop());
-            value = Tools.map(stack.pop());
+            red = Tools.map(stack.pop());
+            green = Tools.map(stack.pop());
+            blue = Tools.map(stack.pop());
 
-            data[offset + x] = Tools.HSVtoRGB(hue, saturation, value);
-            //               java.awt.Color.HSBtoRGB(
-            //                  (float) hue,
-            //                  (float) saturation,
-            //                  (float) value);
+            int rInt = (int) (red * 255.0);
+            int gInt = (int) (green * 255.0);
+            int bInt = (int) (blue * 255.0);
+
+            int pixel = 0;
+
+            pixel |= (rInt << Tools.offsets[0]) & Tools.masks[0];
+            pixel |= (gInt << Tools.offsets[1]) & Tools.masks[1];
+            pixel |= (bInt << Tools.offsets[2]) & Tools.masks[2];
+
+            data[offset + x] = pixel;
 
          }
 
@@ -336,13 +337,13 @@ public class TiledRenderer implements RendererInterface, Runnable
 
       ColorModel cm = new DirectColorModel(24, 0x0000FF, 0x00FF00, 0xFF0000);
 
-      Vector v = (Vector) consumers.clone();
+      Vector v = (Vector)consumers.clone();
 
       Enumeration e = v.elements();
 
       while (e.hasMoreElements())
       {
-         ic = (ImageConsumer) e.nextElement();
+         ic = (ImageConsumer)e.nextElement();
 
          // Send the data
          ic.setColorModel(cm);
@@ -368,13 +369,13 @@ public class TiledRenderer implements RendererInterface, Runnable
 
       ImageConsumer ic;
 
-      Vector v = (Vector) consumers.clone();
+      Vector v = (Vector)consumers.clone();
 
       Enumeration e = v.elements();
 
       while (e.hasMoreElements())
       {
-         ic = (ImageConsumer) e.nextElement();
+         ic = (ImageConsumer)e.nextElement();
 
          ic.imageComplete(ImageConsumer.STATICIMAGEDONE);
       }
@@ -412,13 +413,13 @@ public class TiledRenderer implements RendererInterface, Runnable
       ChangeListener cl;
       ChangeEvent ce = new ChangeEvent(this);
 
-      Vector v = (Vector) listeners.clone();
+      Vector v = (Vector)listeners.clone();
 
       Enumeration e = v.elements();
 
       while (e.hasMoreElements())
       {
-         cl = (ChangeListener) e.nextElement();
+         cl = (ChangeListener)e.nextElement();
 
          cl.stateChanged(ce);
       }
