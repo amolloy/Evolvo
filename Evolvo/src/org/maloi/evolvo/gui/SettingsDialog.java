@@ -79,6 +79,8 @@ public class SettingsDialog implements ActionListener
    JComboBox preferredPlugin;
    JTextField plugins;
 
+   SystemConsole console = SystemConsole.getInstance();
+
    public static SettingsDialog getInstance()
    {
       if (_instance == null)
@@ -518,7 +520,7 @@ public class SettingsDialog implements ActionListener
                }
                catch (Exception e)
                {
-                  System.err.println("Error storing new settings");
+                  console.println("Error storing new settings");
                }
             }
          }

@@ -75,6 +75,8 @@ public class RenderOptionsPanel implements ActionListener
 
    boolean settingUp = true;
 
+   SystemConsole console = SystemConsole.getInstance();
+
    public RenderOptionsPanel()
    {
    }
@@ -280,7 +282,7 @@ public class RenderOptionsPanel implements ActionListener
       }
       catch (Exception e)
       {
-         System.err.println("Error storing new settings");
+         console.println("Error storing new settings");
       }
 
       return true;
@@ -376,7 +378,7 @@ public class RenderOptionsPanel implements ActionListener
 
       if (factor == 0.0)
       {
-         System.err.println("Factor was not set.");
+         console.println("Factor was not set.");
       }
 
       return factor;

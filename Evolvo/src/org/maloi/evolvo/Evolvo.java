@@ -185,19 +185,21 @@ public class Evolvo extends JFrame implements ActionListener
       menuitem.addActionListener(this);
       fileMenu.add(menuitem);
 
-      // Display system console
-      menuitem = new JMenuItem("Display System Console");
-      menuitem.setMnemonic(KeyEvent.VK_C);
-      menuitem.setAccelerator(
-         KeyStroke.getKeyStroke(KeyEvent.VK_C, Constants.KEY_MASK));
-      menuitem.addActionListener(this);
-      fileMenu.add(menuitem);
-
       // render saved genotype menu item
       menuitem = new JMenuItem("Render Saved Genotype");
       menuitem.setMnemonic(KeyEvent.VK_E);
       menuitem.setAccelerator(
          KeyStroke.getKeyStroke(KeyEvent.VK_E, Constants.KEY_MASK));
+      menuitem.addActionListener(this);
+      fileMenu.add(menuitem);
+
+      fileMenu.addSeparator();
+
+      // Display system console
+      menuitem = new JMenuItem("Display System Console");
+      menuitem.setMnemonic(KeyEvent.VK_C);
+      menuitem.setAccelerator(
+         KeyStroke.getKeyStroke(KeyEvent.VK_C, Constants.KEY_MASK));
       menuitem.addActionListener(this);
       fileMenu.add(menuitem);
 
@@ -587,7 +589,7 @@ public class Evolvo extends JFrame implements ActionListener
       }
       else
       {
-         System.err.println("Unknown ActionCommand: " + cmd);
+         console.println("Unknown ActionCommand: " + cmd);
       }
    }
 

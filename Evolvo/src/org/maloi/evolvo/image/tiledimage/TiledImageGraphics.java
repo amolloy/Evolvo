@@ -32,17 +32,19 @@ import java.awt.Shape;
 import java.awt.image.ImageObserver;
 import java.text.AttributedCharacterIterator;
 
+import org.maloi.evolvo.gui.SystemConsole;
 import org.maloi.evolvo.image.TiledImage;
 
 public class TiledImageGraphics extends Graphics
 {
    TiledImage image;
+   SystemConsole console = SystemConsole.getInstance();
 
    public TiledImageGraphics(TiledImage image)
    {
       this.image = image;
 
-      System.err.println("TiledImageGraphics.constructor(" + image + ");");
+      console.println("TiledImageGraphics.constructor(" + image + ");");
    }
 
    /**
@@ -50,9 +52,9 @@ public class TiledImageGraphics extends Graphics
     */
    public Graphics create()
    {
-      System.err.println("TiledImageGraphics.create();");
+      console.println("TiledImageGraphics.create();");
 
-      return this;     
+      return this;
    }
 
    /**
@@ -60,7 +62,7 @@ public class TiledImageGraphics extends Graphics
     */
    public void translate(int x, int y)
    {
-      System.err.println("TiledImageGraphics.translate(" + x + ", " + y + ");");
+      console.println("TiledImageGraphics.translate(" + x + ", " + y + ");");
    }
 
    /**
@@ -68,7 +70,7 @@ public class TiledImageGraphics extends Graphics
     */
    public Color getColor()
    {
-      System.err.println("TiledImageGraphics.getColor();");
+      console.println("TiledImageGraphics.getColor();");
 
       return null;
    }
@@ -78,7 +80,7 @@ public class TiledImageGraphics extends Graphics
     */
    public void setColor(Color c)
    {
-      System.err.println("TiledImageGraphics.setColor(" + c + ");");
+      console.println("TiledImageGraphics.setColor(" + c + ");");
    }
 
    /**
@@ -86,7 +88,7 @@ public class TiledImageGraphics extends Graphics
     */
    public void setPaintMode()
    {
-      System.err.println("TiledImageGraphics.setPaintMode();");
+      console.println("TiledImageGraphics.setPaintMode();");
    }
 
    /**
@@ -94,7 +96,7 @@ public class TiledImageGraphics extends Graphics
     */
    public void setXORMode(Color c1)
    {
-      System.err.println("TiledImageGraphics.setXORMode(" + c1 + ");");
+      console.println("TiledImageGraphics.setXORMode(" + c1 + ");");
    }
 
    /**
@@ -102,7 +104,7 @@ public class TiledImageGraphics extends Graphics
     */
    public Font getFont()
    {
-      System.err.println("TiledImageGraphics.getFont();");
+      console.println("TiledImageGraphics.getFont();");
 
       return null;
    }
@@ -112,7 +114,7 @@ public class TiledImageGraphics extends Graphics
     */
    public void setFont(Font font)
    {
-      System.err.println("TiledImageGraphics.setFont(" + font + ");");
+      console.println("TiledImageGraphics.setFont(" + font + ");");
    }
 
    /**
@@ -120,7 +122,7 @@ public class TiledImageGraphics extends Graphics
     */
    public FontMetrics getFontMetrics(Font f)
    {
-      System.err.println("TiledImageGraphics.getFontMetrics(" + f + ");");
+      console.println("TiledImageGraphics.getFontMetrics(" + f + ");");
 
       return null;
    }
@@ -130,7 +132,7 @@ public class TiledImageGraphics extends Graphics
     */
    public Rectangle getClipBounds()
    {
-      System.err.println("TiledImageGraphics.getClipBounds();");
+      console.println("TiledImageGraphics.getClipBounds();");
 
       return null;
    }
@@ -140,7 +142,7 @@ public class TiledImageGraphics extends Graphics
     */
    public void clipRect(int x, int y, int width, int height)
    {
-      System.err.println(
+      console.println(
          "TiledImageGraphics.clipRect("
             + x
             + ", "
@@ -157,7 +159,7 @@ public class TiledImageGraphics extends Graphics
     */
    public void setClip(int x, int y, int width, int height)
    {
-      System.err.println(
+      console.println(
          "TiledImageGraphics.setClip("
             + x
             + ", "
@@ -174,7 +176,7 @@ public class TiledImageGraphics extends Graphics
     */
    public Shape getClip()
    {
-      System.err.println("TiledImageGraphics.getClip();");
+      console.println("TiledImageGraphics.getClip();");
 
       return null;
    }
@@ -184,7 +186,7 @@ public class TiledImageGraphics extends Graphics
     */
    public void setClip(Shape clip)
    {
-      System.err.println("TiledImageGraphics.setClip(" + clip + ");");
+      console.println("TiledImageGraphics.setClip(" + clip + ");");
    }
 
    /**
@@ -192,7 +194,7 @@ public class TiledImageGraphics extends Graphics
     */
    public void copyArea(int x, int y, int width, int height, int dx, int dy)
    {
-      System.err.println(
+      console.println(
          "TiledImageGraphics.copyArea("
             + x
             + ", "
@@ -213,7 +215,7 @@ public class TiledImageGraphics extends Graphics
     */
    public void drawLine(int x1, int y1, int x2, int y2)
    {
-      System.err.println(
+      console.println(
          "TiledImageGraphics.drawLine("
             + x1
             + ", "
@@ -230,7 +232,7 @@ public class TiledImageGraphics extends Graphics
     */
    public void fillRect(int x, int y, int width, int height)
    {
-      System.err.println(
+      console.println(
          "TiledImageGraphics.fillRect("
             + x
             + ", "
@@ -247,7 +249,7 @@ public class TiledImageGraphics extends Graphics
     */
    public void clearRect(int x, int y, int width, int height)
    {
-      System.err.println(
+      console.println(
          "TiledImageGraphics.clearRect("
             + x
             + ", "
@@ -270,7 +272,7 @@ public class TiledImageGraphics extends Graphics
       int arcWidth,
       int arcHeight)
    {
-      System.err.println(
+      console.println(
          "TiledImageGraphics.drawRoundRect("
             + x
             + ", "
@@ -297,7 +299,7 @@ public class TiledImageGraphics extends Graphics
       int arcWidth,
       int arcHeight)
    {
-      System.err.println(
+      console.println(
          "TiledImageGraphics.fillRoundRect("
             + x
             + ",. "
@@ -318,7 +320,7 @@ public class TiledImageGraphics extends Graphics
     */
    public void drawOval(int x, int y, int width, int height)
    {
-      System.err.println(
+      console.println(
          "TiledImageGraphics.drawOval("
             + x
             + ", "
@@ -335,7 +337,7 @@ public class TiledImageGraphics extends Graphics
     */
    public void fillOval(int x, int y, int width, int height)
    {
-      System.err.println(
+      console.println(
          "TiledImageGraphics.fillOval("
             + x
             + ", "
@@ -358,7 +360,7 @@ public class TiledImageGraphics extends Graphics
       int startAngle,
       int arcAngle)
    {
-      System.err.println(
+      console.println(
          "TiledImageGraphics.drawArc("
             + x
             + ", "
@@ -385,7 +387,7 @@ public class TiledImageGraphics extends Graphics
       int startAngle,
       int arcAngle)
    {
-      System.err.println(
+      console.println(
          "TiledImageGraphics.fillArc("
             + x
             + ", "
@@ -406,7 +408,7 @@ public class TiledImageGraphics extends Graphics
     */
    public void drawPolyline(int[] xPoints, int[] yPoints, int nPoints)
    {
-      System.err.println("TiledImageGraphics.drawPolyline(int[], int[], int);");
+      console.println("TiledImageGraphics.drawPolyline(int[], int[], int);");
    }
 
    /**
@@ -414,7 +416,7 @@ public class TiledImageGraphics extends Graphics
     */
    public void drawPolygon(int[] xPoints, int[] yPoints, int nPoints)
    {
-      System.err.println("TiledImageGraphics.drawPolygon(int[], int[], int);");
+      console.println("TiledImageGraphics.drawPolygon(int[], int[], int);");
    }
 
    /**
@@ -422,7 +424,7 @@ public class TiledImageGraphics extends Graphics
     */
    public void fillPolygon(int[] xPoints, int[] yPoints, int nPoints)
    {
-      System.err.println("TiledImageGraphics.fillPolygon(int[], int[], int);");
+      console.println("TiledImageGraphics.fillPolygon(int[], int[], int);");
    }
 
    /**
@@ -430,7 +432,7 @@ public class TiledImageGraphics extends Graphics
     */
    public void drawString(String str, int x, int y)
    {
-      System.err.println(
+      console.println(
          "TiledImageGraphics.drawString(\""
             + str
             + "\", "
@@ -445,7 +447,7 @@ public class TiledImageGraphics extends Graphics
     */
    public void drawString(AttributedCharacterIterator iterator, int x, int y)
    {
-      System.err.println(
+      console.println(
          "TiledImageGraphics.drawString("
             + iterator
             + ", "
@@ -460,7 +462,7 @@ public class TiledImageGraphics extends Graphics
     */
    public boolean drawImage(Image img, int x, int y, ImageObserver observer)
    {
-      System.err.println(
+      console.println(
          "TiledImageGraphics.drawImage("
             + img
             + ", "
@@ -485,7 +487,7 @@ public class TiledImageGraphics extends Graphics
       int newHeight,
       ImageObserver observer)
    {
-      System.err.println(
+      console.println(
          "TiledImageGraphics.drawImage("
             + img
             + ", "
@@ -500,7 +502,7 @@ public class TiledImageGraphics extends Graphics
             + observer
             + ");");
 
-     return false;
+      return false;
    }
 
    /**
@@ -513,7 +515,7 @@ public class TiledImageGraphics extends Graphics
       Color bgcolor,
       ImageObserver observer)
    {
-      System.err.println(
+      console.println(
          "TileImageGraphics.drawImage("
             + img
             + ", "
@@ -541,7 +543,7 @@ public class TiledImageGraphics extends Graphics
       Color bgcolor,
       ImageObserver observer)
    {
-      System.err.println(
+      console.println(
          "TileImageGraphics.drawImage("
             + img
             + ", "
@@ -576,7 +578,7 @@ public class TiledImageGraphics extends Graphics
       int sy2,
       ImageObserver observer)
    {
-      System.err.println(
+      console.println(
          "TiledImageGraphics.drawImage("
             + dx1
             + ", "
@@ -616,7 +618,7 @@ public class TiledImageGraphics extends Graphics
       Color bgcolor,
       ImageObserver observer)
    {
-      System.err.println(
+      console.println(
          "TiledImageGraphics.drawImage("
             + dx1
             + ", "
@@ -647,7 +649,7 @@ public class TiledImageGraphics extends Graphics
     */
    public void dispose()
    {
-      System.err.println("TiledImageGraphics.dispose();");
+      console.println("TiledImageGraphics.dispose();");
    }
 
 }

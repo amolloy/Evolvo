@@ -25,7 +25,7 @@ public class SystemConsole extends TextDialog
 {
    static SystemConsole _instance;
 
-   SystemConsole()
+   public SystemConsole()
    {
       super("Initializing system console.");
    }
@@ -49,5 +49,18 @@ public class SystemConsole extends TextDialog
    {
        print(s);
        print("\n");
+   }
+   
+   public void printStackTrace(Exception e)
+   {
+      StackTraceElement[] elements = e.getStackTrace();
+      int length = elements.length;
+      
+      println(e.toString());
+      
+      for (int i = 0; i < length; i++)
+      {
+         println("\t" + elements[i].toString());
+      }
    }
 }

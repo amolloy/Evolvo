@@ -44,6 +44,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Vector;
 
+import org.maloi.evolvo.gui.SystemConsole;
 import org.maloi.evolvo.image.tiledimage.TiledImageInterface;
 
 import quicktime.Errors;
@@ -68,6 +69,7 @@ public class QuickTimeExporter
    int subTypes[];
    String descriptions[];
    boolean available = true;
+   SystemConsole console = SystemConsole.getInstance();
 
    public QuickTimeExporter()
    {
@@ -124,15 +126,14 @@ public class QuickTimeExporter
       if (inImage instanceof TiledImageInterface)
       {
          // why yes, it is... Use its getImage() method to get an Image from it
-         image = ((TiledImageInterface) inImage).getImage();
-         
-         
+         image = ((TiledImageInterface)inImage).getImage();
+
       }
       // is it a BufferedImage?
       else if (inImage instanceof BufferedImage)
       {
          // yes - it can just be cast to Image
-         image = (Image) inImage;
+         image = (Image)inImage;
       }
       // is it just a plain old standard Image?
       else if (inImage instanceof Image)
@@ -143,7 +144,7 @@ public class QuickTimeExporter
       // if it's anything else, we don't know what to do...
       else
       {
-         System.err.println(
+         console.println(
             "QuickTimeExporter: Don't know what to do with this: " + inImage);
          return;
       }
@@ -185,13 +186,13 @@ public class QuickTimeExporter
       }
       catch (QTException e)
       {
-         System.err.println("QTException");
+         console.println("QTException");
 
-         e.printStackTrace();
+         console.printStackTrace(e);
       }
       catch (Exception e)
       {
-         e.printStackTrace();
+         console.printStackTrace(e);
       }
    }
 
@@ -254,14 +255,14 @@ public class QuickTimeExporter
          descriptions = new String[temp.length];
          for (int i = 0; i < temp.length; i++)
          {
-            descriptions[i] = (String) temp[i];
+            descriptions[i] = (String)temp[i];
          }
 
          temp = subTypeVector.toArray();
          subTypes = new int[temp.length];
          for (int i = 0; i < temp.length; i++)
          {
-            subTypes[i] = ((Integer) temp[i]).intValue();
+            subTypes[i] = ((Integer)temp[i]).intValue();
          }
 
          QTSession.close();

@@ -211,15 +211,11 @@ public class TiledImage implements RenderedImage, ImageProducer, TiledImageInter
 
    public boolean isConsumer(ImageConsumer ic)
    {
-   	//System.err.println("TiledImage.isConsumer("+ic+");");
-   	
       return consumers.contains(ic);
    }
 
    public void addConsumer(ImageConsumer ic)
    {
-      //System.err.println("TiledImage.addConsumer("+ic+");");
-   	
       if ((ic != null) && (!isConsumer(ic)))
       {
          consumers.add(ic);
@@ -228,8 +224,6 @@ public class TiledImage implements RenderedImage, ImageProducer, TiledImageInter
 
    public void removeConsumer(ImageConsumer ic)
    {
-      //System.err.println("TiledImage.removeConsumer("+ic+");");
-   	
       if (isConsumer(ic))
       {
          consumers.remove(ic);
@@ -238,8 +232,6 @@ public class TiledImage implements RenderedImage, ImageProducer, TiledImageInter
 
    public void requestTopDownLeftRightResend(ImageConsumer ic)
    {
-      //System.err.println("TiledImage.requestTopDownLeftRightResend("+ic+");");
-   	
       addConsumer(ic);
 
       sendData();
@@ -247,8 +239,6 @@ public class TiledImage implements RenderedImage, ImageProducer, TiledImageInter
 
    public void startProduction(ImageConsumer ic)
    {
-      //System.err.println("TiledImage.startProduction("+ic+");");
-   	
       addConsumer(ic);
 
       sendData();
@@ -256,13 +246,9 @@ public class TiledImage implements RenderedImage, ImageProducer, TiledImageInter
 
    void sendData()
    {
-      //System.err.println("Recieved send message. Consumers:");
-
       for (Enumeration e = consumers.elements(); e.hasMoreElements();)
       {
          ImageConsumer ic = (ImageConsumer)e.nextElement();
-         
-         //System.err.println("\t" + ic);
          
          ic.setDimensions(width, height);
          

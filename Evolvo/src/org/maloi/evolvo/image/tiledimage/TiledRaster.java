@@ -35,6 +35,7 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.channels.FileChannel;
 
+import org.maloi.evolvo.gui.SystemConsole;
 import org.maloi.evolvo.settings.GlobalSettings;
 
 /**
@@ -69,6 +70,8 @@ public class TiledRaster extends WritableRaster
    static SampleModel tileSampleModel;
 
    static int[] masks;
+
+   SystemConsole console = SystemConsole.getInstance();
 
    static {
       BufferedImage image;
@@ -119,8 +122,8 @@ public class TiledRaster extends WritableRaster
       }
       catch (IOException ioe)
       {
-         System.err.println("Could not create temporary file:");
-         ioe.printStackTrace();
+         console.println("Could not create temporary file:");
+         console.printStackTrace(ioe);
       }
 
       // this doesn't appear to actually work...
@@ -134,7 +137,8 @@ public class TiledRaster extends WritableRaster
       }
       catch (FileNotFoundException fnfe)
       {
-         System.err.println("Cache file not found.");
+         console.println("Cache file not found.");
+         console.printStackTrace(fnfe);
       }
 
       // grow the file large enough to hold the entire image
@@ -146,8 +150,8 @@ public class TiledRaster extends WritableRaster
       }
       catch (IOException ioe)
       {
-         System.err.println("Could not set file length: ");
-         ioe.printStackTrace();
+         console.println("Could not set file length: ");
+         console.printStackTrace(ioe);
       }
 
       file = raFile.getChannel();

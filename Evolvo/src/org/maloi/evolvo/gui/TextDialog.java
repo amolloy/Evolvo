@@ -46,6 +46,11 @@ public class TextDialog extends JFrame implements ActionListener
    protected JTextArea textArea;
    JScrollPane scrollPane;
 
+   public TextDialog()
+   {
+      this("");
+   }
+
    public TextDialog(String text)
    {
       int width = 600;

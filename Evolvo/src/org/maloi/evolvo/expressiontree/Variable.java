@@ -26,6 +26,7 @@ import java.io.Serializable;
 
 import org.maloi.evolvo.expressiontree.vm.Instruction;
 import org.maloi.evolvo.expressiontree.vm.Machine;
+import org.maloi.evolvo.gui.SystemConsole;
 
 /**
  * Terminal node for expressionTree that stores a variable.
@@ -38,6 +39,8 @@ public class Variable extends ExpressionTree implements Cloneable, Serializable
    String name;
 
    int reg;
+   
+   SystemConsole console = SystemConsole.getInstance();
 
    /** Class constructor, sets the value (from a double) and name for this 
     *  variable. 
@@ -142,7 +145,7 @@ public class Variable extends ExpressionTree implements Cloneable, Serializable
       }
       else
       {
-         System.err.println("Unimplemented variable: " + name);
+         console.println("Unimplemented variable: " + name);
          reg = 0;
       }
    }

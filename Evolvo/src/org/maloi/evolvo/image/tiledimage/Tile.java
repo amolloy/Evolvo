@@ -30,6 +30,8 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 
+import org.maloi.evolvo.gui.SystemConsole;
+
 public class Tile
 {
    public static final int TILE_SIZE = 128;
@@ -53,6 +55,8 @@ public class Tile
 
    int[] masks; // masks for where each color is within a pixel int
    int[] offsets; // how many bits to shift an int to get the color
+
+   SystemConsole console = SystemConsole.getInstance();
 
    public Tile(int tilex, int tiley, FileChannel file, int fposition)
    {
@@ -284,7 +288,7 @@ public class Tile
       }
       catch (IOException ioe)
       {
-         System.err.println("Could not write tile to disk.");
+         console.println("Could not write tile to disk.");
       }
 
       location = LOCATION_DISK;
@@ -303,7 +307,8 @@ public class Tile
       }
       catch (IOException ioe)
       {
-         System.err.println("Could not read tile from disk.");
+         console.println("Could not read tile from disk.");
+         console.printStackTrace(ioe);
       }
 
       int dataOffset = 0;

@@ -1,6 +1,7 @@
 package org.maloi.evolvo.test;
 
 import org.maloi.evolvo.expressiontree.utilities.Tools;
+import org.maloi.evolvo.gui.SystemConsole;
 
 /**
  * @author Andy Molloy
@@ -8,6 +9,8 @@ import org.maloi.evolvo.expressiontree.utilities.Tools;
  */
 public class TestHSBtoRGB extends Harness
 {
+   SystemConsole console = SystemConsole.getInstance();
+   
    public void run()
    {
       doTest(1, test1());
@@ -23,8 +26,8 @@ public class TestHSBtoRGB extends Harness
 
       int fromTools = Tools.HSVtoRGB(h, s, v);
 
-      System.err.println("fromJava: " + Integer.toHexString(fromJava));
-      System.err.println("fromTools: " + Integer.toHexString(fromTools));
+      console.println("fromJava: " + Integer.toHexString(fromJava));
+      console.println("fromTools: " + Integer.toHexString(fromTools));
 
       return (fromJava == fromTools);
 

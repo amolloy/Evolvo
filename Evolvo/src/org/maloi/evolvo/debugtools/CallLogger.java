@@ -26,9 +26,13 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 
+import org.maloi.evolvo.gui.SystemConsole;
+
 public class CallLogger implements InvocationHandler
 {
    private Object target = null;
+
+   SystemConsole console = SystemConsole.getInstance();
 
    public static Object newInstance(Object target)
    {
@@ -69,8 +73,8 @@ public class CallLogger implements InvocationHandler
 
       catch (Exception e)
       {
-         System.err.println("Invocation of " + method.getName() + " failed");
-         System.err.println(e.getMessage());
+         console.println("Invocation of " + method.getName() + " failed");
+         console.println(e.getMessage());
       }
 
       finally

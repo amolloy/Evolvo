@@ -30,6 +30,7 @@ import java.lang.reflect.Method;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
+import org.maloi.evolvo.gui.SystemConsole;
 import org.maloi.evolvo.io.exporters.v1.ExporterInterface;
 import org.maloi.evolvo.settings.GlobalSettings;
 
@@ -52,6 +53,8 @@ public class Exporter
    static int exporterID = 0;
 
    static boolean available = false;
+
+   static SystemConsole console = SystemConsole.getInstance();
 
    static {
       init();
@@ -102,7 +105,7 @@ public class Exporter
       if (pluginVector.size() == 0)
       {
          available = false;
-         System.err.println("No exporters available!");
+         console.println("No exporters available!");
          return;
       }
 
