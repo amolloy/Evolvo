@@ -110,16 +110,13 @@ public class TiledImage extends Image implements RenderedImage
 
    public Raster getData()
    {
-      System.err.println("getData();");
-
       return raster;
    }
 
    public Raster getData(Rectangle rect)
    {
-      System.err.println("getData(" + rect + ");");
-
-      return null;
+      // Just returns its raster, without paying attention to the given rectangle. For our purposes, this seems to be fine.
+      return raster;
    }
 
    public int getHeight()

@@ -114,40 +114,44 @@ public class Tile
 
       int endX = startX + w;
       int endY = startY + h;
-      
+
       int srcYOffset;
       int dstYOffset;
 
       if (h == 1)
       {
-         srcYOffset = off;
-         dstYOffset = startY * TILE_SIZE;
-         
-         for (x = startX, i = 0; x < endX; x++, i++)
+         y = startY;
+
+         srcYOffset = (y - startY) * srcScansize + off;
+         dstYOffset = (y - yloc) * TILE_SIZE;
+
+         for (x = startX; x < endX; x++)
          {
-            data[i + dstYOffset] = src[i + srcYOffset];  
+            data[dstYOffset + x - xloc] = src[srcYOffset + (x - startX)];
          }
       }
       else if (w == 1)
       {
-         for ( y = startY; y < endY; y++)
+         for (y = startY; y < endY; y++)
          {
-            srcYOffset = y * srcScansize;
-            dstYOffset = y * TILE_SIZE;
-            
-            data[off + dstYOffset] = src[srcYOffset + startX];
+            x = startX;
+      
+            srcYOffset = (y - startY) * srcScansize + off;
+            dstYOffset = (y - yloc) * TILE_SIZE;
+
+            data[dstYOffset + x - xloc] = src[srcYOffset + (x - startX)];
          }
       }
       else
       {
-         for ( y =  startY; y < endY; y++)
+         for (y = startY; y < endY; y++)
          {
-            srcYOffset = y * srcScansize;
-            dstYOffset = y * TILE_SIZE;
-            
-            for ( x = startX; x < endX; x++)
+            srcYOffset = (y - startY) * srcScansize + off;
+            dstYOffset = (y - yloc) * TILE_SIZE;
+
+            for (x = startX; x < endX; x++)
             {
-               data[off + dstYOffset + x] = src[srcYOffset + x];
+               data[dstYOffset + x - xloc] = src[srcYOffset + (x - startX)];
             }
          }
       }
@@ -158,65 +162,67 @@ public class Tile
       return data[(x - xloc) + ((y - yloc) * TILE_SIZE)];
    }
 
-   public int[] getPixels(
+   public void getPixels(
       int startX,
       int startY,
       int w,
       int h,
       int dest[],
       int off,
-      int dstScansize)
+      int srcScansize)
    {
+      if (dest == null)
+      {
+         dest = new int[w * h];
+      }
+      
       int x;
       int y;
       int i;
 
       int endX = startX + w;
       int endY = startY + h;
-      
-      if (dest == null)
-      {
-         dest = new int[w * h];
-      }
 
-      int srcYOffset;
-      int dstYOffset;
+      int destYOffset;
+      int dataYOffset;
 
       if (h == 1)
       {
-         srcYOffset = startY * TILE_SIZE;
-         dstYOffset = off;
-         
-         for (x = startX, i = 0; x < endX; x++, i++)
+         y = startY;
+
+         destYOffset = (y - startY) * srcScansize + off;
+         dataYOffset = (y - yloc) * TILE_SIZE;
+
+         for (x = startX; x < endX; x++)
          {
-            dest[i + dstYOffset] = data[i + srcYOffset];  
+             dest[destYOffset + (x - startX)] = data[dataYOffset + x - xloc];
          }
       }
       else if (w == 1)
       {
-         for ( y = startY; y < endY; y++)
+         for (y = startY; y < endY; y++)
          {
-            srcYOffset = y * TILE_SIZE;
-            dstYOffset = y * dstScansize;
-            
-            dest[off + dstYOffset] = data[srcYOffset + startX];
+            x = startX;
+      
+            destYOffset = (y - startY) * srcScansize + off;
+            dataYOffset = (y - yloc) * TILE_SIZE;
+
+            dest[destYOffset + (x - startX)] = data[dataYOffset + x - xloc];
          }
       }
       else
       {
-         for ( y =  startY; y < endY; y++)
+         for (y = startY; y < endY; y++)
          {
-            srcYOffset = y * TILE_SIZE;
-            dstYOffset = y * dstScansize;
-            
-            for ( x = startX; x < endX; x++)
+            destYOffset = (y - startY) * srcScansize + off;
+            dataYOffset = (y - yloc) * TILE_SIZE;
+
+            for (x = startX; x < endX; x++)
             {
-               dest[off + dstYOffset + x] = data[srcYOffset + x];
+                dest[destYOffset + (x - startX)] = data[dataYOffset + x - xloc];
             }
          }
       }
-            
-      return dest;
    }
 
    public void expire()
@@ -277,12 +283,12 @@ public class Tile
    {
       return lastused;
    }
-   
+
    public int getXLocation()
    {
       return xloc;
    }
-   
+
    public int getYLocation()
    {
       return yloc;
