@@ -29,6 +29,7 @@ import org.maloi.evolvo.expressiontree.operators.pseudo.SimpleTriplet;
 import org.maloi.evolvo.expressiontree.utilities.VariablePackage;
 import org.maloi.evolvo.expressiontree.vm.Instruction;
 import org.maloi.evolvo.expressiontree.vm.Machine;
+import org.maloi.evolvo.expressiontree.vm.Stack;
 
 /**
  * Handles mathematic expressions in a tree structure, including
@@ -41,9 +42,6 @@ public class ExpressionTree implements Serializable
    ExpressionTree[] params;
    /** Holds the operator for this node of the tree. */
    OperatorInterface operator;
-   /** Holds the cached value for this branch.  */
-   double cachedValue;
-   boolean cacheable = false;
 
    static VariablePackage vp = VariablePackage.getInstance();
 
@@ -229,6 +227,22 @@ public class ExpressionTree implements Serializable
       return myMachine;
    }
 
+	protected boolean isCacheable()
+	{
+		int numScalarParams = operator.getNumberOfScalarParameters();
+		int numTripletParams = operator.getNumberOfTripletParameters();
+
+		for (int i = 0; i < numScalarParams + numTripletParams; i++)
+		{
+			if (!params[i].isCacheable())
+			{
+				return false;
+			}
+		}
+		
+		return true;
+	}
+
    public void buildMachine(Machine myMachine)
    {
       int numScalarParams = operator.getNumberOfScalarParameters();
@@ -236,11 +250,47 @@ public class ExpressionTree implements Serializable
 
       for (int i = 0; i < numScalarParams; i++)
       {
-         params[i].buildMachine(myMachine);
+      	if (! params[i].isCacheable())
+      	{
+	         params[i].buildMachine(myMachine);
+      	}
+      	else
+      	{
+      		// go ahead and execute this branch of the tree,
+      		// then just stick the result in the stack
+      		Machine tmpMachine = new Machine();
+      		Stack tmpStack;
+      		
+      		params[i].buildMachine(tmpMachine);
+      		tmpStack = tmpMachine.execute();
+      		new Value(tmpStack.pop()).buildMachine(myMachine);
+      	}
       }
       for (int i = 0; i < numTripletParams; i++)
       {
-         params[i + numScalarParams].buildMachine(myMachine);
+      	if (! params[i + numScalarParams].isCacheable())
+      	{
+      		params[i + numScalarParams].buildMachine(myMachine);
+      	}
+      	else
+      	{
+      		// go ahead and execute this branch of the tree,
+      		// then just stick the resulting triplet onto the
+      		// stack
+      		
+			Machine tmpMachine = new Machine();
+			Stack tmpStack;
+    		double[] vs;
+      		
+			params[i].buildMachine(tmpMachine);
+			tmpStack = tmpMachine.execute();
+			vs = tmpStack.popTriplet();
+			
+			for (int vcount = 0; vcount < 3; vcount++)
+			{
+				new Value(vs[vcount]).buildMachine(myMachine);
+			}
+      	}
       }
 
       // SimpleTriplet's perform function is a noop, so just leave it out

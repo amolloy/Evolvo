@@ -32,10 +32,11 @@ import org.maloi.evolvo.expressiontree.vm.Machine;
  */
 public class Value extends ExpressionTree implements Serializable
 {
-   /** The value being stored. */
-   double v = 0;
+   /** The value being stored goes into cachedValue. */
+   
+   private double v;
 
-   /** Class constructor that sets the node's value. */
+	/** Class constructor that sets the node's value. */
    public Value(double p)
    {
       v = p;
@@ -102,6 +103,11 @@ public class Value extends ExpressionTree implements Serializable
       buildMachine(myMachine);
 
       return myMachine;
+   }
+
+   protected boolean isCacheable()
+   {
+	   return true;
    }
 
    public void buildMachine(Machine myMachine)

@@ -135,6 +135,11 @@ public class Variable extends ExpressionTree implements Cloneable, Serializable
       myMachine.addInstruction(inst);
    }
 
+   protected boolean isCacheable()
+   {
+	   return false;
+   }
+
    private void setName(String n)
    {
       name = n;
