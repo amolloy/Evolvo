@@ -44,6 +44,7 @@ import javax.swing.border.Border;
 
 import org.maloi.evolvo.expressiontree.operators.OperatorInterface;
 import org.maloi.evolvo.io.Exporter;
+import org.maloi.evolvo.resources.Constants;
 import org.maloi.evolvo.settings.GlobalSettings;
 
 /**
@@ -472,7 +473,7 @@ public class SettingsDialog implements ActionListener
                for (int i = 0; i < fields.length; i++)
                {
                   settings.setDoubleProperty(
-                     ops[i].getName(),
+                     Constants.operatorPrefix + ops[i].getName(),
                      fields[i].getValue());
                }
 
@@ -507,10 +508,10 @@ public class SettingsDialog implements ActionListener
                // The exporter needs to be told if a new exporter has been
                // chosen, as well as the new exporter being stored in the
                // properties file.
-               Exporter.setPlugin((String) preferredPlugin.getSelectedItem());
+               Exporter.setPlugin((String)preferredPlugin.getSelectedItem());
                settings.setProperty(
                   "usePlugin",
-                  (String) preferredPlugin.getSelectedItem());
+                  (String)preferredPlugin.getSelectedItem());
 
                settings.setProperty("plugins", plugins.getText());
 
@@ -541,7 +542,8 @@ public class SettingsDialog implements ActionListener
       {
          fields[index] =
             new DoubleFieldSlider(
-               settings.getDoubleProperty(ops[index].getName()),
+               settings.getDoubleProperty(
+                  Constants.operatorPrefix + ops[index].getName()),
                0.0,
                0.0,
                1.0,

@@ -20,9 +20,9 @@
  *  $Id$
  */
 
-package org.maloi.evolvo.expressiontree.operators.triplet;
+package org.maloi.evolvo.expressiontree.operators.pseudo;
 
-import org.maloi.evolvo.expressiontree.operators.OperatorInterface;
+import org.maloi.evolvo.expressiontree.operators.PseudoOperatorInterface;
 import org.maloi.evolvo.expressiontree.vm.Stack;
 
 /**
@@ -31,7 +31,7 @@ import org.maloi.evolvo.expressiontree.vm.Stack;
  * The pseudo-operator contains a simple triplet, made up of three scalar
  * values.
  */
-public class SimpleTriplet implements OperatorInterface
+public class SimpleTriplet implements PseudoOperatorInterface
 {
 
    /* (non-Javadoc)

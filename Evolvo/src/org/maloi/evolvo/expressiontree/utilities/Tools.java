@@ -29,6 +29,7 @@ import java.util.Random;
 import org.maloi.evolvo.expressiontree.ExpressionTree;
 import org.maloi.evolvo.expressiontree.operators.OperatorInterface;
 import org.maloi.evolvo.expressiontree.operators.OperatorList;
+import org.maloi.evolvo.resources.Constants;
 import org.maloi.evolvo.settings.GlobalSettings;
 
 public class Tools
@@ -60,7 +61,7 @@ public class Tools
    }
 
    /** Returns a randomly chosen operatorInterface object. */
-   static OperatorInterface pickRandomOp(
+   public static OperatorInterface pickRandomOp(
       Random whichOp,
       boolean returnsTriplet)
    {
@@ -69,7 +70,7 @@ public class Tools
       double chance;
 
       OperatorInterface[] list;
-      
+
       if (returnsTriplet)
       {
          list = vectorList;
@@ -85,7 +86,9 @@ public class Tools
       {
          pick = list[(int) (whichOp.nextDouble() * list.length)];
          chance = whichOp.nextDouble();
-         if (chance < settings.getDoubleProperty(pick.getName()))
+         if (chance
+            < settings.getDoubleProperty(
+               Constants.operatorPrefix + pick.getName()))
          {
             flag = true;
          }

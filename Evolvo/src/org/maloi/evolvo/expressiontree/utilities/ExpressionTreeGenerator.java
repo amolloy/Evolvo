@@ -28,7 +28,7 @@ import org.maloi.evolvo.expressiontree.ExpressionTree;
 import org.maloi.evolvo.expressiontree.Value;
 import org.maloi.evolvo.expressiontree.operators.OperatorInterface;
 import org.maloi.evolvo.expressiontree.operators.OperatorList;
-import org.maloi.evolvo.expressiontree.operators.triplet.SimpleTriplet;
+import org.maloi.evolvo.expressiontree.operators.pseudo.SimpleTriplet;
 import org.maloi.evolvo.settings.GlobalSettings;
 
 /**
@@ -130,7 +130,7 @@ public class ExpressionTreeGenerator
             if (randomNumber.nextDouble() > v)
             {
                // it's a value
-               root = new Value(randomNumber.nextDouble() * 2.0 - 1.0);
+               root = new Value(randomNumber.nextDouble());
             }
             else
             {

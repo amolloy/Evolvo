@@ -32,6 +32,7 @@ import javax.swing.JOptionPane;
 
 import org.maloi.evolvo.expressiontree.operators.OperatorInterface;
 import org.maloi.evolvo.expressiontree.operators.OperatorList;
+import org.maloi.evolvo.resources.Constants;
 
 /**
  * Stores all settings information for this application.  Most of the 
@@ -77,7 +78,7 @@ public class GlobalSettings
          int index;
          for (index = 0; index < ops.length; index++)
          {
-            props.put(ops[index].getName(), "1.0");
+            props.put(Constants.operatorPrefix + ops[index].getName(), "1.0");
          }
          props.put("complexity", "1.0");
          props.put("depreciation", "0.25");
@@ -86,7 +87,7 @@ public class GlobalSettings
          props.put("variable.y", "1.0");
          props.put("variable.r", "0.0");
          props.put("variable.theta", "0.0");
-         
+
          props.put("render.width", "640");
          props.put("render.height", "480");
          props.put("render.width.units", "pixels");
@@ -95,7 +96,7 @@ public class GlobalSettings
          props.put("render.height.pixels", "480");
          props.put("render.resolution.units", "pixels/in");
          props.put("render.resolution", "72");
-         
+
          props.put("export.bmp.compressed", "true");
          props.put("export.png.interlaced", "false");
          props.put("export.pnm.mode", "raw");
@@ -109,7 +110,7 @@ public class GlobalSettings
          props.put("mutate.become_arg", "1.0");
          props.put("mutate.arg_to_child_arg", "1.0");
          props.put("mutate.change", "0.2");
-         
+
          props.put("tilecache.maxtiles", "48");
          props.put("tilecache.location", System.getProperty("java.io.tmpdir"));
 
@@ -158,19 +159,19 @@ public class GlobalSettings
     */
    public String getStringProperty(String s)
    {
-      return (String) props.getProperty(s, "");
+      return (String)props.getProperty(s, "");
    }
 
    /** Returns a property from the Properties object as a double. */
    public double getDoubleProperty(String s)
    {
-      return Double.parseDouble((String) getProperty(s));
+      return Double.parseDouble((String)getProperty(s));
    }
 
    /** Returns a property from the Properties object as an int. */
    public int getIntegerProperty(String s)
    {
-      return Integer.parseInt((String) getProperty(s));
+      return Integer.parseInt((String)getProperty(s));
    }
 
    /** Sets a property in the Properties object. */
@@ -199,7 +200,7 @@ public class GlobalSettings
 
    public boolean getBooleanProperty(String k)
    {
-      Boolean b = new Boolean((String) props.get(k));
+      Boolean b = new Boolean((String)props.get(k));
 
       return b.booleanValue();
    }

@@ -47,4 +47,7 @@ public class Constants
       Integer.parseInt(jvmVersion.substring(2, 3));
 
    public static final boolean USE_TILEDIMAGEPANEL = (jvmMinorVersion >= 4);
+
+   public static final String operatorPrefix = "operator.";
+   public static final String mutatorPrefix = "mutator.";
 }

@@ -45,10 +45,10 @@ import javax.swing.KeyStroke;
 import javax.swing.UIManager;
 
 import org.maloi.evolvo.expressiontree.ExpressionTree;
+import org.maloi.evolvo.expressiontree.mutator.ExpressionTreeMutator;
 import org.maloi.evolvo.expressiontree.renderer.RendererInterface;
 import org.maloi.evolvo.expressiontree.renderer.StandardRenderer;
 import org.maloi.evolvo.expressiontree.utilities.ExpressionTreeGenerator;
-import org.maloi.evolvo.expressiontree.utilities.ExpressionTreeMutator;
 import org.maloi.evolvo.expressiontree.utilities.Tools;
 import org.maloi.evolvo.expressiontree.utilities.VariablePackage;
 import org.maloi.evolvo.gui.CustomFileChooser;

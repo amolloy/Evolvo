@@ -20,14 +20,16 @@
  *  $Id$
  */
 
-package org.maloi.evolvo.expressiontree.utilities;
+package org.maloi.evolvo.expressiontree.mutator;
 
 import java.util.Random;
 
 import org.maloi.evolvo.expressiontree.ExpressionTree;
-import org.maloi.evolvo.expressiontree.Value;
+import org.maloi.evolvo.expressiontree.mutator.mutators.MutatorInterface;
 import org.maloi.evolvo.expressiontree.operators.OperatorInterface;
 import org.maloi.evolvo.expressiontree.operators.OperatorList;
+import org.maloi.evolvo.expressiontree.utilities.ExpressionTreeGenerator;
+import org.maloi.evolvo.expressiontree.utilities.VariablePackage;
 import org.maloi.evolvo.settings.GlobalSettings;
 
 public class ExpressionTreeMutator
@@ -35,6 +37,7 @@ public class ExpressionTreeMutator
    static GlobalSettings settings = GlobalSettings.getInstance();
    static VariablePackage variables = VariablePackage.getInstance();
    static OperatorInterface list[] = OperatorList.getScalarOperators();
+   static MutatorInterface mutators[] = MutatorList.getMutatorList();
 
    static double scalar_change_value;
    static double to_variable;
@@ -93,95 +96,23 @@ public class ExpressionTreeMutator
 
          if (whatMutation < (runningTotal = new_expression))
          {
-            current =
-               ExpressionTreeGenerator.generate(
-                  level,
-                  new Random(r.nextLong()), false);
+            current = mutators[0].doMutation(current, level, r);
          }
          else if (whatMutation < (runningTotal += scalar_change_value))
          {
-            if (current instanceof Value)
-            {
-               double dummy = r.nextDouble() * 2.0 - 1.0;
-               dummy += ((Value) current).getValue();
-               dummy /= 2.0;
-               ((Value) current).setValue(dummy);
-            }
+            current = mutators[1].doMutation(current, level, r);
          }
          else if (whatMutation < (runningTotal += to_variable))
          {
-            ExpressionTree newVar = null;
-            boolean flag = false;
-            while (!flag)
-            {
-               double variabletype = r.nextDouble();
-               double chance = r.nextDouble();
-
-               if (variabletype < 0.25)
-               {
-                  if (chance < settings.getDoubleProperty("variable.x"))
-                  {
-                     flag = true;
-                     newVar = variables.getVariable("x");
-                  }
-               }
-               else if (variabletype < 0.5)
-               {
-                  if (chance < settings.getDoubleProperty("variable.y"))
-                  {
-                     flag = true;
-                     newVar = variables.getVariable("y");
-                  }
-               }
-               else if (variabletype < 0.75)
-               {
-                  if (chance < settings.getDoubleProperty("variable.r"))
-                  {
-                     flag = true;
-                     newVar = variables.getVariable("r");
-                  }
-               }
-               else
-               {
-                  if (chance < settings.getDoubleProperty("variable.theta"))
-                  {
-                     flag = true;
-                     newVar = variables.getVariable("theta");
-                  }
-               }
-            }
-            current = newVar;
+            current = mutators[2].doMutation(current, level, r);
          }
          else if (whatMutation < (runningTotal += to_scalar))
          {
-            current = new Value(r.nextDouble() * 2.0 - 1.0);
+            current = mutators[3].doMutation(current, level, r);
          }
          else if (whatMutation < (runningTotal += change_function))
          {
-            ExpressionTree oldParams[] = current.getParams();
-            ExpressionTree newParams[];
-            current.setOperator(Tools.pickRandomOp(r, false));
-
-            newParams = new ExpressionTree[current.getNumberOfScalarParams()];
-
-            int oldNumParams = (oldParams == null) ? 0 : oldParams.length;
-
-            for (int i = 0; i < newParams.length; i++)
-            {
-               if ((oldParams != null) && (i < oldParams.length))
-               {
-                  newParams[i] = oldParams[i];
-               }
-               else
-               {
-                  newParams[i] =
-                     ExpressionTreeGenerator.generate(
-                        level,
-                        new Random(r.nextLong()), false);
-               }
-            }
-
-            current.setParams(newParams);
+ 
          }
          else if (whatMutation < (runningTotal += new_expression_arg))
          {

@@ -25,7 +25,7 @@ package org.maloi.evolvo.expressiontree;
 import java.io.Serializable;
 
 import org.maloi.evolvo.expressiontree.operators.OperatorInterface;
-import org.maloi.evolvo.expressiontree.operators.triplet.SimpleTriplet;
+import org.maloi.evolvo.expressiontree.operators.pseudo.SimpleTriplet;
 import org.maloi.evolvo.expressiontree.utilities.VariablePackage;
 import org.maloi.evolvo.expressiontree.vm.Instruction;
 import org.maloi.evolvo.expressiontree.vm.Machine;
@@ -238,11 +238,16 @@ public class ExpressionTree implements Serializable
          params[i + numScalarParams].buildMachine(myMachine);
       }
 
-      Instruction inst = new Instruction();
+      // SimpleTriplet's perform function is a noop, so just leave it out
+      // altogether
+      if (!(operator instanceof SimpleTriplet))
+      {
+         Instruction inst = new Instruction();
 
-      inst.type = Instruction.TYPE_OPERATOR;
-      inst.op = operator;
+         inst.type = Instruction.TYPE_OPERATOR;
+         inst.op = operator;
 
-      myMachine.addInstruction(inst);
+         myMachine.addInstruction(inst);
+      }
    }
 }
