@@ -1,3 +1,25 @@
+/* Evolvo - Image Generator
+ * Copyright (C) 2000 Andrew Molloy
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */
+
+/**
+ *  $Id$
+ */
+
 package org.maloi.evolvo.test;
 
 import java.awt.Color;
@@ -20,15 +42,7 @@ import javax.swing.JPanel;
 
 import org.maloi.evolvo.image.tiledimage.Tile;
 
-/**
- * @author Andy
- *
- * To change this generated comment edit the template variable "typecomment":
- * Window>Preferences>Java>Templates.
- * To enable and disable the creation of type comments go to
- * Window>Preferences>Java>Code Generation.
- */
-public class TileTest
+public class TileTest extends Harness
 {
    static Tile testTile;
 
@@ -41,8 +55,6 @@ public class TileTest
 
    static FileChannel cacheFile = getCacheFile().getChannel();
 
-   static String error = "";
-
    public static void main(String[] args)
    {
       doTest(1, test1());
@@ -52,20 +64,6 @@ public class TileTest
       doTest(5, test5());
       doTest(6, test6());
       doTest(7, test7());
-   }
-
-   public static void doTest(int test, boolean flag)
-   {
-      System.out.print("Test " + test + ": ");
-      if (flag)
-      {
-         System.out.println("Success");
-
-      }
-      else
-      {
-         System.out.println("Failure:\n" + error);
-      }
    }
 
    public static boolean test1()
@@ -725,50 +723,6 @@ public class TileTest
       return true;
    }
 
-//   public static void showImages(int i, int[] data1, int[] data2)
-//   {
-//      JFrame testFrame = new JFrame("Test: " + i);
-//      JPanel testPanel = new JPanel();
-//
-//      BufferedImage image1 =
-//         new BufferedImage(
-//            Tile.TILE_SIZE,
-//            Tile.TILE_SIZE,
-//            BufferedImage.TYPE_INT_ARGB);
-//
-//      image1.setRGB(
-//         0,
-//         0,
-//         Tile.TILE_SIZE,
-//         Tile.TILE_SIZE,
-//         data1,
-//         0,
-//         Tile.TILE_SIZE);
-//
-//      BufferedImage image2 =
-//         new BufferedImage(
-//            Tile.TILE_SIZE,
-//            Tile.TILE_SIZE,
-//            BufferedImage.TYPE_INT_ARGB);
-//
-//      image2.setRGB(
-//         0,
-//         0,
-//         Tile.TILE_SIZE,
-//         Tile.TILE_SIZE,
-//         data2,
-//         0,
-//         Tile.TILE_SIZE);
-//
-//      testPanel.add(new ImageComponent(image1, image2));
-//
-//      testPanel.setVisible(true); 
-//
-//      testFrame.getContentPane().add(testPanel);
-//      testFrame.validate();
-//      testFrame.setVisible(true);
-//   }
-
    public static RandomAccessFile getCacheFile()
    {
       File tempFile;
@@ -815,11 +769,5 @@ public class TileTest
       }
 
       return file;
-   }
-
-   static long getFreeMemory()
-   {
-      return Runtime.getRuntime().totalMemory()
-         - Runtime.getRuntime().freeMemory();
    }
 }

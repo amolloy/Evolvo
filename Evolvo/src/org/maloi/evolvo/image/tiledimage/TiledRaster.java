@@ -126,7 +126,8 @@ public class TiledRaster extends WritableRaster
       // the image is 3 bytes per pixel, made up of tileWidth * tileHeight tiles, each of which contains TILE_SIZE x TILE_SIZE pixels
       try
       {
-         raFile.setLength((tileWidth * tileHeight) * (TILE_SIZE * TILE_SIZE) * 3);
+         raFile.setLength(
+            (tileWidth * tileHeight) * (TILE_SIZE * TILE_SIZE) * 3);
       }
       catch (IOException ioe)
       {
@@ -400,7 +401,7 @@ public class TiledRaster extends WritableRaster
          TILE_SIZE,
          TILE_SIZE,
          new int[TILE_SIZE * TILE_SIZE]);
-//         theTile.getData());
+      //         theTile.getData());
 
       System.err.println(tr);
 
