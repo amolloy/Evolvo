@@ -22,6 +22,10 @@
 
 package org.maloi.evolvo.image.tiledimage;
 
+import java.awt.Point;
+import java.awt.image.DataBuffer;
+import java.awt.image.SampleModel;
+import java.awt.image.SinglePixelPackedSampleModel;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 
@@ -44,6 +48,8 @@ public class Tile
 
    int location; // the tile's current location (invalid, disk, or memory)
 
+   SampleModel sm;
+
    public Tile(int tilex, int tiley, RandomAccessFile file, int fposition)
    {
       this.file = file;
@@ -55,6 +61,13 @@ public class Tile
       location = LOCATION_INVALID;
       data = null;
       lastused = System.currentTimeMillis();
+
+      sm =
+         new SinglePixelPackedSampleModel(
+            DataBuffer.TYPE_INT,
+            TILE_SIZE,
+            TILE_SIZE,
+            new int[] { 0x000000FF, 0x0000FF00, 0x00FF0000 });
    }
 
    public void validate()
@@ -135,7 +148,7 @@ public class Tile
          for (y = startY; y < endY; y++)
          {
             x = startX;
-      
+
             srcYOffset = (y - startY) * srcScansize + off;
             dstYOffset = (y - yloc) * TILE_SIZE;
 
@@ -175,7 +188,7 @@ public class Tile
       {
          dest = new int[w * h];
       }
-      
+
       int x;
       int y;
       int i;
@@ -195,7 +208,7 @@ public class Tile
 
          for (x = startX; x < endX; x++)
          {
-             dest[destYOffset + (x - startX)] = data[dataYOffset + x - xloc];
+            dest[destYOffset + (x - startX)] = data[dataYOffset + x - xloc];
          }
       }
       else if (w == 1)
@@ -203,7 +216,7 @@ public class Tile
          for (y = startY; y < endY; y++)
          {
             x = startX;
-      
+
             destYOffset = (y - startY) * srcScansize + off;
             dataYOffset = (y - yloc) * TILE_SIZE;
 
@@ -219,7 +232,7 @@ public class Tile
 
             for (x = startX; x < endX; x++)
             {
-                dest[destYOffset + (x - startX)] = data[dataYOffset + x - xloc];
+               dest[destYOffset + (x - startX)] = data[dataYOffset + x - xloc];
             }
          }
       }
@@ -293,4 +306,15 @@ public class Tile
    {
       return yloc;
    }
+
+   public Point getLocation()
+   {
+      return new Point(xloc, yloc);
+   }
+   
+   public SampleModel getSampleModel()
+   {
+      return sm;
+   }
+
 }

@@ -34,6 +34,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 
+import org.maloi.evolvo.debugtools.CallLogger;
 import org.maloi.evolvo.settings.GlobalSettings;
 
 /**
@@ -376,12 +377,24 @@ public class TiledRaster extends WritableRaster
 
    public Raster getTile(int tileX, int tileY)
    {
-      WritableRaster tr =
-         Raster.createWritableRaster(this.getSampleModel(), new Point(0, 0));
-
       Tile theTile = validateTile(tileX, tileY);
 
-      tr.setPixels(0, 0, TILE_SIZE, TILE_SIZE, theTile.getData());
+      Point location = theTile.getLocation();
+
+      WritableRaster tr =
+         Raster.createWritableRaster(theTile.getSampleModel(), location);
+
+      System.err.println(tr);
+
+      tr.setDataElements(
+         location.x,
+         location.y,
+         TILE_SIZE,
+         TILE_SIZE,
+         new int[TILE_SIZE * TILE_SIZE]);
+//         theTile.getData());
+
+      System.err.println(tr);
 
       return tr;
    }
