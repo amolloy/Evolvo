@@ -33,6 +33,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import org.maloi.evolvo.expressiontree.ExpressionTree;
+import org.maloi.evolvo.expressiontree.utilities.Tools;
 import org.maloi.evolvo.expressiontree.vm.Machine;
 import org.maloi.evolvo.gui.CustomProgressMonitor;
 
@@ -53,7 +54,7 @@ public class StandardRenderer implements RendererInterface, Runnable
    CustomProgressMonitor pm = null;
 
    Thread theThread;
-
+   
    public StandardRenderer(ExpressionTree[] expressions, int width, int height)
    {
       this.expressions = expressions;
@@ -172,15 +173,15 @@ public class StandardRenderer implements RendererInterface, Runnable
                   Math.atan2(tx, ty));
             }
 
-            hue = ExpressionTree.map(theMachines[0].execute());
-            saturation = ExpressionTree.map(theMachines[1].execute());
-            value = ExpressionTree.map(theMachines[2].execute());
+            hue = Tools.map(theMachines[0].execute());
+            saturation = Tools.map(theMachines[1].execute());
+            value = Tools.map(theMachines[2].execute());
 
-            data[offset + x] =
-               java.awt.Color.HSBtoRGB(
-                  (float) hue,
-                  (float) saturation,
-                  (float) value);
+            data[offset + x] = data[offset + x] = Tools.HSVtoRGB(hue, saturation, value);
+               //java.awt.Color.HSBtoRGB(
+//                  (float) hue,
+//                  (float) saturation,
+//                  (float) value);
          }
 
          if (pm != null)

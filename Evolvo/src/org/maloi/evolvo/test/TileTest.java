@@ -107,9 +107,9 @@ public class TileTest extends Harness
                "Tile data does not match at "
                   + i
                   + "\n      from Tile:        "
-                  + testData[i]
+                  + testData[i] + " (" + Integer.toHexString(testData[i]) + " )"
                   + "\n      from local cache: "
-                  + data[i];
+                  + data[i] + " (" + Integer.toHexString(data[i]) + " )";
             failFlag = true;
             break;
          }

@@ -52,12 +52,6 @@ public class ExpressionTree implements Serializable
 
    static VariablePackage vp = VariablePackage.getInstance();
 
-   /**
-    *  These are used by the map() static member
-    */
-   static final double map_height = Math.pow(0.5, 2);
-   static final double PI_OVER_TWO = Math.PI / 2.0;
-
    /** Creates a new expressionTree */
    public ExpressionTree()
    {
@@ -211,15 +205,5 @@ public class ExpressionTree implements Serializable
       inst.op = operator;
 
       myMachine.addInstruction(inst);
-   }
-
-   public static double map(double a)
-   {
-      double a_squared = Math.pow(a, 2);
-      double distance = Math.sqrt(map_height + a_squared);
-      double angle = Math.asin(a / distance);
-      double translated = (PI_OVER_TWO - Math.abs(angle)) / PI_OVER_TWO;
-
-      return translated;
    }
 }

@@ -22,9 +22,11 @@
 
 package org.maloi.evolvo.expressiontree.renderer;
 
+import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
 import java.awt.image.DirectColorModel;
 import java.awt.image.ImageConsumer;
+import java.awt.image.SinglePixelPackedSampleModel;
 import java.util.Enumeration;
 import java.util.Hashtable;
 import java.util.Vector;
@@ -33,6 +35,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import org.maloi.evolvo.expressiontree.ExpressionTree;
+import org.maloi.evolvo.expressiontree.utilities.Tools;
 import org.maloi.evolvo.expressiontree.vm.Machine;
 import org.maloi.evolvo.gui.CustomProgressMonitor;
 
@@ -126,7 +129,7 @@ public class TiledRenderer implements RendererInterface, Runnable
    {
       stopFlag = true;
    }
-   
+
    public void setProgressMonitor(CustomProgressMonitor pm)
    {
       this.pm = pm;
@@ -295,15 +298,16 @@ public class TiledRenderer implements RendererInterface, Runnable
                   Math.atan2(tx, ty));
             }
 
-            hue = ExpressionTree.map(theMachines[0].execute());
-            saturation = ExpressionTree.map(theMachines[1].execute());
-            value = ExpressionTree.map(theMachines[2].execute());
+            hue = Tools.map(theMachines[0].execute());
+            saturation = Tools.map(theMachines[1].execute());
+            value = Tools.map(theMachines[2].execute());
 
-            data[offset + x] =
-               java.awt.Color.HSBtoRGB(
-                  (float) hue,
-                  (float) saturation,
-                  (float) value);
+            data[offset + x] = Tools.HSVtoRGB(hue, saturation, value);
+            //               java.awt.Color.HSBtoRGB(
+            //                  (float) hue,
+            //                  (float) saturation,
+            //                  (float) value);
+
          }
 
          if (((pm != null) && (pm.isCanceled())) || stopFlag == true)

@@ -23,6 +23,7 @@
 package org.maloi.evolvo.image.tiledimage;
 
 import java.awt.Point;
+import java.awt.image.BufferedImage;
 import java.awt.image.DataBuffer;
 import java.awt.image.SampleModel;
 import java.awt.image.SinglePixelPackedSampleModel;
@@ -49,9 +50,28 @@ public class Tile
 
    int location; // the tile's current location (invalid, disk, or memory)
 
-   SampleModel sm;
+   SinglePixelPackedSampleModel sm;
+
+   int[] masks; // masks for where each color is within a pixel int
+   int[] offsets; // how many bits to shift an int to get the color
 
    public Tile(int tilex, int tiley, FileChannel file, int fposition)
+   {
+      this(
+         tilex,
+         tiley,
+         file,
+         fposition,
+         new BufferedImage(TILE_SIZE, TILE_SIZE, BufferedImage.TYPE_INT_RGB)
+            .getSampleModel());
+   }
+
+   public Tile(
+      int tilex,
+      int tiley,
+      FileChannel file,
+      int fposition,
+      SampleModel sm)
    {
       this.file = file;
       this.fposition = fposition;
@@ -63,12 +83,12 @@ public class Tile
       data = null;
       lastused = System.currentTimeMillis();
 
-      sm =
-         new SinglePixelPackedSampleModel(
-            DataBuffer.TYPE_INT,
-            TILE_SIZE,
-            TILE_SIZE,
-            new int[] { 0x000000FF, 0x0000FF00, 0x00FF0000 });
+      this.sm = (SinglePixelPackedSampleModel) sm;
+
+      masks = this.sm.getBitMasks();
+      offsets = this.sm.getBitOffsets();
+
+      validate(); // go ahead and validate this tile
    }
 
    public void validate()
@@ -104,8 +124,7 @@ public class Tile
    {
       for (int i = 0; i < this.data.length; i++)
       {
-         // restrict the data to the bottom 3 bytes
-         this.data[i] = data[i] & 0x00FFFFFF;
+         this.data[i] = data[i];
       }
    }
 
@@ -150,7 +169,7 @@ public class Tile
          for (y = startY; y < endY; y++)
          {
             srcYOffset = (y - startY) * srcScansize + off;
-            dstYOffset = (y - yloc) * TILE_SIZE +  startX - xloc;
+            dstYOffset = (y - yloc) * TILE_SIZE + startX - xloc;
 
             data[dstYOffset] = src[srcYOffset];
          }
@@ -244,11 +263,14 @@ public class Tile
       // 3 bytes per pixel, TILE_SIZExTILE_SIZE pixels
       int dataOffset = 0;
 
-      for (int i = 0; i < data.length; i++)
+      for (int dataCount = 0; dataCount < data.length; dataCount++)
       {
-         diskdata[dataOffset] =  (byte) (data[i] & 0x0000000FF);
-         diskdata[dataOffset + 1] = (byte) ((data[i] & 0x0000FF00) >> 8);
-         diskdata[dataOffset + 2] = (byte) ((data[i] & 0x00FF0000) >> 16);
+         for (int sampleCount = 0; sampleCount < 3; sampleCount++)
+         {
+            diskdata[dataOffset + sampleCount] =
+               (byte) ((data[dataCount] & masks[sampleCount])
+                  >> offsets[sampleCount]);
+         }
 
          dataOffset += 3;
       }
@@ -287,11 +309,14 @@ public class Tile
 
       data = new int[TILE_SIZE * TILE_SIZE];
 
-      for (int i = 0; i < data.length; i++)
+      for (int dataCount = 0; dataCount < data.length; dataCount++)
       {
-         data[i] = diskdata[dataOffset++] & 0x000000FF;
-         data[i] |= diskdata[dataOffset++] << 8;
-         data[i] |= diskdata[dataOffset++] << 16;
+         data[dataCount] = 0;
+
+         for (int sampleCount = 0; sampleCount < 3; sampleCount++)
+         {
+            data[dataCount] |= (diskdata[dataOffset++] << offsets[sampleCount]) & masks[sampleCount];
+         }
       }
 
       location = LOCATION_MEMORY;
@@ -326,5 +351,4 @@ public class Tile
    {
       return sm;
    }
-
 }

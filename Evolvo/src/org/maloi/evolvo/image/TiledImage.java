@@ -25,6 +25,7 @@ package org.maloi.evolvo.image;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Rectangle;
+import java.awt.image.BufferedImage;
 import java.awt.image.ColorModel;
 import java.awt.image.DirectColorModel;
 import java.awt.image.ImageObserver;
@@ -55,7 +56,8 @@ public class TiledImage extends Image implements RenderedImage
       this.height = height;
       
       raster = new TiledRaster(width, height);
-      cm = new DirectColorModel(24, 0xFF0000, 0xFF00, 0xFF, 0x0);
+      
+      cm = (new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB).getColorModel());
    }
 
    public int getWidth(ImageObserver observer)

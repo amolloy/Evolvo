@@ -23,6 +23,7 @@
 package org.maloi.evolvo.image.tiledimage;
 
 import java.awt.Point;
+import java.awt.image.BufferedImage;
 import java.awt.image.DataBuffer;
 import java.awt.image.ImageProducer;
 import java.awt.image.Raster;
@@ -35,7 +36,6 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.nio.channels.FileChannel;
 
-import org.maloi.evolvo.debugtools.CallLogger;
 import org.maloi.evolvo.settings.GlobalSettings;
 
 /**
@@ -67,14 +67,22 @@ public class TiledRaster extends WritableRaster
 
    GlobalSettings settings = GlobalSettings.getInstance();
 
+   static SampleModel tileSampleModel;
+
+   static {
+      BufferedImage image;
+
+      image =
+         new BufferedImage(TILE_SIZE, TILE_SIZE, BufferedImage.TYPE_INT_RGB);
+
+      tileSampleModel = image.getSampleModel();
+   }
+
    public TiledRaster(int width, int height)
    {
       super(
-         new SinglePixelPackedSampleModel(
-            DataBuffer.TYPE_INT,
-            width,
-            height,
-            new int[] { 0x000000FF, 0x0000FF00, 0x00FF0000 }),
+         new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB)
+            .getSampleModel(),
          new Point(0, 0));
 
       minX = 0;
@@ -148,22 +156,24 @@ public class TiledRaster extends WritableRaster
 
          for (int tilex = 0; tilex < tileWidth; tilex++)
          {
-            tiles[yoffset + tilex] = new Tile(tilex, tiley, file, foffset);
+            tiles[yoffset + tilex] =
+               new Tile(tilex, tiley, file, foffset, tileSampleModel);
             foffset += foffset_inc;
          }
       }
    }
 
-   Tile validateTile(int tilex, int tiley)
+   void validateTile(int tilex, int tiley)
    {
       int whichTile = (tiley * tileWidth) + tilex;
 
       if (tiles[whichTile].isValid())
       {
-         return tiles[whichTile];
+         return;
       }
 
-      // The tile isn't in memory, so we need to validate it, then make sure we haven't loaded too many tiles
+      // The tile isn't in memory, so we need to validate it, then make sure we 
+      // haven't loaded too many tiles
       tiles[whichTile].validate();
 
       numResidentTiles++;
@@ -173,10 +183,6 @@ public class TiledRaster extends WritableRaster
          // we've loaded too many tiles, we need to expire one
          expireLRUTile();
       }
-
-      // okay, the tile is valid, we can return it now
-
-      return tiles[whichTile];
    }
 
    void expireLRUTile()
@@ -196,8 +202,8 @@ public class TiledRaster extends WritableRaster
          }
       }
 
-      // when we exit this loop, whichTile contains the index of the least recently used resident tile
-      // so we just expire it
+      // when we exit this loop, whichTile contains the index of the least 
+      // recently used resident tile so we just expire it
 
       tiles[whichTile].expire();
    }
@@ -211,134 +217,90 @@ public class TiledRaster extends WritableRaster
 
    public void setPixels(int startX, int startY, int w, int h, int[] src)
    {
-      System.err.println(
-         "Unimplemented: TiledRaster.setPixels("
-            + startX
-            + ", "
-            + startY
-            + ", "
-            + width
-            + ",  "
-            + height
-            + ", "
-            + src
-            + ");");
+      int x;
+      int y;
 
       int endX = startX + w;
       int endY = startY + h;
 
-      int startTileX = startX / TILE_SIZE;
-      int startTileY = startY / TILE_SIZE;
-      int endTileX = endX / TILE_SIZE;
-      int endTileY = endY / TILE_SIZE;
-
       int tileX;
       int tileY;
+      int lastTileX = -1;
+      int lastTileY = -1;
 
-      int tileOffset;
+      int tileYOffset;
+      int srcYOffset;
 
-      System.err.println(
-         "Drawing to tiles: ("
-            + startTileX
-            + ", "
-            + startTileY
-            + ") through ("
-            + endTileX
-            + ", "
-            + endTileY
-            + ")");
-
-      if (startTileY == endTileY)
+      for (y = startY; y < endY; y++)
       {
-         System.err.println("Horizontal line.");
+         tileY = y / TILE_SIZE;
 
-         tileOffset = startTileY * tileWidth;
-         tileY = startTileY;
+         tileYOffset = tileY * tileWidth;
 
-         for (tileX = startTileX; tileX < endTileX; tileX++)
+         srcYOffset = (y - startY) * w;
+
+         for (x = startX; x < endX; x++)
          {
-            validateTile(tileX, tileY);
-         }
-      }
-      else if (startTileX == endTileX)
-      {
-         System.err.println("Vertical line");
+            tileX = x / TILE_SIZE;
 
-         tileX = startTileX;
-
-         for (tileY = startTileY; tileY < endTileY; tileY++)
-         {
-            tileOffset = tileY * tileWidth;
-
-            validateTile(tileX, tileY);
-         }
-      }
-      else
-      {
-         System.err.println("Rectangle");
-
-         for (tileY = startTileY; tileY < endTileY; tileY++)
-         {
-            tileOffset = tileY * tileWidth;
-
-            for (tileX = startTileX; tileX < endTileX; tileX++)
+            if ((tileX != lastTileX) || (tileY != lastTileY))
             {
+               lastTileX = tileX;
+               lastTileY = tileY;
+
                validateTile(tileX, tileY);
             }
+
+            tiles[tileYOffset
+               + tileX].setPixel(x, y, src[srcYOffset + (x - startX)]);
          }
       }
    }
 
    public int[] getPixels(int startX, int startY, int w, int h, int[] dest)
    {
-      System.err.println(
-         "Unimplemented: TiledRaster.getPixels("
-            + startX
-            + ", "
-            + startY
-            + ", "
-            + w
-            + ",  "
-            + h
-            + ", "
-            + dest
-            + ");");
-
       if (dest == null)
       {
          dest = new int[w * h];
       }
 
+      int x;
+      int y;
+
       int endX = startX + w;
       int endY = startY + h;
 
-      int startTileX = startX / TILE_SIZE;
-      int startTileY = startY / TILE_SIZE;
-      int endTileX = endX / TILE_SIZE;
-      int endTileY = endY / TILE_SIZE;
+      int tileX;
+      int tileY;
+      int lastTileX = -1;
+      int lastTileY = -1;
 
-      System.err.println(
-         "Getting data from tiles: ("
-            + startTileX
-            + ", "
-            + startTileY
-            + ") through ("
-            + endTileX
-            + ", "
-            + endTileY
-            + ")");
+      int tileYOffset;
+      int srcYOffset;
 
-      if (startTileY == endTileY)
+      for (y = startY; y < endY; y++)
       {
-         System.err.println("Horizontal line");
-      }
-      else if (startTileX == endTileX)
-      {
-         System.err.println("Vertical line");
-      }
-      else
-      {
-         System.err.println("Rectangle");
+         tileY = y / TILE_SIZE;
+
+         tileYOffset = tileY * tileWidth;
+
+         srcYOffset = (y - startY) * w;
+
+         for (x = startX; x < endX; x++)
+         {
+            tileX = x / TILE_SIZE;
+
+            if ((tileX != lastTileX) || (tileY != lastTileY))
+            {
+               lastTileX = tileX;
+               lastTileY = tileY;
+
+               validateTile(tileX, tileY);
+            }
+
+            dest[srcYOffset + (x - startX)] =
+               tiles[tileYOffset + tileX].getPixel(x, y);
+         }
       }
 
       return dest;
@@ -363,171 +325,27 @@ public class TiledRaster extends WritableRaster
       int childMinY,
       int[] bandlist)
    {
-
-      System.err.println(
-         "TiledRaster.createChild("
-            + parentX
-            + ", "
-            + parentY
-            + ", "
-            + width
-            + ", "
-            + height
-            + ", "
-            + childMinX
-            + ", "
-            + childMinY
-            + ", "
-            + bandlist
-            + ");");
-
       return this;
    }
 
    public Raster getTile(int tileX, int tileY)
    {
-      Tile theTile = validateTile(tileX, tileY);
+      Tile theTile = tiles[tileY * tileWidth + tileX];
+
+      validateTile(tileX, tileY);
 
       Point location = theTile.getLocation();
 
       WritableRaster tr =
-         Raster.createWritableRaster(theTile.getSampleModel(), location);
-
-      System.err.println(tr);
+         Raster.createWritableRaster(tileSampleModel, location);
 
       tr.setDataElements(
          location.x,
          location.y,
          TILE_SIZE,
          TILE_SIZE,
-         new int[TILE_SIZE * TILE_SIZE]);
-      //         theTile.getData());
-
-      System.err.println(tr);
+         theTile.getData());
 
       return tr;
    }
 }
-
-//   public void setPixels(
-//      int startX,
-//      int startY,
-//      int width,
-//      int height,
-//      int[] src)
-//   {
-//      // Sets the pixels in the rectangle originating at (x,y) with width w and height h
-//
-//      int endX = startX + width;
-//      int endY = startY + height;
-//
-//      int startTileX = (int) Math.floor(startX / TILE_SIZE);
-//      int endTileX = (int) Math.floor(endX / TILE_SIZE);
-//
-//      int startTileY = (int) Math.floor(startY / TILE_SIZE);
-//      int endTileY = (int) Math.floor(endY / TILE_SIZE);
-//
-//      Tile tile;
-//
-//      int tileX;
-//      int tileY;
-//
-//      int xoffset;
-//      int yoffset;
-//      int totalOffset;
-//
-//      int x;
-//      int y;
-//      int w;
-//      int h;
-//      int i;
-//
-//      int srcYOffset;
-//      int dstYOffset;
-//
-//      int roiWidth;
-//      int roiHeight;
-//
-//      if (startTileY == endTileY)
-//      {
-//         dstYOffset = startY * tileWidth;
-//         
-//         for (tileX = startTileX, i = 0; tileX < endTileX; tileX++, i++)
-//         {
-//            tile = validateTile(tileX, startTileY);
-//
-//            if (tileX == startX)
-//            {
-//               roiWidth = ((tileX + 1) * TILE_SIZE) - startX;
-//            }
-//            else if (tileX == endX)
-//            {
-//               roiWidth = endX  - (tileX * TILE_SIZE);
-//            }
-//            else
-//            {
-//               roiWidth = TILE_SIZE;
-//            }
-//
-//            xoffset = (tileX * TILE_SIZE) - startX;
-//            
-//            if (xoffset < 0)
-//            {
-//               xoffset = 0;
-//            }
-//
-//            tile.setPixels(tileX * TILE_SIZE, 
-//                                 startY, 
-//                                 roiWidth, 
-//                                 1, 
-//                                 src,
-//                                  xoffset, 
-//                                  width);
-//         }
-//      }
-//      else if (startTileX == endTileX)
-//      {
-//      }
-//      else
-//      {
-//
-//         for (tileY = startTileY; tileY < endTileY; tileY++)
-//         {
-//            for (tileX = startTileX; tileX < endTileX; tileX++)
-//            {
-//               tile = validateTile(tileX, tileY);
-//
-//               xoffset = tile.getXLocation() - startX;
-//               if (xoffset < 0)
-//               {
-//                  xoffset = 0;
-//               }
-//
-//               yoffset = tile.getYLocation() - startY;
-//               if (yoffset < 0)
-//               {
-//                  yoffset = 0;
-//               }
-//
-//               totalOffset = yoffset * width + xoffset;
-//
-//               x = startX + xoffset;
-//               y = startY + yoffset;
-//
-//               w = tile.getXLocation() + TILE_SIZE - x;
-//               if ((x + w) > endX)
-//               {
-//                  w = endX - x;
-//               }
-//
-//               h = tile.getYLocation() + TILE_SIZE - y;
-//               if ((y + h) > endY)
-//               {
-//                  h = endY - y;
-//               }
-//
-//               tile.setPixels(x, y, w, h, src, totalOffset, w);
-//            }
-//         }
-//      }
-//   }
