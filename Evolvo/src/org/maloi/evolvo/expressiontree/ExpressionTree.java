@@ -73,7 +73,7 @@ public class ExpressionTree implements Serializable
    {
       int counter;
 
-      int numParams = operator.getNumberOfParameters();
+      int numParams = operator.getNumberOfScalarParameters();
 
       // create a new array of expressionTrees
       ExpressionTree[] newParams = new ExpressionTree[numParams];
@@ -98,7 +98,7 @@ public class ExpressionTree implements Serializable
    public String toString()
    {
       int count;
-      int len = operator.getNumberOfParameters();
+      int len = operator.getNumberOfScalarParameters();
       StringBuffer theString = new StringBuffer();
 
       theString.append("(" + operator.getName() + " ");
@@ -127,7 +127,7 @@ public class ExpressionTree implements Serializable
    /** Returns the number of parameter's this node's operator expects. */
    public int getParamLength()
    {
-      return (operator.getNumberOfParameters());
+      return (operator.getNumberOfScalarParameters());
    }
 
    /** Set this node's parameters. 
@@ -141,7 +141,7 @@ public class ExpressionTree implements Serializable
    public void setParams(ExpressionTree p[])
    {
       int count;
-      int len = operator.getNumberOfParameters();
+      int len = operator.getNumberOfScalarParameters();
 
       params = new ExpressionTree[len];
 
@@ -154,7 +154,7 @@ public class ExpressionTree implements Serializable
    /** Returns the number of parameters this node expects. */
    public int getNumParams()
    {
-      return operator.getNumberOfParameters();
+      return operator.getNumberOfScalarParameters();
    }
 
    /** Returns the parameters this node is holding. */
@@ -194,7 +194,7 @@ public class ExpressionTree implements Serializable
 
    public void buildMachine(Machine myMachine)
    {
-      for (int i = 0; i < operator.getNumberOfParameters(); i++)
+      for (int i = 0; i < operator.getNumberOfScalarParameters(); i++)
       {
          params[i].buildMachine(myMachine);
       }

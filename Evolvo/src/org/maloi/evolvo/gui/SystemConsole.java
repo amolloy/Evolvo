@@ -24,6 +24,8 @@ package org.maloi.evolvo.gui;
 public class SystemConsole extends TextDialog
 {
    static SystemConsole _instance;
+   
+   static int lastRow = 0;
 
    public SystemConsole()
    {
@@ -49,6 +51,7 @@ public class SystemConsole extends TextDialog
    {
        print(s);
        print("\n");
+       scrollToRow(++lastRow);
    }
    
    public void printStackTrace(Exception e)

@@ -22,40 +22,41 @@
 
 package org.maloi.evolvo.gui;
 
+import com.apple.eawt.Application;
+import com.apple.eawt.ApplicationAdapter;
+import com.apple.eawt.ApplicationEvent;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import com.apple.mrj.MRJAboutHandler;
-import com.apple.mrj.MRJApplicationUtils;
-import com.apple.mrj.MRJPrefsHandler;
-import com.apple.mrj.MRJQuitHandler;
-
-public class MacMenu
-   implements MRJQuitHandler, MRJPrefsHandler, MRJAboutHandler
+public class MacMenu extends ApplicationAdapter
 {
-   ActionListener app;
+   ActionListener javaApp;
+   Application macApp = new Application();
 
    public MacMenu(ActionListener theApplication)
    {
-      app = theApplication;
+      javaApp = theApplication;
 
-      MRJApplicationUtils.registerQuitHandler(this);
-      MRJApplicationUtils.registerPrefsHandler(this);
-      MRJApplicationUtils.registerAboutHandler(this);
+      macApp.addApplicationListener(this);
+      macApp.setEnabledPreferencesMenu(true);
    }
 
-   public void handleQuit()
+   public void handleQuit(ApplicationEvent e)
    {
-      app.actionPerformed(new ActionEvent(this, 0, "Exit"));
+      javaApp.actionPerformed(new ActionEvent(this, 0, "Exit"));
+      e.setHandled(true);
    }
 
-   public void handlePrefs()
+   public void handlePreferences(ApplicationEvent e)
    {
-      app.actionPerformed(new ActionEvent(this, 0, "Preferences"));
+      javaApp.actionPerformed(new ActionEvent(this, 0, "Preferences"));
+      e.setHandled(true);
    }
 
-   public void handleAbout()
+   public void handleAbout(ApplicationEvent e)
    {
-      app.actionPerformed(new ActionEvent(this, 0, "About Evolvo"));
+      javaApp.actionPerformed(new ActionEvent(this, 0, "About Evolvo"));
+      e.setHandled(true);
    }
 }

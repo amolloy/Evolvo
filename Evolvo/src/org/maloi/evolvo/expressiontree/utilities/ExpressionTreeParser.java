@@ -87,7 +87,7 @@ public class ExpressionTreeParser
          root.setOperator(operator);
 
          // parm1 parm2 ...
-         numParms = operator.getNumberOfParameters();
+         numParms = operator.getNumberOfScalarParameters();
          params = new ExpressionTree[numParms];
 
          while (((token = st.nextToken()) != StreamTokenizer.TT_EOF)

@@ -55,7 +55,7 @@ public class Xor implements OperatorInterface, Serializable
    }
 
    /** Returns the number of parameters expected by the operator. */
-   public int getNumberOfParameters()
+   public int getNumberOfScalarParameters()
    {
       return 2;
    }

@@ -30,6 +30,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.lang.reflect.Constructor;
+import java.util.Enumeration;
 import java.util.Properties;
 import java.util.Random;
 
@@ -74,6 +75,16 @@ public class Evolvo extends JFrame implements ActionListener
    Object macHandler = null; // Only used when run on a mac
    SystemConsole console;
 
+   static
+   {
+      // Set some OS X specific settings (has no affect on other platforms)
+      System.setProperty("apple.laf.useScreenMenuBar", "true");
+      //System.setProperty("com.apple.mrj.application.apple.menu.about.name",
+      //   "Evolvo");
+      //System.setProperty("apple.awt.brushMetalLook", "true");
+      System.setProperty("apple.awt.textantialising", "true");
+   }
+   
    public Evolvo()
    {
       super("Evolvo");
@@ -92,6 +103,8 @@ public class Evolvo extends JFrame implements ActionListener
       }
 
       console = SystemConsole.getInstance();
+
+      logSystemInfo();
 
       console.println("Creating splash screen");
 
@@ -146,6 +159,23 @@ public class Evolvo extends JFrame implements ActionListener
       setVisible(true);
 
       Splash.close();
+   }
+
+   /**
+    * 
+    */
+   private void logSystemInfo()
+   {
+      Properties sysProps = System.getProperties();
+      
+      console.println("System Properties:");
+     
+      for (Enumeration e = sysProps.propertyNames(); e.hasMoreElements();)
+      {
+         String key = (String)e.nextElement();
+         
+         console.println(key + "=" + sysProps.getProperty(key));
+      }
    }
 
    JMenuBar makeMenuBar()

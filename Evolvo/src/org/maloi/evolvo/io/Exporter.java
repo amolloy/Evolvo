@@ -38,8 +38,8 @@ public class Exporter
 {
    static String pluginList[] =
       {
-         "org.maloi.evolvo.io.exporters.v1.QuickTimeExporter",
-         "org.maloi.evolvo.io.exporters.v1.ImageIOExporter" };
+         "org.maloi.evolvo.io.exporters.v1.ImageIOExporter",
+         "org.maloi.evolvo.io.exporters.v1.QuickTimeExporter" };
 
    static String exporterNames[];
 
@@ -51,9 +51,9 @@ public class Exporter
    static Method write;
 
    static int exporterID = 0;
-	
-	static SystemConsole console = SystemConsole.getInstance();
-	
+
+   static SystemConsole console = SystemConsole.getInstance();
+
    static boolean available = false;
 
    static {
@@ -207,7 +207,8 @@ public class Exporter
       return null;
    }
 
-   public static void write(RenderedImage i, int which, File f) throws IOException
+   public static void write(RenderedImage i, int which, File f)
+      throws IOException
    {
       if (available)
       {
@@ -219,7 +220,7 @@ public class Exporter
          }
          catch (Exception e)
          {
-				console.printStackTrace(e);
+            console.printStackTrace(e);
          }
       }
    }

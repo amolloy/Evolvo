@@ -33,8 +33,12 @@ public interface OperatorInterface
    public String getName();
    /** Performs any initialization the operator may require. */
    public void init();
-   /** Returns the number of parameters the operator expects. */
-   public int getNumberOfParameters();
+   /** Returns the number of scalar parameters the operator expects. */
+   public int getNumberOfScalarParameters();
+   /** Returns the number of triplet parameters the operator expects. */
+   public int getNumberOfTripletParameters();
+   /** Returns true if this operator returns a triplet, false otherwise. */
+   public boolean returnsTriplet();
    /** Executes this operator on values in the given stack.
     *  Pushes its result back onto the stack.
     */
