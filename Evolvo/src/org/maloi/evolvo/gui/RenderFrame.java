@@ -59,7 +59,7 @@ public class RenderFrame extends JFrame
    public RenderFrame(RendererInterface renderer, Image thumb)
    {
       RenderOptionsPanel optionsPanel = new RenderOptionsPanel();
-      
+
       if (!optionsPanel.showOptions())
       {
          // If showOptions() returns false, the user has canceled.
@@ -71,10 +71,7 @@ public class RenderFrame extends JFrame
       int imageHeight = settings.getIntegerProperty("render.height.pixels");
 
       ri =
-         new TiledRenderer(
-            renderer.getExpressions(),
-            imageWidth,
-            imageHeight);
+         new TiledRenderer(renderer.getExpressions(), imageWidth, imageHeight);
 
       setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
@@ -129,7 +126,8 @@ public class RenderFrame extends JFrame
             "Generating Image...",
             "",
             0,
-            settings.getIntegerProperty("render.height.pixels"));
+            settings.getIntegerProperty("render.height.pixels") *
+            settings.getIntegerProperty("render.width.pixels"));
       pm.setProgress(0);
       pm.setMillisToDecideToPopup(750);
 

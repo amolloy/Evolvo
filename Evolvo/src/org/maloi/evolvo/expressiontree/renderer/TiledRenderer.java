@@ -48,6 +48,7 @@ public class TiledRenderer implements RendererInterface, Runnable
     * The size of the tiles to break the image into (in pixels)
     */
    final static int tileSize = 128;
+   final static int pmIncrement = tileSize * tileSize;
 
    // We shouldn't ever have more than one consumer, but who knows
    // what happens deep in the depths of AWT & Swing, so we'll start
@@ -174,6 +175,12 @@ public class TiledRenderer implements RendererInterface, Runnable
             xoffset = tileX * tileSize;
 
             drawTile(xoffset, yoffset, tileSize, tileSize);
+
+            if (pm != null)
+            {
+               pm.incrementProgress(pmIncrement);
+            }
+
          }
 
          if (xleftover != 0)
@@ -181,6 +188,12 @@ public class TiledRenderer implements RendererInterface, Runnable
             xoffset = xcount * tileSize;
 
             drawTile(xoffset, yoffset, xleftover, tileSize);
+
+            if (pm != null)
+            {
+               pm.incrementProgress(tileSize * xleftover);
+            }
+
          }
       }
 
@@ -193,6 +206,11 @@ public class TiledRenderer implements RendererInterface, Runnable
             xoffset = tileX * tileSize;
 
             drawTile(xoffset, yoffset, tileSize, yleftover);
+            
+            if (pm != null)
+            {
+               pm.incrementProgress(tileSize * yleftover);
+            }
          }
 
          if (xleftover != 0)
@@ -200,6 +218,11 @@ public class TiledRenderer implements RendererInterface, Runnable
             xoffset = xcount * tileSize;
 
             drawTile(xoffset, yoffset, xleftover, yleftover);
+            
+            if (pm != null)
+            {
+               pm.incrementProgress(xleftover * yleftover);
+            }
          }
       }
 
@@ -261,11 +284,6 @@ public class TiledRenderer implements RendererInterface, Runnable
                   (float) value);
          }
 
-         if (pm != null)
-         {
-//            pm.incrementProgress(1);
-         }
-
          if (((pm != null) && (pm.isCanceled())) || stopFlag == true)
          {
             feedConsumers(xoffset, yoffset, tileWidth, tileHeight, data);
@@ -316,8 +334,6 @@ public class TiledRenderer implements RendererInterface, Runnable
             tileWidth);
 
       }
-
-      fireStateChange();
    }
 
    void finished()
@@ -340,6 +356,8 @@ public class TiledRenderer implements RendererInterface, Runnable
       fireStateChange();
 
       finished = true;
+
+      System.err.println("Finished");
    }
 
    public int getWidth()
