@@ -1,3 +1,11 @@
+0.7d - Whoops. Compiled 0.7c with Java 1.5 compiler, doesn't run on 1.4 
+		 JVMs, even though no 1.5 features were used. Recompiled using -target
+		 and -source 1.4.
+
+0.7c - Whoops. 0.7 doesn't actually work.
+
+0.7 - Added vectors. Lots and lots of bug fixes.
+
 0.6 - Added TiledImage to handle very large images. This does not mix well with 
       the QuickTime exporter, which currently only works with the old AWT style
       Image class. Also, requires a 1.4 JVM. To keep things going on OS X (which
