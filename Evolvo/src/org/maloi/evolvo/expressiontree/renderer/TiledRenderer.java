@@ -43,7 +43,7 @@ import org.maloi.evolvo.gui.CustomProgressMonitor;
  */
 
 public class TiledRenderer implements RendererInterface, Runnable
-{   
+{
    /** 
     * The size of the tiles to break the image into (in pixels)
     */
@@ -158,55 +158,60 @@ public class TiledRenderer implements RendererInterface, Runnable
 
       // calculate how many tiles there will be
       xcount = width / tileSize;
-      ycount = height / tileSize;  
+      ycount = height / tileSize;
 
       // calculate how much space is left over in the image
       // after it's been broken into tiles
-      xleftover = width  % tileSize;
+      xleftover = width % tileSize;
       yleftover = height % tileSize;
 
       for (tileY = 0; tileY < ycount; tileY++)
       {
-	 yoffset = tileY * tileSize;
+         yoffset = tileY * tileSize;
 
-	 for (tileX = 0; tileX < xcount; tileX++)
-	 {
-	    xoffset = tileX * tileSize;
+         for (tileX = 0; tileX < xcount; tileX++)
+         {
+            xoffset = tileX * tileSize;
 
-	    drawTile(xoffset, yoffset, tileSize, tileSize);
-	 }
-      
-	 if (xleftover != 0)
-	 {
-	    drawTile(xcount * tileSize, yoffset, xleftover, tileSize);
-	 }
+            drawTile(xoffset, yoffset, tileSize, tileSize);
+         }
+
+         if (xleftover != 0)
+         {
+            xoffset = xcount * tileSize;
+
+            drawTile(xoffset, yoffset, xleftover, tileSize);
+         }
       }
 
       if (yleftover != 0)
       {
-	 yoffset = ycount * tileSize;
+         yoffset = ycount * tileSize;
 
-	 for (tileX = 0; tileX < xcount; tileX++)
-	 {
-	    xoffset = tileX * tileSize;
+         for (tileX = 0; tileX < xcount; tileX++)
+         {
+            xoffset = tileX * tileSize;
 
-	    drawTile(xoffset, yoffset, tileSize, xleftover);
-	 }
+            drawTile(xoffset, yoffset, tileSize, yleftover);
+         }
 
-	 if (xleftover != 0)
-	 {
-	    drawTile(xcount * tileSize, yoffset, xleftover, yleftover);
-	 }
+         if (xleftover != 0)
+         {
+            xoffset = xcount * tileSize;
+
+            drawTile(xoffset, yoffset, xleftover, yleftover);
+         }
       }
 
       finished();
    }
 
-   public void drawTile(int xoffset, 
-			int yoffset, 
-			int tileWidth,
-			int tileHeight)
-   {		
+   public void drawTile(
+      int xoffset,
+      int yoffset,
+      int tileWidth,
+      int tileHeight)
+   {
       int x;
       int y;
       int i;
@@ -258,7 +263,7 @@ public class TiledRenderer implements RendererInterface, Runnable
 
          if (pm != null)
          {
-            pm.incrementProgress(1);
+//            pm.incrementProgress(1);
          }
 
          if (((pm != null) && (pm.isCanceled())) || stopFlag == true)
@@ -274,11 +279,12 @@ public class TiledRenderer implements RendererInterface, Runnable
       feedConsumers(xoffset, yoffset, tileWidth, tileHeight, data);
    }
 
-   void feedConsumers(int xoffset, 
-		      int yoffset, 
-		      int tileWidth, 
-		      int tileHeight, 
-		      int[] data)
+   void feedConsumers(
+      int xoffset,
+      int yoffset,
+      int tileWidth,
+      int tileHeight,
+      int[] data)
    {
       ImageConsumer ic;
 
@@ -299,11 +305,15 @@ public class TiledRenderer implements RendererInterface, Runnable
          ic.setDimensions(width, height);
          ic.setProperties(ht); // is this necessary?
          ic.setHints(ImageConsumer.RANDOMPIXELORDER);
-         ic.setPixels(xoffset, yoffset, 
-		      tileWidth, tileHeight, 
-		      cm, 
-		      data, 
-		      0, width);
+         ic.setPixels(
+            xoffset,
+            yoffset,
+            tileWidth,
+            tileHeight,
+            cm,
+            data,
+            0,
+            tileWidth);
 
       }
 
