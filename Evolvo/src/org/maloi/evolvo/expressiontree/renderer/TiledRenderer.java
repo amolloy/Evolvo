@@ -126,7 +126,7 @@ public class TiledRenderer implements RendererInterface, Runnable
    {
       stopFlag = true;
    }
-
+   
    public void setProgressMonitor(CustomProgressMonitor pm)
    {
       this.pm = pm;
@@ -181,6 +181,11 @@ public class TiledRenderer implements RendererInterface, Runnable
                pm.incrementProgress(pmIncrement);
             }
 
+            if (((pm != null) && (pm.isCanceled())) || stopFlag == true)
+            {
+               finished();
+               return;
+            }
          }
 
          if (xleftover != 0)
@@ -194,6 +199,11 @@ public class TiledRenderer implements RendererInterface, Runnable
                pm.incrementProgress(tileSize * xleftover);
             }
 
+            if (((pm != null) && (pm.isCanceled())) || stopFlag == true)
+            {
+               finished();
+               return;
+            }
          }
       }
 
@@ -206,10 +216,16 @@ public class TiledRenderer implements RendererInterface, Runnable
             xoffset = tileX * tileSize;
 
             drawTile(xoffset, yoffset, tileSize, yleftover);
-            
+
             if (pm != null)
             {
                pm.incrementProgress(tileSize * yleftover);
+            }
+
+            if (((pm != null) && (pm.isCanceled())) || stopFlag == true)
+            {
+               finished();
+               return;
             }
          }
 
@@ -218,10 +234,16 @@ public class TiledRenderer implements RendererInterface, Runnable
             xoffset = xcount * tileSize;
 
             drawTile(xoffset, yoffset, xleftover, yleftover);
-            
+
             if (pm != null)
             {
                pm.incrementProgress(xleftover * yleftover);
+            }
+
+            if (((pm != null) && (pm.isCanceled())) || stopFlag == true)
+            {
+               finished();
+               return;
             }
          }
       }

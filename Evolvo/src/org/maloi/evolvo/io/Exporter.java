@@ -23,6 +23,7 @@
 package org.maloi.evolvo.io;
 
 import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -152,7 +153,7 @@ public class Exporter
          write =
             theExporter.getDeclaredMethod(
                "write",
-               new Class[] { Image.class, int.class, File.class });
+               new Class[] { BufferedImage.class, int.class, File.class });
 
          available = true;
       }

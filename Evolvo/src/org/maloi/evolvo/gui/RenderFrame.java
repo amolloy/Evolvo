@@ -231,6 +231,8 @@ public class RenderFrame extends JFrame
       public void windowClosing(WindowEvent we)
       {
          ri.stop();
+         
+         panel.flush();
       }
    }
 

@@ -24,6 +24,7 @@ package org.maloi.evolvo.io.exporters.v1;
 
 import java.awt.Frame;
 import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.Vector;
@@ -91,7 +92,7 @@ public class QuickTimeExporter
       return new String[] { format };
    }
 
-   public void write(Image i, int which, File f) throws IOException
+   public void write(BufferedImage i, int which, File f) throws IOException
    {
       if (!available)
       {

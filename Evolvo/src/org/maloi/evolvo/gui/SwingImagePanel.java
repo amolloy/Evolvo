@@ -109,6 +109,13 @@ public class SwingImagePanel extends ImagePanel implements ImageConsumer
       return image;
    }
 
+   public void flush()
+   {
+      image.flush();
+      
+      image = null;
+   }
+
    /*
     * ChangeListener
     */
@@ -180,6 +187,11 @@ public class SwingImagePanel extends ImagePanel implements ImageConsumer
       int endy = starty + h;
       int offset;
 
+      if (image == null)
+      {
+         return;
+      }
+
       int color[] = new int[3];
 
       WritableRaster raster = image.getRaster();
@@ -207,4 +219,6 @@ public class SwingImagePanel extends ImagePanel implements ImageConsumer
    {
       //ignore
    }
+   
+   
 }

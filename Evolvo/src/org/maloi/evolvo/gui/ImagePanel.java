@@ -41,4 +41,9 @@ public abstract class ImagePanel extends JPanel implements ChangeListener
    {
       return null;
    }
+   
+   public void flush()
+   {
+      return;
+   }   
 }
