@@ -89,7 +89,7 @@ public class SettingsDialog implements ActionListener
       return _instance;
    }
 
-   JComponent createStandardOptions()
+   Box createStandardOptions()
    {
       JPanel generationOptions = new JPanel(new GridLayout(3, 1));
       Border generationOptionsBorder = BorderFactory.createEtchedBorder();
@@ -306,7 +306,7 @@ public class SettingsDialog implements ActionListener
       return mutateOptions;
    }
 
-   JComponent createAdvancedOptions()
+   Box createAdvancedOptions()
    {
       // Create the Advanced tab
       Box advancedOptions = new Box(BoxLayout.Y_AXIS);

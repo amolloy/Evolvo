@@ -76,6 +76,10 @@
 </target>
 
 <target name="dist" depends="compile">
+   <!-- Go ahead and copy the precompiled MacMenu.class from plaf/osx into the
+        build directory. This should be handled much more gracefully in the future -->
+   <copy file="${src}/plaf/osx/MacMenu.class" todir="${build}/org/maloi/evolvo/gui/"/>
+	
    <!-- Put everything in ${build} into the Evolvo-${DSTAMP}.jar file -->
    <jar jarfile="${jardir}/Evolvo-${DSTAMP}.jar" basedir="${build}"
         manifest="MANIFEST.MF">
@@ -98,6 +102,7 @@
    <copy file="${src}/Resources/evolvo" todir="${inst.jar}"/>
    <copy file="${src}/Resources/Uninstall.bat" todir="${inst.jar}"/>
    <copy file="${src}/Resources/uninstall" todir="${inst.jar}"/>
+   
 
    <javac srcdir="${src}" destdir="${build}"
           debug="off" optimize="on">

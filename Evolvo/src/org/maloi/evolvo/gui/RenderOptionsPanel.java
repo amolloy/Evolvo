@@ -30,7 +30,6 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JComboBox;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -102,7 +101,7 @@ public class RenderOptionsPanel implements ActionListener
       return resolutionComboBox;
    }
 
-   JComponent createRenderOptionsPanel()
+   Box createRenderOptionsPanel()
    {
       // create the render options panel
       JPanel renderSizeOptions = new JPanel(new GridLayout(3, 2));
