@@ -9,7 +9,7 @@
       startup="no"
       applications="no"
       initialState="noShow"
-      iconFile="Evolvo.ico" >
+      iconFile="$INSTALL_PATH\Evolvo.ico" >
       <createForPack name="Evolvo"/>
    </shortcut>
    <shortcut

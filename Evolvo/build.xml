@@ -102,7 +102,7 @@
    <copy file="${src}/Resources/evolvo" todir="${inst.jar}"/>
    <copy file="${src}/Resources/Uninstall.bat" todir="${inst.jar}"/>
    <copy file="${src}/Resources/uninstall" todir="${inst.jar}"/>
-   
+   <copy file="${src}/Resources/Evolvo.ico" todir="${inst.jar}"/>
 
    <javac srcdir="${src}" destdir="${build}"
           debug="off" optimize="on">
@@ -133,14 +133,13 @@
     <copy file="README" todir="${inst.dir}/evolvo"/>
     <copy file="HISTORY" todir="${inst.dir}/evolvo"/>
     <copy file="${src}/LICENSE" todir="${inst.dir}/evolvo"/>
-    <copy file="${src}/Resources/Evolvo.ico" todir="${inst.dir}/evolvo"/>
 
     <tar destfile="${inst.dir}/evolvo.tar.gz" compression="gzip">
        <tarfileset dir="${inst.dir}/evolvo" prefix ="evolvo"/>
     </tar>
 
     <zip destfile="${inst.dir}/evolvo.zip" basedir="${inst.dir}/evolvo"/>
-    <delete dir="${inst.dir}/evolvo"/>
+    <!--<delete dir="${inst.dir}/evolvo"/>-->
 </target>
    
 </project>

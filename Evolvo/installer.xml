@@ -29,6 +29,7 @@
 	    <file targetdir="$INSTALL_PATH" src="installer-jar/Evolvo.jar"/>
 	    <file targetdir="$INSTALL_PATH" src="installer-jar/Evolvo.bat"/>
 	    <file targetdir="$INSTALL_PATH" src="installer-jar/Uninstall.bat"/>
+	    <file targetdir="$INSTALL_PATH" src="installer-jar/Evolvo.ico"/>
 	    <file targetdir="$INSTALL_PATH" src="installer-jar/evolvo"/>
 	    <file targetdir="$INSTALL_PATH" src="installer-jar/uninstall"/>
             <parsable targetfile="$INSTALL_PATH/Evolvo.bat"/>
