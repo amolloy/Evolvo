@@ -118,7 +118,7 @@ public class ExpressionTreeGenerator
             {
                params[count] = generate(level + 1.0, randomNumber, false);
             }
-            
+
             root.setParams(params); // and then set the parameters
          }
          else
@@ -179,8 +179,7 @@ public class ExpressionTreeGenerator
                   }
                   else
                   {
-                     if (chance
-                        < settings.getDoubleProperty("variable.theta"))
+                     if (chance < settings.getDoubleProperty("variable.theta"))
                      {
                         flag = true;
                         root = variables.getVariable("theta");
@@ -204,37 +203,34 @@ public class ExpressionTreeGenerator
 
          // start with scalar parameters
          int count;
-         int paramCount = root.getNumberOfScalarParams();
+         int scalarParamCount = root.getNumberOfScalarParams();
+         int tripletParamCount = root.getNumberOfTripletParams();
+         int totalParamCount = scalarParamCount + tripletParamCount;
 
-         if (paramCount != 0)
+         ExpressionTree params[] = new ExpressionTree[totalParamCount];
+
+         // first scalar parameters
+         if (scalarParamCount != 0)
          {
-            // so we make an array of expressionTrees...
-            ExpressionTree params[] = new ExpressionTree[paramCount];
-
-            for (count = 0; count < paramCount; count++)
+            for (count = 0; count < scalarParamCount; count++)
             {
                params[count] = generate(level + 1.0, randomNumber, false);
             }
-            root.setParams(params); // and then set the parameters
          }
 
-         // then the vector parameters
-         paramCount = root.getNumberOfTripletParams();
-
-         if (paramCount != 0)
+         // then triplet parameters
+         if (tripletParamCount != 0)
          {
-            // so we make an array of expressionTrees...
-            ExpressionTree params[] = new ExpressionTree[paramCount];
-
-            for (count = 0; count < paramCount; count++)
+            for (count = 0; count < tripletParamCount; count++)
             {
-               params[count] = generate(level + 1.0, randomNumber, true);
+               params[count + scalarParamCount] =
+                  generate(level + 1.0, randomNumber, true);
             }
-            root.setParams(params); // and then set the parameters
          }
-
+         
+         root.setParams(params); // and then set the parameters
       }
 
-      return (root);
+      return root;
    }
 }

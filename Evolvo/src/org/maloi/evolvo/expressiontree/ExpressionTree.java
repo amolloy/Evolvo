@@ -25,10 +25,10 @@ package org.maloi.evolvo.expressiontree;
 import java.io.Serializable;
 
 import org.maloi.evolvo.expressiontree.operators.OperatorInterface;
+import org.maloi.evolvo.expressiontree.operators.triplet.SimpleTriplet;
 import org.maloi.evolvo.expressiontree.utilities.VariablePackage;
 import org.maloi.evolvo.expressiontree.vm.Instruction;
 import org.maloi.evolvo.expressiontree.vm.Machine;
-import org.maloi.evolvo.gui.SystemConsole;
 
 /**
  * Handles mathematic expressions in a tree structure, including
@@ -44,8 +44,6 @@ public class ExpressionTree implements Serializable
    /** Holds the cached value for this branch.  */
    double cachedValue;
    boolean cacheable = false;
-   
-   SystemConsole console = SystemConsole.getInstance();
 
    static VariablePackage vp = VariablePackage.getInstance();
 
@@ -70,7 +68,9 @@ public class ExpressionTree implements Serializable
    {
       int counter;
 
-      int numParams = operator.getNumberOfScalarParameters();
+      int numParams =
+         operator.getNumberOfScalarParameters()
+            + (operator.getNumberOfTripletParameters() * 3);
 
       // create a new array of expressionTrees
       ExpressionTree[] newParams = new ExpressionTree[numParams];
@@ -98,51 +98,52 @@ public class ExpressionTree implements Serializable
       int len = operator.getNumberOfScalarParameters();
       StringBuffer theString = new StringBuffer();
 
-console.println(operator.getName());
-
-      theString.append("(" + operator.getName() + " ");
-
-      for (count = 0; count < len; count++)
+      if (operator instanceof SimpleTriplet)
       {
-         theString.append(params[count].toString());
+         theString.append("< ");
 
-         if (count < (len - 1))
-         {
-            theString.append(" ");
-         }
+         theString.append(params[0].toString()).append(", ");
+         theString.append(params[1].toString()).append(", ");
+         theString.append(params[2].toString());
+
+         theString.append(">");
       }
-      
-      len = operator.getNumberOfTripletParameters();
-      
-      if (len > 0)
+      else
       {
-         console.println("Writing " + len + " triplet parameters");
-      
-         theString.append(" ");
-         
-         int base = count;
-         int endCount = len * 3 + base;
-      
-         console.println("base: " + base + " endCount: " + endCount);
-         
-         for (count = base; count < endCount; count += 3)
+         theString.append("(" + operator.getName() + " ");
+
+         for (count = 0; count < len; count++)
          {
-            theString.append("<");
-            theString.append(params[count  ].toString());
-            theString.append(", ");
-            theString.append(params[count+1].toString());
-            theString.append(", ");
-            theString.append(params[count+2].toString());
-            theString.append(">");
-            
-            if (count < endCount)
+            theString.append(params[count].toString());
+
+            if (count < (len - 1))
             {
                theString.append(" ");
             }
          }
-      }
 
-      theString.append(")");
+         len = operator.getNumberOfTripletParameters();
+
+         if (len > 0)
+         {
+            theString.append(" ");
+
+            int base = count;
+            int endCount = len + base;
+
+            for (count = base; count < endCount; count++)
+            {
+               theString.append(params[count].toString());
+
+               if (count < endCount)
+               {
+                  theString.append(" ");
+               }
+            }
+         }
+
+         theString.append(")");
+      }
 
       return theString.toString();
    }
@@ -164,7 +165,9 @@ console.println(operator.getName());
    public void setParams(ExpressionTree p[])
    {
       int count;
-      int len = operator.getNumberOfScalarParameters();
+      int len =
+         operator.getNumberOfScalarParameters()
+            + operator.getNumberOfTripletParameters();
 
       params = new ExpressionTree[len];
 
@@ -223,9 +226,16 @@ console.println(operator.getName());
 
    public void buildMachine(Machine myMachine)
    {
-      for (int i = 0; i < operator.getNumberOfScalarParameters(); i++)
+      int numScalarParams = operator.getNumberOfScalarParameters();
+      int numTripletParams = operator.getNumberOfTripletParameters();
+
+      for (int i = 0; i < numScalarParams; i++)
       {
          params[i].buildMachine(myMachine);
+      }
+      for (int i = 0; i < numTripletParams; i += 3)
+      {
+         params[i + numScalarParams].buildMachine(myMachine);
       }
 
       Instruction inst = new Instruction();

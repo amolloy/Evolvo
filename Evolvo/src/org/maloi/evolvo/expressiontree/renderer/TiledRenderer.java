@@ -36,6 +36,7 @@ import org.maloi.evolvo.expressiontree.ExpressionTree;
 import org.maloi.evolvo.expressiontree.utilities.Tools;
 import org.maloi.evolvo.expressiontree.vm.Machine;
 import org.maloi.evolvo.gui.CustomProgressMonitor;
+import org.maloi.evolvo.gui.SystemConsole;
 
 /**
  * Rendered that breaks the image down to bite-sized tiles, rendering the
@@ -65,6 +66,8 @@ public class TiledRenderer implements RendererInterface, Runnable
    boolean stopFlag = false;
    boolean started = false;
    CustomProgressMonitor pm = null;
+
+   SystemConsole console = SystemConsole.getInstance();
 
    Thread theThread;
 

@@ -139,7 +139,7 @@ public class Machine
                {
                   regName = "REG_" + Integer.toHexString(reg);
                }
-               theString.append(regName);
+               theString.append(regName).append("\n");
                break;
             case Instruction.TYPE_VALUE :
                theString.append(program[i].value).append("\n");
