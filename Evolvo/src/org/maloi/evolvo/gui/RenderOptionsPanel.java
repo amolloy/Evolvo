@@ -66,7 +66,7 @@ public class RenderOptionsPanel implements ActionListener
    final static double INCHES_TO_CENTS = 1 / CENTS_TO_INCHES;
 
    int lastWidthUnit;
-   int lastHieghtUnit;
+   int lastHeightUnit;
 
    GlobalSettings settings = GlobalSettings.getInstance();
 
@@ -126,7 +126,7 @@ public class RenderOptionsPanel implements ActionListener
       width = settings.getDoubleProperty("render.width");
       JLabel widthLabel = new JLabel("Width");
       renderSizeOptions.add(widthLabel);
-      widthField = new UnboundPositiveDoubleField(width, 4);
+      widthField = new UnboundPositiveDoubleField(width, 2);
       renderSizeOptions.add(widthField);
 
       // The width units combo box
@@ -148,7 +148,7 @@ public class RenderOptionsPanel implements ActionListener
       }
       else
       {
-         widthField.setPrecision(4);
+         widthField.setPrecision(2);
       }
 
       renderSizeOptions.add(widthUnits);
@@ -157,7 +157,7 @@ public class RenderOptionsPanel implements ActionListener
       height = settings.getDoubleProperty("render.height");
       JLabel heightLabel = new JLabel("Height");
       renderSizeOptions.add(heightLabel);
-      heightField = new UnboundPositiveDoubleField(height, 4);
+      heightField = new UnboundPositiveDoubleField(height, 2);
       renderSizeOptions.add(heightField);
 
       // The height units combo box
@@ -172,7 +172,7 @@ public class RenderOptionsPanel implements ActionListener
       heightUnits = createUnitsComboBox();
       heightUnits.setSelectedItem(heightUnitsDescription);
 
-      lastHieghtUnit = heightUnits.getSelectedIndex();
+      lastHeightUnit = heightUnits.getSelectedIndex();
 
       if (heightUnitsDescription.equals("pixels"))
       {
@@ -180,7 +180,7 @@ public class RenderOptionsPanel implements ActionListener
       }
       else
       {
-         heightField.setPrecision(4);
+         heightField.setPrecision(2);
       }
 
       renderSizeOptions.add(heightUnits);
@@ -189,7 +189,7 @@ public class RenderOptionsPanel implements ActionListener
       resolution = settings.getDoubleProperty("render.resolution");
       JLabel resolutionLabel = new JLabel("Resolution");
       renderSizeOptions.add(resolutionLabel);
-      resolutionField = new UnboundPositiveDoubleField(resolution, 4);
+      resolutionField = new UnboundPositiveDoubleField(resolution, 2);
       renderSizeOptions.add(resolutionField);
 
       // The resolution combo box
@@ -225,20 +225,65 @@ public class RenderOptionsPanel implements ActionListener
             null,
             null);
 
-      if (result == JOptionPane.CANCEL_OPTION)
+      if (result != JOptionPane.OK_OPTION)
       {
          return false;
       }
 
-      //      settings.setDoubleProperty("render.width", widthField.getValue());
-      //      settings.setDoubleProperty("render.height", heightField.getValue());
+      resolution = resolutionField.getValue();
+      int resolution_units = resolutionUnitsBox.getSelectedIndex();
+      int units_to = S_UNITS_PIXELS;
 
-      settings.setIntegerProperty(
-         "render.width.pixels",
-         (int) widthField.getValue());
-      settings.setIntegerProperty(
-         "render.height.pixels",
-         (int) heightField.getValue());
+      int widthPixels;
+      int heightPixels;
+
+      int units_from;
+      ;
+      double factor;
+
+      // get width
+      units_from = widthUnits.getSelectedIndex();
+
+      factor =
+         getConversionFactor(
+            units_from,
+            units_to,
+            resolution,
+            resolution_units);
+
+      widthPixels = (int) (width * factor);
+
+      // get height
+      units_from = heightUnits.getSelectedIndex();
+
+      factor =
+         getConversionFactor(
+            units_from,
+            units_to,
+            resolution,
+            resolution_units);
+
+      heightPixels = (int) (height * factor);
+
+      // set width properties      
+      settings.setDoubleProperty("render.width", width);
+      settings.setIntegerProperty("render.width.pixels", widthPixels);
+      settings.setProperty(
+         "render.width.units",
+         (String) widthUnits.getSelectedItem());
+
+      // set height properties
+      settings.setDoubleProperty("render.height", height);
+      settings.setIntegerProperty("render.height.pixels", heightPixels);
+      settings.setProperty(
+         "render.height.units",
+         (String) heightUnits.getSelectedItem());
+
+      // set resolution properties
+      settings.setDoubleProperty("render.resolution", resolution);
+      settings.setProperty(
+         "render.resolution.units",
+         (String) resolutionUnitsBox.getSelectedItem());
 
       try
       {
@@ -258,17 +303,6 @@ public class RenderOptionsPanel implements ActionListener
       double resolution,
       int units_resolution)
    {
-      System.err.print(
-         "Converting from "
-            + sizeUnits[units_from]
-            + " to "
-            + sizeUnits[units_to]
-            + " at "
-            + resolution
-            + " "
-            + resolutionUnits[units_resolution]
-            + "... Factor: ");
-
       // There has to be a better way...
 
       double factor = 0.0;
@@ -288,7 +322,7 @@ public class RenderOptionsPanel implements ActionListener
                         factor = 1 / resolution;
                         break;
                      case R_UNITS_PIXELS_PER_CENT :
-                        factor = 1 / (resolution * INCHES_TO_CENTS);
+                        factor = (1 / resolution) * (1 / INCHES_TO_CENTS);
                         break;
                   }
                   break;
@@ -296,7 +330,7 @@ public class RenderOptionsPanel implements ActionListener
                   switch (units_resolution)
                   {
                      case R_UNITS_PIXELS_PER_INCH :
-                        factor = 1 / (resolution * CENTS_TO_INCHES);
+                        factor = (1 / resolution) * (1 / CENTS_TO_INCHES);
                         break;
                      case R_UNITS_PIXELS_PER_CENT :
                         factor = 1 / resolution;
@@ -334,7 +368,7 @@ public class RenderOptionsPanel implements ActionListener
                   switch (units_resolution)
                   {
                      case R_UNITS_PIXELS_PER_INCH :
-                        factor = resolution * INCHES_TO_CENTS;
+                        factor = resolution * CENTS_TO_INCHES;
                         break;
                      case R_UNITS_PIXELS_PER_CENT :
                         factor = resolution;
@@ -350,8 +384,6 @@ public class RenderOptionsPanel implements ActionListener
             }
             break;
       }
-
-      System.err.println(factor);
 
       if (factor == 0.0)
       {
@@ -398,7 +430,7 @@ public class RenderOptionsPanel implements ActionListener
          else
          {
             // Otherwise, give four points of precision
-            widthField.setPrecision(4);
+            widthField.setPrecision(2);
          }
 
          widthField.setValue(width);
@@ -407,6 +439,22 @@ public class RenderOptionsPanel implements ActionListener
       if (source == heightUnits)
       {
          selected = (String) heightUnits.getSelectedItem();
+
+         int units_from = lastHeightUnit;
+         int units_to = heightUnits.getSelectedIndex();
+         resolution = resolutionField.getValue();
+         int resolution_units = resolutionUnitsBox.getSelectedIndex();
+         double factor =
+            getConversionFactor(
+               units_from,
+               units_to,
+               resolution,
+               resolution_units);
+
+         height = heightField.getValue() * factor;
+
+         lastHeightUnit = units_to;
+
          if (selected.equals("pixels"))
          {
             // If the field is in pixels, don't display any decimal points
@@ -415,8 +463,10 @@ public class RenderOptionsPanel implements ActionListener
          else
          {
             // Otherwise, give four points of precision
-            heightField.setPrecision(4);
+            heightField.setPrecision(2);
          }
+
+         heightField.setValue(height);
       }
    }
 }
