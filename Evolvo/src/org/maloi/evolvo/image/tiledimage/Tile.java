@@ -83,14 +83,11 @@ public class Tile
 
    public int[] getData()
    {
-      validate();
       return data;
    }
 
    public void setData(int[] data)
    {
-      validate();
-
       for (int i = 0; i < this.data.length; i++)
       {
          this.data[i] = data[i];
@@ -99,8 +96,6 @@ public class Tile
 
    public void setPixel(int x, int y, int value)
    {
-      validate();
-
       data[(x - xloc) + ((y - yloc) * TILE_SIZE)] = value;
    }
 
@@ -109,40 +104,119 @@ public class Tile
       int startY,
       int w,
       int h,
-      int data[],
+      int src[],
       int off,
-      int scansize)
+      int srcScansize)
    {
-      validate();
-
       int x;
       int y;
-      int localYOffset;
-      int givenYOffset;
+      int i;
 
-      x = startX - xloc;
-      y = startY - yloc;
-      int endX = x + w;
-      int endY = y + h;
+      int endX = startX + w;
+      int endY = startY + h;
+      
+      int srcYOffset;
+      int dstYOffset;
 
-      for (y = startY; y < endY; y++)
+      if (h == 1)
       {
-         localYOffset = y * TILE_SIZE;
-         givenYOffset = (y - startY) * scansize;
-
-         for (x = startX; x < endX; x++)
+         srcYOffset = off;
+         dstYOffset = startY * TILE_SIZE;
+         
+         for (x = startX, i = 0; x < endX; x++, i++)
          {
-            this.data[localYOffset + x] =
-               data[off + givenYOffset + (x - startX)];
+            data[i + dstYOffset] = src[i + srcYOffset];  
+         }
+      }
+      else if (w == 1)
+      {
+         for ( y = startY; y < endY; y++)
+         {
+            srcYOffset = y * srcScansize;
+            dstYOffset = y * TILE_SIZE;
+            
+            data[off + dstYOffset] = src[srcYOffset + startX];
+         }
+      }
+      else
+      {
+         for ( y =  startY; y < endY; y++)
+         {
+            srcYOffset = y * srcScansize;
+            dstYOffset = y * TILE_SIZE;
+            
+            for ( x = startX; x < endX; x++)
+            {
+               data[off + dstYOffset + x] = src[srcYOffset + x];
+            }
          }
       }
    }
 
    public int getPixel(int x, int y)
    {
-      validate();
-
       return data[(x - xloc) + ((y - yloc) * TILE_SIZE)];
+   }
+
+   public int[] getPixels(
+      int startX,
+      int startY,
+      int w,
+      int h,
+      int dest[],
+      int off,
+      int dstScansize)
+   {
+      int x;
+      int y;
+      int i;
+
+      int endX = startX + w;
+      int endY = startY + h;
+      
+      if (dest == null)
+      {
+         dest = new int[w * h];
+      }
+
+      int srcYOffset;
+      int dstYOffset;
+
+      if (h == 1)
+      {
+         srcYOffset = startY * TILE_SIZE;
+         dstYOffset = off;
+         
+         for (x = startX, i = 0; x < endX; x++, i++)
+         {
+            dest[i + dstYOffset] = data[i + srcYOffset];  
+         }
+      }
+      else if (w == 1)
+      {
+         for ( y = startY; y < endY; y++)
+         {
+            srcYOffset = y * TILE_SIZE;
+            dstYOffset = y * dstScansize;
+            
+            dest[off + dstYOffset] = data[srcYOffset + startX];
+         }
+      }
+      else
+      {
+         for ( y =  startY; y < endY; y++)
+         {
+            srcYOffset = y * TILE_SIZE;
+            dstYOffset = y * dstScansize;
+            
+            for ( x = startX; x < endX; x++)
+            {
+               dest[off + dstYOffset + x] = data[srcYOffset + x];
+            }
+         }
+      }
+            
+      return dest;
    }
 
    public void expire()
