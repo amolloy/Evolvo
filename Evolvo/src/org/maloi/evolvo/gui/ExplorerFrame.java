@@ -70,8 +70,8 @@ public class ExplorerFrame extends JFrame
       aL = new explorerActionListener(this);
 		mL = new explorerMouseListener(this);
 
-      width = 800;
-      height = 600;
+      width = 500;
+      height = 500;
 
       ri = renderer;
 
@@ -236,18 +236,31 @@ public class ExplorerFrame extends JFrame
 		// draw zoom rectangle      
 	}
 
+	private int bound(int x, int l, int h)
+	{
+		if (x < l) x = l;
+		if (x > h) x = h;
+		
+		return x;
+	}
+
 	protected void zoomTo(int px1, int py1, int px2, int py2)
 	{
 		double w, h; // width and height of window
 		double nx1, ny1, nx2, ny2;
+	
+		bound(px1, 0, width);
+		bound(py1, 0, height);
+		bound(px2, 0, width);
+		bound(py2, 0, height);
 		
 		w = x2 - x1;
 		h = y2 - y1;
 
-		nx1 = px1 / width * w + x1;
-		ny1 = py1 / height * h + y1;
-		nx2 = px2 / width * w + x1;
-		ny2 = py2 / height * h + y1;
+		nx1 = (double)px1 / (double)width * w + x1;
+		ny1 = (double)py1 / (double)height * h + y1;
+		nx2 = (double)px2 / (double)width * w + x1;
+		ny2 = (double)py2 / (double)height * h + y1;
 		
 		x1 = nx1;
 		y1 = ny1;
