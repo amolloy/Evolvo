@@ -176,6 +176,102 @@ public class TiledImagePanel extends ImagePanel implements ImageConsumer
       repaint();
    }
 
+   private void vline(int x, int y1, int y2)
+   {
+      int p[];
+      
+      if (x < 0 || x > width)
+      {
+         return;
+      }
+      
+      if (y1 < 0)
+      {
+         y1 = 0;
+      }
+      
+      if (y2 > (height))
+      {
+         y2 = height;
+      }
+      
+      for (int y = y1; y < y2; y++)
+      {
+         p = image.getPixels(x, y, 1, 1);
+         p[0] = p[0] ^ 0xFF;
+         image.setPixel(x, y, p[0]);
+      }
+   }
+   
+   private void hline(int y, int x1, int x2)
+   {
+      int p[];
+      
+      if (y < 0 || y > height)
+      {
+         return;
+      }
+      
+      if (x1 < 0)
+      {
+         x1 = 0;
+      }
+      
+      if (x2 > (width))
+      {
+         x2 = width;
+      }
+
+      p = new int[0];
+      
+      try
+      {
+         p = image.getPixels(x1, y, x2 - x1, 1);
+      }
+      catch (NegativeArraySizeException nase)
+      {
+         System.err.println(x1 + " " + x2 + " " + y + " " + (x2 - x1) + " 1");
+      }
+      
+      for (int x = 0; x < x2 - x1; x++)
+      {
+         p[x] = p[x] ^ 0xFF;
+      }
+      
+      image.setPixels(x1, y, x2 - x1, 1, p);
+   }
+   
+   synchronized public void xorRectangle(int x1, int y1, int x2, int y2)
+   {
+      int t;
+      
+      if (x1 > x2)
+      {
+         t = x1;
+         x1 = x2;
+         x2 = t;
+      }
+      
+      if (y1 > y2)
+      {
+         t = y1;
+         y1 = y2;
+         y2 = t;
+      }
+      
+      if (y1 != y2)
+      {
+         vline(x1, y1, y2);
+         vline(x2, y1, y2);
+      }
+      
+      if ((x2 - x1) > 1)
+      {
+         hline(y1, x1, x2);
+         hline(y2, x1, x2);
+      }
+   }
+   
    public void setProperties(Hashtable props)
    {
       //ignore

@@ -22,15 +22,19 @@
 
 package org.maloi.evolvo.gui;
 
+import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
+import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -53,18 +57,21 @@ import org.maloi.evolvo.settings.GlobalSettings;
 
 public class ExplorerFrame extends JFrame
 {
-   ImagePanel panel = null;
+   TiledImagePanel panel = null;
    RendererInterface ri;
    GlobalSettings settings = GlobalSettings.getInstance();
    explorerActionListener aL;
    explorerMouseListener mL;
+   boolean canClick = false;
 
    final JMenuItem exportMenuItem = new JMenuItem(MessageStrings.getString("RenderFrame.Export_Menu")); //$NON-NLS-1$
 
    private int height;
    private int width;
    double x1, y1, x2, y2;
-
+   int lx1, ly1, lx2, ly2;
+   boolean dirty;
+      
    public ExplorerFrame(RendererInterface renderer)
    {
       aL = new explorerActionListener(this);
@@ -89,15 +96,27 @@ public class ExplorerFrame extends JFrame
       redraw();
 
       JPanel centerPanel = new JPanel();
+
       centerPanel.add(panel);
       centerPanel.add(makeAuxiliaryPanel());
 
       getContentPane().add(centerPanel);
       pack();
 
+      resetLastRect();
+      
       setVisible(true);
    }
-
+      
+   synchronized private void resetLastRect()
+   {
+      lx1 = 0;
+      ly1 = 0;
+      lx2 = 0;
+      ly2 = 0;
+      dirty = false;
+   }
+   
    private void makeMenubar()
    {
       JMenuItem menuitem;
@@ -144,22 +163,28 @@ public class ExplorerFrame extends JFrame
       setJMenuBar(menubar);
    }
 
-   JPanel makeAuxiliaryPanel()
+   Box makeAuxiliaryPanel()
    {
-      JPanel auxPanel = new JPanel();
+      Box auxPanel = Box.createVerticalBox();
       JButton auxButton;
 
       auxButton = new JButton("Zoom Out"); //$NON-NLS-1$
       auxButton.setMnemonic(KeyEvent.VK_O);
       auxButton.addActionListener(aL);
-
       auxPanel.add(auxButton);
 
+      auxButton = new JButton("Zoom Way Out"); //$NON-NLS-1$
+      auxButton.setMnemonic(KeyEvent.VK_W);
+      auxButton.addActionListener(aL);      
+      auxPanel.add(auxButton);
+      
       return auxPanel;
    }
 
    void redraw()
    {
+      canClick = false;
+      
       ri =
          new RegionTiledRenderer(
             ri.getExpression(),
@@ -185,22 +210,17 @@ public class ExplorerFrame extends JFrame
 
       if (panel == null)
       {
-         if (Constants.USE_TILEDIMAGEPANEL)
-         {
-            panel = new TiledImagePanel(ri, null);
-         }
-         else
-         {
-            panel = new SwingImagePanel(ri, null);
-         }
+         panel = new TiledImagePanel(ri, null);
+         panel.addMouseListener(mL);
+         panel.addMouseMotionListener(mL);
       }
       else
       {
          panel.replaceImage(ri);
       }
       
-      panel.addMouseListener(mL);
-      panel.addMouseMotionListener(mL);
+      resetLastRect();
+      canClick = true;
    }
 
    void saveGenotype()
@@ -208,21 +228,28 @@ public class ExplorerFrame extends JFrame
       GenotypeFileIO.putGenotypeToFile(this, ri.getExpression());
    }
 
-   protected void zoomOut()
+   protected void zoomOut(double factor)
    {
+      if (!canClick || ri == null || !ri.isFinished())
+      {
+         return;
+      }
+      
       double cx, cy; // center of the window
       double w, h; // width and height of window
 
-      // we'll just double the width and height of the window
-      // that means we can find the new boundaries by adding
-      // the original width & height to the center point 
+      w = (x2 - x1) / 2.0;
+      h = (y2 - y1) / 2.0;
 
-      w = x2 - x1;
-      h = y2 - y1;
+      // find the center point...
+      cx = w + x1;
+      cy = h + y1;
 
-      cx = w / 2.0 + x1;
-      cy = h / 2.0 + y1;
-
+      // now figure the new width and height,
+      // each divided by two
+      w *= factor;
+      h *= factor;
+      
       x1 = cx - w;
       y1 = cy - h;
       x2 = cx + w;
@@ -231,10 +258,44 @@ public class ExplorerFrame extends JFrame
       redraw();
    }
 
-	protected void doZoomRect(int x1, int y1, int x2, int y2)
+	synchronized protected void doZoomRect(int x1, int y1, int x2, int y2)
 	{
-		// draw zoom rectangle      
-	}
+      if (!canClick || ri == null || !ri.isFinished())
+      {
+         return;
+      }
+      
+      if (x2 < x1)
+      {
+         int x = x2;
+         x2 = x1;
+         x1 = x;
+      }
+      if (y2 < y1)
+      {
+         int y = y2;
+         y2 = y1;
+         y1 = y;
+      }
+      
+      if (dirty)
+      {
+         System.err.println("Erasing: (" + lx1 + ", " + ly1 + ", " + lx2 + ", " + ly2 + ")");
+         panel.xorRectangle(lx1, ly1, lx2, ly2);
+      }
+
+      System.err.println();
+      System.err.println("Drawing: (" + x1 + ", " + y1 + ", " + x2 + ", " + y2 + ")");
+      panel.xorRectangle(x1, y1, x2, y2);
+      
+      lx1 = x1;
+      ly1 = y1;
+      lx2 = x2;
+      ly2 = y2;
+      dirty = true;
+      
+      repaint();
+   }
 
 	private int bound(int x, int l, int h)
 	{
@@ -246,7 +307,12 @@ public class ExplorerFrame extends JFrame
 
 	protected void zoomTo(int px1, int py1, int px2, int py2)
 	{
-		double w, h; // width and height of window
+      if (!canClick || ri == null || !ri.isFinished())
+      {
+         return;
+      }
+      
+      double w, h; // width and height of window
 		double nx1, ny1, nx2, ny2;
 	
 		bound(px1, 0, width);
@@ -416,8 +482,42 @@ public class ExplorerFrame extends JFrame
          }
          else if (cmd.equals("Zoom Out"))
          {
-            dad.zoomOut();
+            dad.zoomOut(2.0);
          }
+         else if (cmd.equals("Zoom Way Out"))
+         {
+            dad.zoomOut(10.0);
+         }
+      }
+   }
+   
+   class explorerImagePanel extends JPanel
+   {
+      BufferedImage image;
+      int width, height;
+      
+      public explorerImagePanel(BufferedImage image)
+      {
+         this.image = image;
+         width = image.getWidth();
+         height = image.getHeight();
+      }
+      
+      public void paintComponent(Graphics g)
+      {
+         super.paintComponent(g);
+
+         if (image != null)
+         {
+            g.drawImage(image, 0, 0, this);
+         }
+
+         g.dispose();
+      }
+
+      public Dimension getPreferredSize()
+      {
+         return new Dimension(width, height);
       }
    }
 }
