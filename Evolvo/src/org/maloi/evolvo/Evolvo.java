@@ -26,6 +26,7 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -219,9 +220,9 @@ public class Evolvo extends JFrame implements ActionListener
 
       // render saved genotype menu item
       menuitem = new JMenuItem(MessageStrings.getString("Evolvo.Render_Saved_Genotype_Menu")); //$NON-NLS-1$
-      menuitem.setMnemonic(KeyEvent.VK_E);
+      menuitem.setMnemonic(KeyEvent.VK_R);
       menuitem.setAccelerator(
-         KeyStroke.getKeyStroke(KeyEvent.VK_E, Constants.KEY_MASK));
+         KeyStroke.getKeyStroke(KeyEvent.VK_R, Constants.KEY_MASK | InputEvent.SHIFT_MASK));
       menuitem.addActionListener(this);
       fileMenu.add(menuitem);
 
@@ -379,8 +380,10 @@ public class Evolvo extends JFrame implements ActionListener
       auxButton.setMnemonic(KeyEvent.VK_E);
       auxButton.addActionListener(this);
       
-      auxPanel.add(auxButton);
-
+      //auxPanel.add(auxButton);
+      // remove temporarily for release
+      
+      
       return auxPanel;
    }
 

@@ -112,7 +112,7 @@ public class GlobalSettings
          props.put("mutate.arg_to_child_arg", "1.0"); //$NON-NLS-1$ //$NON-NLS-2$
          props.put("mutate.change", "0.2"); //$NON-NLS-1$ //$NON-NLS-2$
 
-         props.put("tilecache.maxtiles", "48"); //$NON-NLS-1$ //$NON-NLS-2$
+         props.put("tilecache.maxtiles", "64"); //$NON-NLS-1$ //$NON-NLS-2$
          props.put("tilecache.location", System.getProperty("java.io.tmpdir")); //$NON-NLS-1$ //$NON-NLS-2$
 
          try

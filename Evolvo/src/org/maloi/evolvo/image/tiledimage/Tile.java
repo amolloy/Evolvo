@@ -48,7 +48,6 @@ public class Tile
    int xloc; // the tile's x location in the image
    int yloc; // the tile's y location in the image
    int data[]; // the tile's data - null when swapped to disk
-   long lastused; // timestamp of the last time this tile was accessed
 
    int location; // the tile's current location (invalid, disk, or memory)
 
@@ -85,20 +84,18 @@ public class Tile
 
       location = LOCATION_INVALID;
       data = null;
-      lastused = System.currentTimeMillis();
 
       this.sm = (SinglePixelPackedSampleModel) sm;
 
       masks = this.sm.getBitMasks();
       offsets = this.sm.getBitOffsets();
 
-      validate(); // go ahead and validate this tile
+      //validate(); // go ahead and validate this tile
+      // on second thought, let's be lazy about it...
    }
 
    public void validate()
    {
-      lastused = System.currentTimeMillis();
-
       if (location == LOCATION_MEMORY)
       {
          return;
@@ -111,10 +108,10 @@ public class Tile
       else // location == LOCATION_INVALID
          {
          data = new int[TILE_SIZE * TILE_SIZE];
-         for (int i = 0; i < data.length; i++)
-         {
-            data[i] = 0;
-         }
+        // for (int i = 0; i < data.length; i++)
+        // {
+        //    data[i] = 0;
+        // } // Java does this already, right?
          location = LOCATION_MEMORY;
       }
    }
@@ -261,8 +258,18 @@ public class Tile
       }
    }
 
-   public void expire()
+   synchronized public void expire()
    {
+      if (location != LOCATION_MEMORY)
+      {
+         return;
+      }
+      
+      if (data == null)
+      {
+         return;
+      }
+         
       byte diskdata[] = new byte[TILE_SIZE * TILE_SIZE * 3];
       // 3 bytes per pixel, TILE_SIZExTILE_SIZE pixels
       int dataOffset = 0;
@@ -272,7 +279,10 @@ public class Tile
          for (int sampleCount = 0; sampleCount < 3; sampleCount++)
          {
             diskdata[dataOffset + sampleCount] =
-               (byte) ((data[dataCount] & masks[sampleCount])
+               (byte) 
+                  ((
+                        data[dataCount] & 
+                        masks[sampleCount])
                   >> offsets[sampleCount]);
          }
 
@@ -331,11 +341,6 @@ public class Tile
    public boolean isValid()
    {
       return location == LOCATION_MEMORY;
-   }
-
-   public long getLastUsedTime()
-   {
-      return lastused;
    }
 
    public int getXLocation()

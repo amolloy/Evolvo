@@ -60,7 +60,10 @@ public class TiledRaster extends WritableRaster
    int height; // the image's height
    int tileWidth; // the image's width in tiles
    int tileHeight; // the image's height in tiles
-
+   
+   int tileCache[];
+   int cacheCursor;
+   
    Tile tiles[]; // the actual tiles
 
    Raster parent = null;
@@ -92,7 +95,7 @@ public class TiledRaster extends WritableRaster
       super(
          new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB)
             .getSampleModel()
-            .createCompatibleSampleModel(width, height),
+            .createCompatibleSampleModel(1, 1),
          new Point(startX, startY));
 
       minX = 0;
@@ -112,10 +115,18 @@ public class TiledRaster extends WritableRaster
 
       MAX_RESIDENT_TILES = settings.getIntegerProperty("tilecache.maxtiles"); //$NON-NLS-1$
 
+      tileCache = new int[MAX_RESIDENT_TILES];
+      for (int i = 0; i < MAX_RESIDENT_TILES; i++)
+      {
+         tileCache[i] = -1;
+      }
+      
+      cacheCursor = 0;
+      
       try
       {
             tempFile = File.createTempFile("evo", //$NON-NLS-1$
-   null);
+                        null);
       }
       catch (IOException ioe)
       {
@@ -200,9 +211,13 @@ public class TiledRaster extends WritableRaster
       tiles = new Tile[1];
 
       tiles[0] = tile;
+
+      tileCache = new int[0];
+      tileCache[0] = 1;
+      cacheCursor = 0;
    }
 
-   void validateTile(int tilex, int tiley)
+   synchronized void validateTile(int tilex, int tiley)
    {
       int whichTile = (tiley * tileWidth) + tilex;
 
@@ -214,37 +229,19 @@ public class TiledRaster extends WritableRaster
       // The tile isn't in memory, so we need to validate it, then make sure we 
       // haven't loaded too many tiles
       tiles[whichTile].validate();
-
-      numResidentTiles++;
-
-      if (numResidentTiles > MAX_RESIDENT_TILES)
+      
+      if (tileCache[cacheCursor] != -1)
       {
-         // we've loaded too many tiles, we need to expire one
-         expireLRUTile();
+         tiles[tileCache[cacheCursor]].expire();
       }
-   }
+      
+      tileCache[cacheCursor] = whichTile;
 
-   void expireLRUTile()
-   {
-      // get rid of the least recently used tile.
-
-      long minLastUsed = Long.MAX_VALUE;
-      // set it higher than any other possible value
-      int whichTile = 0;
-
-      for (int i = 0; i < tiles.length; i++)
+      cacheCursor++;
+      if (cacheCursor == MAX_RESIDENT_TILES)
       {
-         if (tiles[i].isValid() && (tiles[i].getLastUsedTime() < minLastUsed))
-         {
-            whichTile = i;
-            minLastUsed = tiles[i].getLastUsedTime();
-         }
+         cacheCursor = 0;
       }
-
-      // when we exit this loop, whichTile contains the index of the least 
-      // recently used resident tile so we just expire it
-
-      tiles[whichTile].expire();
    }
 
    public void flush()
