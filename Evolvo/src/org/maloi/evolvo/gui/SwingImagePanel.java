@@ -41,6 +41,7 @@ import org.maloi.evolvo.expressiontree.renderer.RendererInterface;
 public class SwingImagePanel extends ImagePanel implements ImageConsumer
 {
    BufferedImage image;
+   Image thumb;
 
    boolean finished = false;
 
@@ -61,27 +62,9 @@ public class SwingImagePanel extends ImagePanel implements ImageConsumer
    {
       width = ri.getWidth();
       height = ri.getHeight();
+		this.thumb = thumb;
 
-      image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-
-      Graphics2D g2 = image.createGraphics();
-
-      if (thumb != null)
-      {
-         g2.drawImage(thumb, 0, 0, width, height, this);
-      }
-      else
-      {
-         g2.setColor(Color.BLACK);
-         g2.fillRect(0, 0, width, height);
-      }
-
-      g2.dispose();
-      repaint();
-
-      ri.addChangeListener(this);
-
-      ri.startProduction(this);
+		replaceImage(ri);
    }
 
    public void paintComponent(Graphics g)
@@ -214,5 +197,28 @@ public class SwingImagePanel extends ImagePanel implements ImageConsumer
       //ignore
    }
    
+	public void replaceImage(RendererInterface ri)
+	{
+		image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+
+		Graphics2D g2 = image.createGraphics();
+
+		if (thumb != null)
+		{
+			g2.drawImage(thumb, 0, 0, width, height, this);
+		}
+		else
+		{
+			g2.setColor(Color.BLACK);
+			g2.fillRect(0, 0, width, height);
+		}
+
+		g2.dispose();
+		repaint();
+
+		ri.addChangeListener(this);
+
+		ri.startProduction(this);
+	}
    
 }

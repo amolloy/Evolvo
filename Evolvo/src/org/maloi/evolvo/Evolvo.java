@@ -53,6 +53,7 @@ import org.maloi.evolvo.expressiontree.renderer.StandardRenderer;
 import org.maloi.evolvo.expressiontree.utilities.ExpressionTreeGenerator;
 import org.maloi.evolvo.expressiontree.utilities.VariablePackage;
 import org.maloi.evolvo.gui.CustomFileChooser;
+import org.maloi.evolvo.gui.ExplorerFrame;
 import org.maloi.evolvo.gui.ImageButtonPanel;
 import org.maloi.evolvo.gui.RenderFrame;
 import org.maloi.evolvo.gui.SettingsDialog;
@@ -380,6 +381,12 @@ public class Evolvo extends JFrame implements ActionListener
       auxButton.addActionListener(this);
 
       auxPanel.add(auxButton);
+      
+      auxButton = new JButton("Explore Image"); //$NON-NLS-1$
+      auxButton.setMnemonic(KeyEvent.VK_E);
+      auxButton.addActionListener(this);
+      
+      auxPanel.add(auxButton);
 
       return auxPanel;
    }
@@ -555,6 +562,29 @@ public class Evolvo extends JFrame implements ActionListener
       }
    }
 
+	void exploreImage()
+	{
+		int selection = buttonPanel.getSelectedButton();
+		ExplorerFrame theExplorerFrame;
+
+		if (selection == -1)
+		{
+			JOptionPane.showMessageDialog(
+				this,
+				MessageStrings.getString("Evolvo.Select_Image_For_Render_44"), //$NON-NLS-1$
+				MessageStrings.getString("Evolvo.Error_Title"), //$NON-NLS-1$
+				JOptionPane.ERROR_MESSAGE);
+		}
+		else
+		{
+			theExplorerFrame =
+				new ExplorerFrame(
+					ri[selection]);
+               
+			theExplorerFrame.toFront();
+		}
+	}
+
    public void actionPerformed(ActionEvent e)
    {
       String cmd = e.getActionCommand();
@@ -595,6 +625,10 @@ public class Evolvo extends JFrame implements ActionListener
       {
          renderImage();
       }
+		else if (cmd.equals("Explore Image")) //$NON-NLS-1$
+		{
+			exploreImage();
+		}
       else if (cmd.equals(MessageStrings.getString("Evolvo.Stop_Menu"))) //$NON-NLS-1$
       {
          buttonPanel.stop();

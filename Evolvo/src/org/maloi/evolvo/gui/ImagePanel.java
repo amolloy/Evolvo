@@ -28,6 +28,8 @@ import java.awt.image.RenderedImage;
 import javax.swing.JPanel;
 import javax.swing.event.ChangeListener;
 
+import org.maloi.evolvo.expressiontree.renderer.RendererInterface;
+
 public abstract class ImagePanel extends JPanel implements ChangeListener
 {
    public Dimension getPreferredSize()
@@ -44,4 +46,9 @@ public abstract class ImagePanel extends JPanel implements ChangeListener
    {
       return;
    }   
+   
+	public void replaceImage(RendererInterface ri)
+	{
+		return;
+	}
 }

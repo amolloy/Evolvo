@@ -120,12 +120,12 @@ public class Variable extends ExpressionTree implements Cloneable, Serializable
    {
       Machine myMachine = new Machine();
 
-      buildMachine(myMachine);
+      compile(myMachine);
 
       return myMachine;
    }
 
-   public void buildMachine(Machine myMachine)
+   protected void compile(Machine myMachine)
    {
       Instruction inst = new Instruction();
 
@@ -135,7 +135,7 @@ public class Variable extends ExpressionTree implements Cloneable, Serializable
       myMachine.addInstruction(inst);
    }
 
-   protected boolean isCacheable()
+   protected boolean isTrimmable()
    {
 	   return false;
    }

@@ -45,7 +45,7 @@ import org.maloi.evolvo.gui.SystemConsole;
  * to BufferedImage's tiles.
  */
 
-public class TiledRenderer implements RendererInterface, Runnable
+public class RegionTiledRenderer implements RendererInterface, Runnable
 {
    /** 
     * The size of the tiles to break the image into (in pixels)
@@ -63,6 +63,8 @@ public class TiledRenderer implements RendererInterface, Runnable
    ExpressionTree expression;
    int width;
    int height;
+   double x1, y1, x2, y2; // the bounds of the region to render
+   double rw, rh; // the width & height of the region to render
    boolean finished = false;
    boolean stopFlag = false;
    boolean started = false;
@@ -72,12 +74,26 @@ public class TiledRenderer implements RendererInterface, Runnable
 
    Thread theThread;
 
-   public TiledRenderer(ExpressionTree expression, int width, int height)
+   public RegionTiledRenderer(
+      ExpressionTree expression,
+      int width,
+      int height,
+      double x1,
+      double y1,
+      double x2,
+      double y2)
    {
       this.expression = expression;
       this.width = width;
       this.height = height;
+      this.x1 = x1;
+      this.y1 = y1;
+      this.x2 = x2;
+      this.y2 = y2;
 
+      rw = x2 - x1;
+      rh = y2 - y1;
+      
       theThread = new Thread(this);
    }
 
@@ -272,13 +288,13 @@ public class TiledRenderer implements RendererInterface, Runnable
       {
          offset = y * tileWidth;
 
-         ty = ((double) (y + yoffset) / (double)height) * 2.0 - 1.0;
+         ty = ((double) (y + yoffset) / (double)height) * rh + y1;
 
          theMachine.setRegister(Machine.REGISTER_Y, ty);
 
          for (x = 0; x < tileWidth; x++)
          {
-            tx = ((double) (x + xoffset) / (double)width) * 2.0 - 1.0;
+            tx = ((double) (x + xoffset) / (double)width) * rw + x1;
 
             theMachine.setRegister(Machine.REGISTER_X, tx);
             theMachine.setRegister(

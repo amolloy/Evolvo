@@ -67,26 +67,7 @@ public class TiledImagePanel extends ImagePanel implements ImageConsumer
       identityTransform =  AffineTransform.getTranslateInstance(0.0, 0.0);
       identityTransform.setToIdentity(); // it should already be identity, but whatever
 
-      image = new TiledImage(width, height, ri);
-
-//      Graphics g = image.getGraphics();
-//
-//      if (thumb != null)
-//      {
-//         g.drawImage(thumb, 0, 0, width, height, this);
-//      }
-//      else
-//      {
-//         g.setColor(Color.BLACK);
-//         g.fillRect(0, 0, width, height);
-//      }
-//
-//      g.dispose();
-      repaint();
-
-      ri.addChangeListener(this);
-
-      ri.startProduction(this);
+		replaceImage(ri);
    }
 
    public void paintComponent(Graphics g)
@@ -200,5 +181,19 @@ public class TiledImagePanel extends ImagePanel implements ImageConsumer
       //ignore
    }
    
-   
+   public void replaceImage(RendererInterface ri)
+   {
+   	if (image != null) 
+   	{
+			flush();
+   	}
+   	   	
+		image = new TiledImage(width, height, ri);
+
+		repaint();
+
+		ri.addChangeListener(this);
+
+		ri.startProduction(this);
+   }
 }

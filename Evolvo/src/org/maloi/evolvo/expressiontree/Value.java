@@ -100,17 +100,17 @@ public class Value extends ExpressionTree implements Serializable
    {
       Machine myMachine = new Machine();
 
-      buildMachine(myMachine);
+      compile(myMachine);
 
       return myMachine;
    }
 
-   protected boolean isCacheable()
+   protected boolean isTrimmable()
    {
 	   return true;
    }
 
-   public void buildMachine(Machine myMachine)
+   protected void compile(Machine myMachine)
    {
       Instruction inst = new Instruction();
 

@@ -216,81 +216,130 @@ public class ExpressionTree implements Serializable
 
    /** Builds a simple stack machine to evaluate this expression.
     *  Simply creates a new machine and passes it on to 
-    *  the buildMachine(machine) method.
+    *  the compile(machine) method.
     */
    public Machine getMachine()
    {
       Machine myMachine = new Machine();
 
-      buildMachine(myMachine);
+      compile(myMachine);
 
       return myMachine;
    }
 
-	protected boolean isCacheable()
-	{
-		int numScalarParams = operator.getNumberOfScalarParameters();
-		int numTripletParams = operator.getNumberOfTripletParameters();
+   /**
+    * Determines whether this branch of an expression tree can be
+    * "trimmed." Any branch with variables at the leaves cannot be
+    * trimmed. Any branch that has no variables in any of its leaves
+    * can be trimmed.
+    * 
+    * @return true if the branch is trimmable
+    */
+   protected boolean isTrimmable()
+   {
+      int numScalarParams = operator.getNumberOfScalarParameters();
+      int numTripletParams = operator.getNumberOfTripletParameters();
 
-		for (int i = 0; i < numScalarParams + numTripletParams; i++)
-		{
-			if (!params[i].isCacheable())
-			{
-				return false;
-			}
-		}
-		
-		return true;
-	}
+      for (int i = 0; i < numScalarParams + numTripletParams; i++)
+      {
+         if (!params[i].isTrimmable())
+         {
+            return false;
+         }
+      }
 
-   public void buildMachine(Machine myMachine)
+      return true;
+   }
+
+   /**
+    * Compiles an expression tree to byte code for the Evolvo virtual machine.
+    * Performs very mild optimizations (more to come possibly in the future).
+    * 
+    * @param myMachine
+    */
+   protected void compile(Machine myMachine)
+   {
+      int nSP = operator.getNumberOfScalarParameters();
+      int nTP = operator.getNumberOfTripletParameters();
+
+      for (int i = 0; i < nSP; i++)
+      {
+         if (!params[i].isTrimmable()
+            || (params[i] instanceof org.maloi.evolvo.expressiontree.Value))
+         {
+            params[i].compile(myMachine);
+         }
+         else
+         {
+            // go ahead and execute this branch of the tree,
+            // then just stick the result in the stack
+            Machine tmpMachine = new Machine();
+            Stack tmpStack;
+
+            params[i].compile(tmpMachine);
+            tmpStack = tmpMachine.execute();
+            double d = tmpStack.pop();
+
+            new Value(d).compile(myMachine);
+         }
+      }
+      for (int i = 0; i < nTP; i++)
+      {
+         if (!params[i + nSP].isTrimmable()
+            || (params[i + nSP] instanceof org.maloi.evolvo.expressiontree.Value))
+         {
+            params[i + nSP].compile(myMachine);
+         }
+         else
+         {
+            // go ahead and execute this branch of the tree,
+            // then just stick the resulting triplet onto the
+            // stack
+
+            Machine tmpMachine = new Machine();
+            Stack tmpStack;
+            double[] vs;
+
+            params[i].compile(tmpMachine);
+            tmpStack = tmpMachine.execute();
+            vs = tmpStack.popTriplet();
+
+            for (int vcount = 0; vcount < 3; vcount++)
+            {
+               new Value(vs[vcount]).compile(myMachine);
+            }
+         }
+      }
+
+      // SimpleTriplet's perform function is a noop, so just leave it out
+      // altogether
+      if (!(operator instanceof SimpleTriplet))
+      {
+         Instruction inst = new Instruction();
+
+         inst.type = Instruction.TYPE_OPERATOR;
+         inst.op = operator;
+
+         myMachine.addInstruction(inst);
+      }
+   }
+
+   /**
+    * Legacy version of the compile code.
+    * @param myMachine
+    */
+   public void oldBuildMachine(Machine myMachine)
    {
       int numScalarParams = operator.getNumberOfScalarParameters();
       int numTripletParams = operator.getNumberOfTripletParameters();
 
       for (int i = 0; i < numScalarParams; i++)
       {
-      	if (! params[i].isCacheable())
-      	{
-	         params[i].buildMachine(myMachine);
-      	}
-      	else
-      	{
-      		// go ahead and execute this branch of the tree,
-      		// then just stick the result in the stack
-      		Machine tmpMachine = new Machine();
-      		Stack tmpStack;
-      		
-      		params[i].buildMachine(tmpMachine);
-      		tmpStack = tmpMachine.execute();
-      		new Value(tmpStack.pop()).buildMachine(myMachine);
-      	}
+         params[i].compile(myMachine);
       }
       for (int i = 0; i < numTripletParams; i++)
       {
-      	if (! params[i + numScalarParams].isCacheable())
-      	{
-      		params[i + numScalarParams].buildMachine(myMachine);
-      	}
-      	else
-      	{
-      		// go ahead and execute this branch of the tree,
-      		// then just stick the resulting triplet onto the
-      		// stack
-      		
-			Machine tmpMachine = new Machine();
-			Stack tmpStack;
-    		double[] vs;
-      		
-			params[i].buildMachine(tmpMachine);
-			tmpStack = tmpMachine.execute();
-			vs = tmpStack.popTriplet();
-			
-			for (int vcount = 0; vcount < 3; vcount++)
-			{
-				new Value(vs[vcount]).buildMachine(myMachine);
-			}
-      	}
+         params[i + numScalarParams].compile(myMachine);
       }
 
       // SimpleTriplet's perform function is a noop, so just leave it out
