@@ -129,7 +129,7 @@ public class RenderFrame extends JFrame
             "Generating Image...",
             "",
             0,
-            settings.getIntegerProperty("render.height"));
+            settings.getIntegerProperty("render.height.pixels"));
       pm.setProgress(0);
       pm.setMillisToDecideToPopup(750);
 

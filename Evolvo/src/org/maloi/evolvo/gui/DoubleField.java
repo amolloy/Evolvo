@@ -44,7 +44,7 @@ public class DoubleField
 {
    /** Range model used to determine valid values for the text field. */
    DoubleBoundedRangeModel dbrm;
-   boolean showDecimals = true;
+   int precision;
 
    /** Default constructor. */
    public DoubleField()
@@ -64,6 +64,8 @@ public class DoubleField
       int cols)
    {
       this(new DoubleBoundedRangeModel(v, e, min, max, p), cols);
+
+      setPrecision(p);
    }
 
    /** Class constuctor that takes DoubleBoundedRandeModel's parameters 
@@ -72,6 +74,8 @@ public class DoubleField
    public DoubleField(double v, double e, double min, double max, int p)
    {
       this(new DoubleBoundedRangeModel(v, e, min, max, p), 6);
+
+      setPrecision(p);
    }
 
    /** Class constructor that takes a DoubleBoundedRangeModel and sets the 
@@ -91,7 +95,9 @@ public class DoubleField
       dbrm = dm;
       addActionListener(this);
       addChangeListener(this);
-      setText("" + dbrm.getDoubleValue());
+
+      setPrecision(dbrm.getPrecision());
+      setFieldText(Double.toString(dbrm.getDoubleValue()));
    }
 
    /** Creates a new DoubleDocument document model. */
@@ -115,11 +121,40 @@ public class DoubleField
       }
    }
 
+   public void setFieldText(String s)
+   {
+      int end = s.indexOf(".");
+      
+      if (end == -1)
+      {
+         end = s.length();
+      }
+      else
+      {
+         end += precision;
+         
+         if (precision != 0)
+         {
+            end++;
+         }
+         
+         if (end > s.length())
+         {
+            end = s.length();
+         }
+      }
+      
+      s = s.substring(0, end);
+            
+      setText(s);
+   }
+
    /** Handles all recieved ChangeEvents. */
    public void stateChanged(ChangeEvent e)
    {
       setValue(dbrm.getDoubleValue());
-      setText("" + dbrm.getDoubleValue());
+      
+      setFieldText(Double.toString(dbrm.getDoubleValue()));
    }
 
    /** Returns the current value of the text field as a double. */
@@ -135,18 +170,11 @@ public class DoubleField
       dbrm.setDoubleValue(newValue);
       newValue = dbrm.getDoubleValue();
 
-      String fieldText = Double.toString(newValue);
-
-      if (!showDecimals)
-      {
-         fieldText = fieldText.substring(0, fieldText.indexOf("."));
-      }
-
-      setText(fieldText);
-      select(0, getText().length()); // Select the entire text field.
-      firePropertyChange("value", oldValue, dbrm.getDoubleValue());
+      setFieldText(Double.toString(newValue));
       
-      repaint();
+      select(0, getText().length()); // Select the entire text field.
+
+      firePropertyChange("value", oldValue, dbrm.getDoubleValue());
    }
 
    /** Adds a ChangeListener. */
@@ -207,10 +235,8 @@ public class DoubleField
    
    public void setPrecision(int p)
    {
+      precision = p;
+
       dbrm.setPrecision(p);
-      
-      showDecimals = (p == 0.0);
-      
-      repaint();
    }
 }

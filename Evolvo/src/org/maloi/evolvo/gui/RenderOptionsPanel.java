@@ -39,7 +39,7 @@ import javax.swing.border.Border;
 
 import org.maloi.evolvo.settings.GlobalSettings;
 
-public class RenderOptionsPanel
+public class RenderOptionsPanel implements ActionListener
 {
    // Properties:
    // 
@@ -52,36 +52,68 @@ public class RenderOptionsPanel
    // render.resolution.units = pixels/in or pixels/cm
    // render.resolution
 
+   final static String sizeUnits[] = { "pixels", "inches", "cm" };
+   final static String resolutionUnits[] = { "pixels/in", "pixels/cm" };
+
+   final static int S_UNITS_PIXELS = 0;
+   final static int S_UNITS_INCHES = 1;
+   final static int S_UNITS_CENTS = 2;
+
+   final static int R_UNITS_PIXELS_PER_INCH = 0;
+   final static int R_UNITS_PIXELS_PER_CENT = 1;
+
+   final static double CENTS_TO_INCHES = 0.3937;
+   final static double INCHES_TO_CENTS = 1 / CENTS_TO_INCHES;
+
+   int lastWidthUnit;
+   int lastHieghtUnit;
+
    GlobalSettings settings = GlobalSettings.getInstance();
+   
    DoubleField widthField;
    DoubleField heightField;
+   DoubleField resolutionField;
+   
    JComboBox widthUnits;
    JComboBox heightUnits;
+   JComboBox resolutionUnitsBox;
+   
+   String widthUnitsDescription;
+   String heightUnitsDescription;
+   String resolutionUnitsDescription;
 
-   RenderOptionsActionListener listener;
-
+   boolean settingUp = true;
+   
    public RenderOptionsPanel()
    {
-      listener = new RenderOptionsActionListener();
    }
 
    JComboBox createUnitsComboBox()
    {
-      String units[] = { "pixels", "inches", "cm" };
-
-      JComboBox unitsComboBox = new JComboBox(units);
+      JComboBox unitsComboBox = new JComboBox(sizeUnits);
 
       unitsComboBox.setEditable(false);
       unitsComboBox.setEnabled(true);
-      unitsComboBox.addActionListener(listener);
+      unitsComboBox.addActionListener(this);
 
       return unitsComboBox;
+   }
+   
+   JComboBox createResolutionComboBox()
+   {
+      JComboBox resolutionComboBox = new JComboBox(resolutionUnits);
+      
+      resolutionComboBox.setEditable(false);
+      resolutionComboBox.setEnabled(true);
+      resolutionComboBox.addActionListener(this);
+      
+      return resolutionComboBox;
    }
 
    JComponent createRenderOptionsPanel()
    {
       // create the render options panel
-      JPanel renderSizeOptions = new JPanel(new GridLayout(2, 2));
+      JPanel renderSizeOptions = new JPanel(new GridLayout(3, 2));
       Border renderSizeBorder = BorderFactory.createEtchedBorder();
       renderSizeOptions.setBorder(
          BorderFactory.createTitledBorder(renderSizeBorder, "Render"));
@@ -99,8 +131,27 @@ public class RenderOptionsPanel
       renderSizeOptions.add(widthField);
 
       // The width units combo box
+      widthUnitsDescription = settings.getStringProperty("render.width.units");
+      
+      if (widthUnitsDescription == null)
+      {
+         widthUnitsDescription = "pixels";
+      }
+      
       widthUnits = createUnitsComboBox();
-      widthUnits.setSelectedItem(settings.getProperty("render.width.units"));
+      widthUnits.setSelectedItem(widthUnitsDescription);
+
+      lastWidthUnit = widthUnits.getSelectedIndex();
+
+      if (widthUnitsDescription.equals("pixels"))
+      {
+         widthField.setPrecision(0);
+      }
+      else
+      {
+         widthField.setPrecision(4);
+      }
+
       renderSizeOptions.add(widthUnits);
 
       // height
@@ -115,14 +166,56 @@ public class RenderOptionsPanel
             4);
       renderSizeOptions.add(heightField);
 
-      // The width units combo box
+      // The height units combo box
+      heightUnitsDescription =
+         settings.getStringProperty("render.height.units");
+
+      if (heightUnitsDescription == null)
+      {
+         heightUnitsDescription = "pixels";
+      }
+
       heightUnits = createUnitsComboBox();
-      heightUnits.setSelectedItem(settings.getProperty("render.height.units"));
+      heightUnits.setSelectedItem(heightUnitsDescription);
+
+      lastHieghtUnit = heightUnits.getSelectedIndex();
+
+      if (heightUnitsDescription.equals("pixels"))
+      {
+         heightField.setPrecision(0);
+      }
+      else
+      {
+         heightField.setPrecision(4);
+      }
+
       renderSizeOptions.add(heightUnits);
+
+      // resolution
+      JLabel resolutionLabel = new JLabel("Resolution");
+      renderSizeOptions.add(resolutionLabel);
+      resolutionField =
+         new DoubleField(
+            settings.getDoubleProperty("render.resolution"),
+            0.0,
+            0.1,
+            Double.MAX_VALUE,
+            4);
+      renderSizeOptions.add(resolutionField);
+
+      // The resolution combo box
+      resolutionUnitsDescription =
+         settings.getStringProperty("render.resolution.units");
+      resolutionUnitsBox = createResolutionComboBox();
+      resolutionUnitsBox.setSelectedItem(resolutionUnitsDescription);
+
+      renderSizeOptions.add(resolutionUnitsBox);
 
       // the actual render panel
       Box renderOptionsPanel = new Box(BoxLayout.Y_AXIS);
       renderOptionsPanel.add(renderSizeOptions);
+
+      settingUp = false;
 
       return renderOptionsPanel;
    }
@@ -148,8 +241,15 @@ public class RenderOptionsPanel
          return false;
       }
 
-      settings.setDoubleProperty("render.width", widthField.getValue());
-      settings.setDoubleProperty("render.height", heightField.getValue());
+      //      settings.setDoubleProperty("render.width", widthField.getValue());
+      //      settings.setDoubleProperty("render.height", heightField.getValue());
+
+      settings.setIntegerProperty(
+         "render.width.pixels",
+         (int) widthField.getValue());
+      settings.setIntegerProperty(
+         "render.height.pixels",
+         (int) heightField.getValue());
 
       try
       {
@@ -163,41 +263,150 @@ public class RenderOptionsPanel
       return true;
    }
 
-   class RenderOptionsActionListener implements ActionListener
+   double getConversionFactor(
+      int units_to,
+      int units_from,
+      double resolution,
+      int units_resolution)
    {
-      public void actionPerformed(ActionEvent ae)
-      {
-         Object source = ae.getSource();
-         String selected;
+      // There has to be a better way...
+      
+      double factor = 0.0;
 
-         if (source == widthUnits)
+      switch (units_to)
+      {
+         case S_UNITS_PIXELS :
+            switch (units_from)
+            {
+               case S_UNITS_PIXELS :
+                  factor = 1.0;
+                  break;
+               case S_UNITS_INCHES :
+                  switch (units_resolution)
+                  {
+                     case R_UNITS_PIXELS_PER_INCH :
+                        factor = resolution;
+                        break;
+                     case R_UNITS_PIXELS_PER_CENT :
+                        factor = resolution * CENTS_TO_INCHES;
+                        break;
+                  }
+                  break;
+               case S_UNITS_CENTS :
+                  switch (units_resolution)
+                  {
+                     case R_UNITS_PIXELS_PER_INCH :
+                        factor = resolution * INCHES_TO_CENTS;
+                        break;
+                     case R_UNITS_PIXELS_PER_CENT :
+                        factor = resolution;
+                        break;
+                  }
+                  break;
+            }
+            break;
+         case S_UNITS_INCHES :
+            switch (units_from)
+            {
+               case S_UNITS_PIXELS :
+                  switch (units_resolution)
+                  {
+                     case R_UNITS_PIXELS_PER_INCH :
+                        factor = 1 / resolution;
+                        break;
+                     case R_UNITS_PIXELS_PER_CENT :
+                        factor = 1 / (resolution * CENTS_TO_INCHES);
+                        break;
+                  }
+               case S_UNITS_INCHES :
+                  factor = 1.0;
+                  break;
+               case S_UNITS_CENTS :
+                  factor = CENTS_TO_INCHES;
+                  break;
+            }
+            break;
+         case S_UNITS_CENTS :
+            switch (units_from)
+            {
+               case S_UNITS_PIXELS :
+                  switch (units_resolution)
+                  {
+                     case R_UNITS_PIXELS_PER_INCH :
+                        factor = 1 / (resolution * INCHES_TO_CENTS);
+                        break;
+                     case R_UNITS_PIXELS_PER_CENT :
+                        factor = 1 / resolution;
+                        break;
+                  }
+                  break;
+               case S_UNITS_INCHES :
+                  factor = INCHES_TO_CENTS;
+                  break;
+               case S_UNITS_CENTS :
+                  factor = 1.0;
+                  break;
+            }
+      }
+
+      if (factor == 0.0)
+      {
+         System.err.println("Factor was not set.");
+      }
+
+      return factor;
+   }
+
+   public void actionPerformed(ActionEvent ae)
+   {
+      if (settingUp)
+      {
+         return;
+      }
+
+      Object source = ae.getSource();
+      String selected;
+
+      if (source == widthUnits)
+      {
+         selected = (String) widthUnits.getSelectedItem();
+         if (selected.equals("pixels"))
          {
-            selected = (String)widthUnits.getSelectedItem();
-            if (selected.equals("pixels"))
-            {
-               // If the field is in pixels, don't display any decimal points
-               widthField.setPrecision(0);
-            }
-            else
-            {
-               // Otherwise, give four points of precision
-               widthField.setPrecision(4);
-            }
+            // If the field is in pixels, don't display any decimal points
+            widthField.setPrecision(0);
+         }
+         else
+         {
+            // Otherwise, give four points of precision
+            widthField.setPrecision(4);
          }
 
-         if (source == heightUnits)
+         int    units_from       = lastWidthUnit;
+         int    units_to         = widthUnits.getSelectedIndex();
+         double resolution       = resolutionField.getValue();
+         int    resolution_units = resolutionUnitsBox.getSelectedIndex();
+         double factor           = getConversionFactor(units_to,
+                                                        units_from,
+                                                        resolution,
+                                                        resolution_units);
+
+         widthField.setValue(widthField.getValue() * factor);
+         
+         lastWidthUnit = units_to;
+      }
+
+      if (source == heightUnits)
+      {
+         selected = (String) heightUnits.getSelectedItem();
+         if (selected.equals("pixels"))
          {
-            selected = (String)heightUnits.getSelectedItem();
-            if (selected.equals("pixels"))
-            {
-               // If the field is in pixels, don't display any decimal points
-               heightField.setPrecision(0);
-            }
-            else
-            {
-               // Otherwise, give four points of precision
-               heightField.setPrecision(4);
-            }
+            // If the field is in pixels, don't display any decimal points
+            heightField.setPrecision(0);
+         }
+         else
+         {
+            // Otherwise, give four points of precision
+            heightField.setPrecision(4);
          }
       }
    }

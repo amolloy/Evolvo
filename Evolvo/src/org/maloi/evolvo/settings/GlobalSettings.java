@@ -86,8 +86,16 @@ public class GlobalSettings
          props.put("variable.y", "1.0");
          props.put("variable.r", "0.0");
          props.put("variable.theta", "0.0");
+         
          props.put("render.width", "640");
          props.put("render.height", "480");
+         props.put("render.width.units", "pixels");
+         props.put("render.height.units", "pixels");
+         props.put("render.width.pixels", "640");
+         props.put("render.height.pixels", "480");
+         props.put("render.resolution.units", "pixels/in");
+         props.put("render.resolution", "72");
+         
          props.put("export.bmp.compressed", "true");
          props.put("export.png.interlaced", "false");
          props.put("export.pnm.mode", "raw");
