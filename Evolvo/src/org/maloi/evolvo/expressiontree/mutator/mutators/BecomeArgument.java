@@ -25,26 +25,41 @@ package org.maloi.evolvo.expressiontree.mutator.mutators;
 import java.util.Random;
 
 import org.maloi.evolvo.expressiontree.ExpressionTree;
-import org.maloi.evolvo.expressiontree.Value;
 
 /**
  * @author Andy
  */
-public class ScalarChangeValue implements MutatorInterface
+public class BecomeArgument implements MutatorInterface
 {
+
    /* (non-Javadoc)
     * @see org.maloi.evolvo.expressiontree.mutator.mutators.MutatorInterface#doMutation(org.maloi.evolvo.expressiontree.ExpressionTree, double, java.util.Random)
     */
    public ExpressionTree doMutation(ExpressionTree old, double level, Random r)
    {
-      if (old instanceof Value)
-      {
-         double dummy = r.nextDouble();
-         dummy += ((Value) old).getValue();
-         dummy /= 2.0;
-         ((Value) old).setValue(dummy);
-      }
+      ExpressionTree params[] = old.getParams();
       
+      int numScalarParams = old.getNumberOfScalarParams();
+      int numTripletParams = old.getNumberOfTripletParams();
+
+      boolean returnsTriplet = old.returnsTriplet();
+
+      if ((returnsTriplet && (numTripletParams == 0))
+         || (!returnsTriplet && (numScalarParams == 0)))
+      {
+         // none of our child arguments are of the appropriate type, so just return
+         return old;
+      }
+
+      int base = returnsTriplet ? numScalarParams : 0;
+      int length = returnsTriplet ? numTripletParams : numScalarParams;
+
+      if ((params != null) && (params.length > 0))
+      {
+         int which = (int) (r.nextDouble() * length);
+         old = params[base + which];
+      }
+
       return old;
    }
 
@@ -53,7 +68,7 @@ public class ScalarChangeValue implements MutatorInterface
     */
    public String getName()
    {
-      return "scalar_change_value";
+      return "become_argument";
    }
 
    /* (non-Javadoc)
@@ -61,7 +76,7 @@ public class ScalarChangeValue implements MutatorInterface
     */
    public String getDisplayName()
    {
-      return "Scalar Change Value";
+      return "Become Argument";
    }
 
 }

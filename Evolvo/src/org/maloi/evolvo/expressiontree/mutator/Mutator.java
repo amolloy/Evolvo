@@ -28,11 +28,11 @@ import org.maloi.evolvo.expressiontree.ExpressionTree;
 import org.maloi.evolvo.expressiontree.mutator.mutators.MutatorInterface;
 import org.maloi.evolvo.expressiontree.operators.OperatorInterface;
 import org.maloi.evolvo.expressiontree.operators.OperatorList;
-import org.maloi.evolvo.expressiontree.utilities.ExpressionTreeGenerator;
+import org.maloi.evolvo.expressiontree.operators.pseudo.SimpleTriplet;
 import org.maloi.evolvo.expressiontree.utilities.VariablePackage;
 import org.maloi.evolvo.settings.GlobalSettings;
 
-public class ExpressionTreeMutator
+public class Mutator
 {
    static GlobalSettings settings = GlobalSettings.getInstance();
    static VariablePackage variables = VariablePackage.getInstance();
@@ -51,7 +51,7 @@ public class ExpressionTreeMutator
    static double totalProbs;
 
    /** No one should be able to construct a mutator */
-   private ExpressionTreeMutator()
+   private Mutator()
    {
    }
 
@@ -89,7 +89,12 @@ public class ExpressionTreeMutator
       Random r,
       ExpressionTree current)
    {
-      if (r.nextDouble() < change)
+      // we only perform the mutation if:
+      // a. The current node is NOT a SimpleTriplet
+      // b. We pick a random number less than the change probability
+      
+      if (!(current.getOperator() instanceof SimpleTriplet)
+         && (r.nextDouble() < change))
       {
          double whatMutation = r.nextDouble() * totalProbs;
          double runningTotal = 0.0;
@@ -112,54 +117,29 @@ public class ExpressionTreeMutator
          }
          else if (whatMutation < (runningTotal += change_function))
          {
- 
+            current = mutators[4].doMutation(current, level, r);
          }
          else if (whatMutation < (runningTotal += new_expression_arg))
          {
-            ExpressionTree params[] = current.getParams();
-            if ((params != null) && (params.length > 0))
-            {
-               int which = (int) (r.nextDouble() * params.length);
-               params[which] =
-                  ExpressionTreeGenerator.generate(
-                     level,
-                     new Random(r.nextLong()), false);
-               current.setParams(params);
-            }
+            current = mutators[5].doMutation(current, level, r);
          }
          else if (whatMutation < (runningTotal += become_arg))
          {
-            ExpressionTree params[] = current.getParams();
-            if ((params != null) && (params.length > 0))
-            {
-               int which = (int) (r.nextDouble() * params.length);
-               current = params[which];
-            }
+            current = mutators[6].doMutation(current, level, r);
          }
          else if (whatMutation < (runningTotal += arg_to_child_arg))
          {
-            if (current.getNumberOfScalarParams() != 0)
-            {
-               ExpressionTree params[] = current.getParams();
-               if ((params != null) && (params.length > 0))
-               {
-                  int which = (int) (r.nextDouble() * params.length);
-                  ExpressionTree childParams[] = params[which].getParams();
-                  if (childParams != null)
-                  {
-                     int whichTwo = (int) (r.nextDouble() * childParams.length);
-                     int whichThree = (int) (r.nextDouble() * params.length);
-                     params[whichThree] = childParams[whichTwo].getClone();
-                  }
-                  current.setParams(params);
-               }
-            }
+            current = mutators[7].doMutation(current, level, r);
          }
       }
 
       ExpressionTree params[] = current.getParams();
 
-      for (int i = 0; i < current.getNumberOfScalarParams(); i++)
+      for (int i = 0;
+         i
+            < (current.getNumberOfScalarParams()
+               + current.getNumberOfTripletParams());
+         i++)
       {
          params[i] = mutate(level + 1.0, r, params[i]);
       }

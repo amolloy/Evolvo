@@ -41,28 +41,51 @@ public class ChangeFunction implements MutatorInterface
    {
       ExpressionTree oldParams[] = old.getParams();
       ExpressionTree newParams[];
+
+      int numOldScalarParams = old.getNumberOfScalarParams();
+      int numOldTripletParams = old.getNumberOfTripletParams();
+
       old.setOperator(
-         Tools.pickRandomOp(r, old.getOperator().returnsTriplet()));
+         Tools.pickRandomOp(r, old.returnsTriplet()));
+
+      int numNewScalarParams = old.getNumberOfScalarParams();
+      int numNewTripletParams = old.getNumberOfTripletParams();
 
       newParams =
-         new ExpressionTree[old.getNumberOfScalarParams()
-            + old.getNumberOfTripletParams()];
+         new ExpressionTree[numNewScalarParams + numNewTripletParams];
 
-      int oldNumParams = (oldParams == null) ? 0 : oldParams.length;
+      int oldParamCount = 0;
+      int newParamCount = 0;
 
-      for (int i = 0; i < newParams.length; i++)
+      for (int i = 0; i < numNewScalarParams; i++)
       {
-         if ((oldParams != null) && (i < oldParams.length))
+         if (i < numOldScalarParams)
          {
-            newParams[i] = oldParams[i];
+            newParams[newParamCount++] = oldParams[oldParamCount++];
          }
          else
          {
-            newParams[i] =
+            newParams[newParamCount++] =
                ExpressionTreeGenerator.generate(
                   level,
                   new Random(r.nextLong()),
                   false);
+         }
+      }
+
+      for (int i = 0; i < numNewTripletParams; i++)
+      {
+         if (i < numOldTripletParams)
+         {
+            newParams[newParamCount++] = oldParams[oldParamCount++];
+         }
+         else
+         {
+            newParams[newParamCount++] =
+               ExpressionTreeGenerator.generate(
+                  level,
+                  new Random(r.nextLong()),
+                  true);
          }
       }
 

@@ -83,7 +83,7 @@ public class ExpressionTreeGenerator
       boolean returnsTriplet)
    {
       // Start by making a new expressionTree
-      ExpressionTree root = new ExpressionTree();
+      ExpressionTree root = new ExpressionTree(null ,null);
 
       double c = settings.getDoubleProperty("complexity");
       double d = settings.getDoubleProperty("depreciation");
@@ -109,9 +109,6 @@ public class ExpressionTreeGenerator
             // node.  That's okay.  This may make things more 
             // interesting.  Or maybe not.
 
-            root = new ExpressionTree();
-            root.setOperator(simpleTriplet);
-
             ExpressionTree params[] = new ExpressionTree[3];
 
             for (int count = 0; count < 3; count++)
@@ -119,7 +116,7 @@ public class ExpressionTreeGenerator
                params[count] = generate(level + 1.0, randomNumber, false);
             }
 
-            root.setParams(params); // and then set the parameters
+            root = new ExpressionTree(params, simpleTriplet);
          }
          else
          {
@@ -195,7 +192,7 @@ public class ExpressionTreeGenerator
          // Okay, we decided to not make this a terminal node, so it's an 
          // operation
 
-         root = new ExpressionTree(); // make a new expressionTree
+         root = new ExpressionTree(null, null); // make a new expressionTree
          root.setOperator(Tools.pickRandomOp(randomNumber, returnsTriplet));
 
          // now that we have an operator, we need to define some parameters 

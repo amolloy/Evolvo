@@ -25,25 +25,57 @@ package org.maloi.evolvo.expressiontree.mutator.mutators;
 import java.util.Random;
 
 import org.maloi.evolvo.expressiontree.ExpressionTree;
-import org.maloi.evolvo.expressiontree.Value;
 
 /**
  * @author Andy
  */
-public class ScalarChangeValue implements MutatorInterface
+public class ArgumentToChildArgument implements MutatorInterface
 {
+
    /* (non-Javadoc)
     * @see org.maloi.evolvo.expressiontree.mutator.mutators.MutatorInterface#doMutation(org.maloi.evolvo.expressiontree.ExpressionTree, double, java.util.Random)
     */
    public ExpressionTree doMutation(ExpressionTree old, double level, Random r)
    {
-      if (old instanceof Value)
+      int numScalarParams = old.getNumberOfScalarParams();
+      int numTripletParams = old.getNumberOfTripletParams();
+
+      if ((numScalarParams + numTripletParams) == 0)
       {
-         double dummy = r.nextDouble();
-         dummy += ((Value) old).getValue();
-         dummy /= 2.0;
-         ((Value) old).setValue(dummy);
+         // no parameters - do nothing
+         return old;
       }
+
+      int source =
+         (int) (r.nextDouble() * (numScalarParams + numTripletParams));
+      boolean returnsTriplet = source > numScalarParams;
+
+      int dest =
+         (int) (r.nextDouble()
+            * (returnsTriplet ? numTripletParams : numScalarParams));
+
+      if (returnsTriplet)
+      {
+         dest += numScalarParams;
+      }
+
+      ExpressionTree child = old.getParams()[source];
+      int childNumScalarParams = child.getNumberOfScalarParams();
+      int childNumTripletParams = child.getNumberOfTripletParams();
+
+      if ((returnsTriplet && (childNumTripletParams == 0))
+         || (!returnsTriplet && (childNumScalarParams == 0)))
+      {
+         // the child has no arguments that can satisfy the argument of the parent
+         // we wish to replace, so do nothing
+         return old;
+      }
+
+      int childSource =
+         (int) (r.nextDouble()
+            * (returnsTriplet ? childNumTripletParams : childNumScalarParams));
+            
+      old.getParams()[dest] = child.getParams()[childSource].getClone();
       
       return old;
    }
@@ -53,7 +85,7 @@ public class ScalarChangeValue implements MutatorInterface
     */
    public String getName()
    {
-      return "scalar_change_value";
+      return "argument_to_child_argument";
    }
 
    /* (non-Javadoc)
@@ -61,7 +93,7 @@ public class ScalarChangeValue implements MutatorInterface
     */
    public String getDisplayName()
    {
-      return "Scalar Change Value";
+      return "Argument To Child Argument";
    }
 
 }

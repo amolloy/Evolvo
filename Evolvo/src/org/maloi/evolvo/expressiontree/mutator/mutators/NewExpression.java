@@ -32,7 +32,6 @@ import org.maloi.evolvo.expressiontree.utilities.ExpressionTreeGenerator;
  */
 public class NewExpression implements MutatorInterface
 {
-
    /* (non-Javadoc)
     * @see org.maloi.evolvo.expressiontree.mutator.mutators.MutatorInterface#doMutation(org.maloi.evolvo.expressiontree.ExpressionTree)
     */
@@ -41,7 +40,7 @@ public class NewExpression implements MutatorInterface
       return ExpressionTreeGenerator.generate(
          level,
          new Random(r.nextLong()),
-         old.getOperator().returnsTriplet());
+         old.returnsTriplet());
    }
 
    /* (non-Javadoc)

@@ -36,13 +36,12 @@ public class ChangeToVariable implements MutatorInterface
    GlobalSettings settings = GlobalSettings.getInstance();
    VariablePackage variables = VariablePackage.getInstance();
 
-
    /* (non-Javadoc)
     * @see org.maloi.evolvo.expressiontree.mutator.mutators.MutatorInterface#doMutation(org.maloi.evolvo.expressiontree.ExpressionTree, double, java.util.Random)
     */
    public ExpressionTree doMutation(ExpressionTree old, double level, Random r)
    {
-      if (old.getOperator().returnsTriplet())
+      if (old.returnsTriplet())
       {
          // right now, if the operator returns a triplet this mutation does nothing
          return old;

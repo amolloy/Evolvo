@@ -47,11 +47,23 @@ public class ExpressionTree implements Serializable
 
    static VariablePackage vp = VariablePackage.getInstance();
 
-   /** Creates a new expressionTree */
    public ExpressionTree()
    {
       params = null;
       operator = null;
+
+      try
+      {
+         if (!(this instanceof Value) && !(this instanceof Variable))
+         {
+            throw new Exception("Piss off, man");
+         }
+      }
+      catch (Exception e)
+      {
+         e.printStackTrace();
+         System.exit(1);
+      }
    }
 
    /** Creates a new expressionTree with operator op and parameters prms[] */
@@ -70,7 +82,7 @@ public class ExpressionTree implements Serializable
 
       int numParams =
          operator.getNumberOfScalarParameters()
-            + (operator.getNumberOfTripletParameters() * 3);
+            + operator.getNumberOfTripletParameters();
 
       // create a new array of expressionTrees
       ExpressionTree[] newParams = new ExpressionTree[numParams];
@@ -173,7 +185,7 @@ public class ExpressionTree implements Serializable
 
       for (count = 0; count < len; count++)
       {
-         params[count] = p[count];
+         params[count] = p[count].getClone();
       }
    }
 
@@ -187,6 +199,12 @@ public class ExpressionTree implements Serializable
    public int getNumberOfTripletParams()
    {
       return operator.getNumberOfTripletParameters();
+   }
+
+   /** Returns true if this node's operator returns a triplet */
+   public boolean returnsTriplet()
+   {
+      return operator.returnsTriplet();
    }
 
    /** Returns the parameters this node is holding. */

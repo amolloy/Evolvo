@@ -30,7 +30,7 @@ import org.maloi.evolvo.expressiontree.mutator.mutators.MutatorInterface;
  */
 public class MutatorList
 {
-   static MutatorInterface list[] = new MutatorInterface[5];
+   static MutatorInterface list[] = new MutatorInterface[8];
    
    static
    {
@@ -39,6 +39,9 @@ public class MutatorList
       list[2] = new ChangeToVariable();
       list[3] = new ChangeToValue();
       list[4] = new ChangeFunction();
+      list[5] = new NewArgument();
+      list[6] = new BecomeArgument();
+      list[7] = new ArgumentToChildArgument();
    }
    
    public static MutatorInterface[] getMutatorList()

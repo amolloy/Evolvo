@@ -38,7 +38,7 @@ public class ChangeToValue implements MutatorInterface
     */
    public ExpressionTree doMutation(ExpressionTree old, double level, Random r)
    {
-      if (old.getOperator().returnsTriplet())
+      if (old.returnsTriplet())
       {
          // right now this mutation old effects operators with scalar return type
          return old;

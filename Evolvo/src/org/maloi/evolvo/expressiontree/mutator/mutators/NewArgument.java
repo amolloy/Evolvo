@@ -25,26 +25,34 @@ package org.maloi.evolvo.expressiontree.mutator.mutators;
 import java.util.Random;
 
 import org.maloi.evolvo.expressiontree.ExpressionTree;
-import org.maloi.evolvo.expressiontree.Value;
+import org.maloi.evolvo.expressiontree.utilities.ExpressionTreeGenerator;
 
 /**
  * @author Andy
  */
-public class ScalarChangeValue implements MutatorInterface
+public class NewArgument implements MutatorInterface
 {
+
    /* (non-Javadoc)
     * @see org.maloi.evolvo.expressiontree.mutator.mutators.MutatorInterface#doMutation(org.maloi.evolvo.expressiontree.ExpressionTree, double, java.util.Random)
     */
    public ExpressionTree doMutation(ExpressionTree old, double level, Random r)
    {
-      if (old instanceof Value)
+      ExpressionTree params[] = old.getParams();
+
+      if ((params != null) && (params.length > 0))
       {
-         double dummy = r.nextDouble();
-         dummy += ((Value) old).getValue();
-         dummy /= 2.0;
-         ((Value) old).setValue(dummy);
+         int which = (int) (r.nextDouble() * params.length);
+
+         params[which] =
+            ExpressionTreeGenerator.generate(
+               level,
+               new Random(r.nextLong()),
+               old.returnsTriplet());
+
+         old.setParams(params);
       }
-      
+
       return old;
    }
 
@@ -53,7 +61,7 @@ public class ScalarChangeValue implements MutatorInterface
     */
    public String getName()
    {
-      return "scalar_change_value";
+      return "new_argument";
    }
 
    /* (non-Javadoc)
@@ -61,7 +69,7 @@ public class ScalarChangeValue implements MutatorInterface
     */
    public String getDisplayName()
    {
-      return "Scalar Change Value";
+      return "New Argument";
    }
 
 }

@@ -45,7 +45,7 @@ import javax.swing.KeyStroke;
 import javax.swing.UIManager;
 
 import org.maloi.evolvo.expressiontree.ExpressionTree;
-import org.maloi.evolvo.expressiontree.mutator.ExpressionTreeMutator;
+import org.maloi.evolvo.expressiontree.mutator.Mutator;
 import org.maloi.evolvo.expressiontree.renderer.RendererInterface;
 import org.maloi.evolvo.expressiontree.renderer.StandardRenderer;
 import org.maloi.evolvo.expressiontree.utilities.ExpressionTreeGenerator;
@@ -427,7 +427,7 @@ public class Evolvo extends JFrame implements ActionListener
                   Random newRandom = new Random(randomNumber.nextLong());
 
                   expressions[k] =
-                     ExpressionTreeMutator.mutate(
+                     Mutator.mutate(
                         newRandom,
                         originalExpressions[k].getClone());
                }

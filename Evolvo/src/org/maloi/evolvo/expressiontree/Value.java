@@ -63,10 +63,22 @@ public class Value extends ExpressionTree implements Serializable
       v = p;
    }
 
-   /** Returns the number of parameters this node expects. */
+   /** Returns the number of scalar parameters this node expects. */
    public int getNumberOfScalarParams()
    {
       return 0;
+   }
+
+   /** Returns the number of triplet parameters this node expects. */
+   public int getNumberOfTripletParams()
+   {
+      return 0;
+   }
+
+   /** Returns true if this node's operator returns a triplet.  Always false. */
+   public boolean returnsTriplet()
+   {
+      return false;
    }
 
    /** Returns the parameters this node is holding. */
