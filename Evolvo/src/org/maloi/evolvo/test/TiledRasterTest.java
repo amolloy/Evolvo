@@ -40,6 +40,7 @@ public class TiledRasterTest extends Harness
       TiledRaster testRaster = new TiledRaster(Tile.TILE_SIZE, Tile.TILE_SIZE);
    
       Raster r = testRaster.getTile(0, 1);
+      r.getMinX(); //bleh
       
       return true;
    }

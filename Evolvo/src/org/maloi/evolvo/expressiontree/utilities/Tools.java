@@ -102,13 +102,13 @@ public class Tools
       StringBuffer displayString = new StringBuffer();
       int i;
 
-      String channelNames[] = new String[] { "Hue", "Saturation", "Value" };
+      String channelNames[] = new String[] { "Hue", "Saturation", "Value" }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 
       for (i = 0; i < 3; i++)
       {
-         displayString.append("// " + channelNames[i] + "\n");
+         displayString.append("// " + channelNames[i] + "\n"); //$NON-NLS-1$ //$NON-NLS-2$
          displayString.append(expressions[i].toString());
-         displayString.append("\n\n");
+         displayString.append("\n\n"); //$NON-NLS-1$
       }
 
       return displayString.toString();

@@ -39,7 +39,7 @@ public class SimpleTriplet implements PseudoOperatorInterface
     */
    public String getName()
    {
-      return "triplet";
+      return "triplet"; //$NON-NLS-1$
    }
 
    /* (non-Javadoc)

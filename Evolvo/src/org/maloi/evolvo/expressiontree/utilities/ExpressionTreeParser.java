@@ -86,7 +86,7 @@ public class ExpressionTreeParser
          token = st.nextToken();
          if (token != StreamTokenizer.TT_WORD)
          {
-            throw new SyntaxErrorException(st.lineno(), "Missing operator");
+            throw new SyntaxErrorException(st.lineno(), "Missing operator"); //$NON-NLS-1$
          }
 
          opName = st.sval;
@@ -96,7 +96,7 @@ public class ExpressionTreeParser
          {
             throw new SyntaxErrorException(
                st.lineno(),
-               "Invalid operator: " + opName);
+               "Invalid operator: " + opName); //$NON-NLS-1$
          }
 
          root.setOperator(operator);
@@ -126,7 +126,7 @@ public class ExpressionTreeParser
                {
                   throw new SyntaxErrorException(
                      lineNumber,
-                     "Type mismatch. Expected scalar.");
+                     "Type mismatch. Expected scalar."); //$NON-NLS-1$
                }
             }
             else if (token == StreamTokenizer.TT_WORD)
@@ -137,7 +137,7 @@ public class ExpressionTreeParser
                {
                   throw new SyntaxErrorException(
                      st.lineno(),
-                     "Unknown Identifier: " + st.sval);
+                     "Unknown Identifier: " + st.sval); //$NON-NLS-1$
                }
             }
             else if (token == StreamTokenizer.TT_NUMBER)
@@ -169,7 +169,7 @@ public class ExpressionTreeParser
                {
                   throw new SyntaxErrorException(
                      lineNumber,
-                     "Type mismatch. Expected triplet.");
+                     "Type mismatch. Expected triplet."); //$NON-NLS-1$
                }
             }
             else if ((char)token == '<')
@@ -180,7 +180,7 @@ public class ExpressionTreeParser
             {
                throw new SyntaxErrorException(
                   st.lineno(),
-                  "Type mismatch.  Expected triplet, found "
+                  "Type mismatch.  Expected triplet, found " //$NON-NLS-1$
                      + currentTokenString(st, token));
             }
 
@@ -194,18 +194,18 @@ public class ExpressionTreeParser
          {
             throw new SyntaxErrorException(
                st.lineno(),
-               "Wrong number of parameters "
+               "Wrong number of parameters " //$NON-NLS-1$
                   + operator.getName()
-                  + "\n"
-                  + " expected "
+                  + "\n" //$NON-NLS-1$
+                  + " expected " //$NON-NLS-1$
                   + numScalarParams
-                  + " scalar (found "
+                  + " scalar (found " //$NON-NLS-1$
                   + foundScalarParams
-                  + ") and "
+                  + ") and " //$NON-NLS-1$
                   + numTripletParams
-                  + " triplet (found "
+                  + " triplet (found " //$NON-NLS-1$
                   + foundTripletParams
-                  + ")");
+                  + ")"); //$NON-NLS-1$
          }
 
          root.setParams(params);
@@ -220,7 +220,7 @@ public class ExpressionTreeParser
          {
             throw new SyntaxErrorException(
                st.lineno(),
-               "Unknown Identifier: " + st.sval);
+               "Unknown Identifier: " + st.sval); //$NON-NLS-1$
          }
 
          root = var;
@@ -240,11 +240,11 @@ public class ExpressionTreeParser
       {
          // End of file - too soon!
 
-         throw new SyntaxErrorException(st.lineno(), "Unexpected end of file.");
+         throw new SyntaxErrorException(st.lineno(), "Unexpected end of file."); //$NON-NLS-1$
       }
       else
       {
-         throw new SyntaxErrorException(st.lineno(), "Unexpected token.");
+         throw new SyntaxErrorException(st.lineno(), "Unexpected token."); //$NON-NLS-1$
       }
 
       return root;
@@ -257,7 +257,7 @@ public class ExpressionTreeParser
 
       if ((char)token != '<')
       {
-         throw new SyntaxErrorException(st.lineno(), "Missing '<'.");
+         throw new SyntaxErrorException(st.lineno(), "Missing '<'."); //$NON-NLS-1$
       }
 
       // triplet
@@ -271,7 +271,7 @@ public class ExpressionTreeParser
 
          if ((char)token != ',')
          {
-            throw new SyntaxErrorException(st.lineno(), "Missing ','.");
+            throw new SyntaxErrorException(st.lineno(), "Missing ','."); //$NON-NLS-1$
          }
       }
 
@@ -283,7 +283,7 @@ public class ExpressionTreeParser
       {
          throw new SyntaxErrorException(
             st.lineno(),
-            "Missing '>', found " + currentTokenString(st, token));
+            "Missing '>', found " + currentTokenString(st, token)); //$NON-NLS-1$
       }
 
       return new ExpressionTree(params, simpleTriplet);
@@ -299,24 +299,24 @@ public class ExpressionTreeParser
 
       if (token == StreamTokenizer.TT_WORD)
       {
-         return "(word) " + st.sval;
+         return "(word) " + st.sval; //$NON-NLS-1$
       }
 
       if (token == StreamTokenizer.TT_EOF)
       {
-         return "EOF";
+         return "EOF"; //$NON-NLS-1$
       }
 
       if (token == StreamTokenizer.TT_EOL)
       {
-         return "EOL";
+         return "EOL"; //$NON-NLS-1$
       }
 
       char tokenChar[] = new char[1];
       tokenChar[0] = (char)token;
 
       String tokenCharStr = new String(tokenChar);
-      return "(char) " + tokenCharStr;
+      return "(char) " + tokenCharStr; //$NON-NLS-1$
    }
 
    private static double parseDouble(StreamTokenizer st)
@@ -358,7 +358,7 @@ public class ExpressionTreeParser
             // it is an error
             throw new SyntaxErrorException(
                st.lineno(),
-               "Unexpected token.  Needed a number, found "
+               "Unexpected token.  Needed a number, found " //$NON-NLS-1$
                   + currentTokenString(st, token));
          }
       }
@@ -376,7 +376,7 @@ public class ExpressionTreeParser
       {
          throw new SyntaxErrorException(
             st.lineno(),
-            "Invalid exponent.  Exponent must be an integer.");
+            "Invalid exponent.  Exponent must be an integer."); //$NON-NLS-1$
       }
 
       val = val * Math.pow(10, exp);

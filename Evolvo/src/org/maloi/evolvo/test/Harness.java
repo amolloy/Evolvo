@@ -24,19 +24,19 @@ package org.maloi.evolvo.test;
 
 public class Harness
 {
-   static String error = "";
+   static String error = ""; //$NON-NLS-1$
 
    public static void doTest(int test, boolean flag)
    {
-      System.out.print("Test " + test + ": ");
+      System.out.print("Test " + test + ": "); //$NON-NLS-1$ //$NON-NLS-2$
       if (flag)
       {
-         System.out.println("Success");
+         System.out.println("Success"); //$NON-NLS-1$
 
       }
       else
       {
-         System.out.println("Failure:\n" + error);
+         System.out.println("Failure:\n" + error); //$NON-NLS-1$
       }
    }
    

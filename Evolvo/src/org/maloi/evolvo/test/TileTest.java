@@ -95,12 +95,12 @@ public class TileTest extends Harness
          if (testData[i] != data[i])
          {
             error =
-               "Tile data does not match at "
+               "Tile data does not match at " //$NON-NLS-1$
                   + i
-                  + "\n      from Tile:        "
-                  + testData[i] + " (" + Integer.toHexString(testData[i]) + " )"
-                  + "\n      from local cache: "
-                  + data[i] + " (" + Integer.toHexString(data[i]) + " )";
+                  + "\n      from Tile:        " //$NON-NLS-1$
+                  + testData[i] + " (" + Integer.toHexString(testData[i]) + " )" //$NON-NLS-1$ //$NON-NLS-2$
+                  + "\n      from local cache: " //$NON-NLS-1$
+                  + data[i] + " (" + Integer.toHexString(data[i]) + " )"; //$NON-NLS-1$ //$NON-NLS-2$
             failFlag = true;
             break;
          }
@@ -153,11 +153,11 @@ public class TileTest extends Harness
          if (testData[i] != data[i])
          {
             error =
-               "Tile data does not match at "
+               "Tile data does not match at " //$NON-NLS-1$
                   + i
-                  + "\n      from Tile:        "
+                  + "\n      from Tile:        " //$NON-NLS-1$
                   + testData[i]
-                  + "\n      from local cache: "
+                  + "\n      from local cache: " //$NON-NLS-1$
                   + data[i];
             failFlag = true;
             break;
@@ -233,11 +233,11 @@ public class TileTest extends Harness
          if (testData[i] != data[i])
          {
             error =
-               "From retrieved data array - tile data does not match at "
+               "From retrieved data array - tile data does not match at " //$NON-NLS-1$
                   + i
-                  + "\n      from Tile:        "
+                  + "\n      from Tile:        " //$NON-NLS-1$
                   + testData[i]
-                  + "\n      from local cache: "
+                  + "\n      from local cache: " //$NON-NLS-1$
                   + data[i];
             failFlag = true;
             break;
@@ -253,14 +253,14 @@ public class TileTest extends Harness
                != data[y * Tile.TILE_SIZE + x])
             {
                error =
-                  "From getPixel - tile data does not match at ("
+                  "From getPixel - tile data does not match at (" //$NON-NLS-1$
                      + x
-                     + ", "
+                     + ", " //$NON-NLS-1$
                      + y
-                     + ")"
-                     + "\n      from Tile:        "
+                     + ")" //$NON-NLS-1$
+                     + "\n      from Tile:        " //$NON-NLS-1$
                      + testData[i]
-                     + "\n      from local cache: "
+                     + "\n      from local cache: " //$NON-NLS-1$
                      + data[i];
                failFlag = true;
                break;
@@ -330,11 +330,11 @@ public class TileTest extends Harness
          if (testData[i] != data[i])
          {
             error =
-               "From retrieved data array - tile data does not match at "
+               "From retrieved data array - tile data does not match at " //$NON-NLS-1$
                   + i
-                  + "\n      from Tile:        "
+                  + "\n      from Tile:        " //$NON-NLS-1$
                   + testData[i]
-                  + "\n      from local cache: "
+                  + "\n      from local cache: " //$NON-NLS-1$
                   + data[i];
             failFlag = true;
             break;
@@ -356,11 +356,11 @@ public class TileTest extends Harness
          if (data[i] != testData[i])
          {
             error =
-               "From getPixels - tile data does not match at "
+               "From getPixels - tile data does not match at " //$NON-NLS-1$
                   + i
-                  + "\n      from Tile:        "
+                  + "\n      from Tile:        " //$NON-NLS-1$
                   + testData[i]
-                  + "\n      from local cache: "
+                  + "\n      from local cache: " //$NON-NLS-1$
                   + data[i];
             failFlag = true;
             break;
@@ -442,18 +442,17 @@ public class TileTest extends Harness
 
       // check data
       int[] testData = testTile.getData();
-      boolean failFlag = false;
 
       for (i = 0; i < DATA_SIZE; i++)
       {
          if (testData[i] != data[i])
          {
             error =
-               "From retrieved data array - tile data does not match at "
+               "From retrieved data array - tile data does not match at " //$NON-NLS-1$
                   + i
-                  + "\n      from Tile:        "
+                  + "\n      from Tile:        " //$NON-NLS-1$
                   + testData[i]
-                  + "\n      from local cache: "
+                  + "\n      from local cache: " //$NON-NLS-1$
                   + data[i];
             return false;
          }
@@ -474,11 +473,11 @@ public class TileTest extends Harness
          if (smallData[i] != testData[i])
          {
             error =
-               "From getPixels - tile data does not match at "
+               "From getPixels - tile data does not match at " //$NON-NLS-1$
                   + i
-                  + "\n      from Tile:        "
+                  + "\n      from Tile:        " //$NON-NLS-1$
                   + testData[i]
-                  + "\n      from local cache: "
+                  + "\n      from local cache: " //$NON-NLS-1$
                   + data[i];
             return false;
          }
@@ -555,18 +554,17 @@ public class TileTest extends Harness
 
       // check data
       int[] testData = testTile.getData();
-      boolean failFlag = false;
-
+      
       for (i = 0; i < DATA_SIZE; i++)
       {
          if (testData[i] != data[i])
          {
             error =
-               "From retrieved data array - tile data does not match at "
+               "From retrieved data array - tile data does not match at " //$NON-NLS-1$
                   + i
-                  + "\n      from Tile:        "
+                  + "\n      from Tile:        " //$NON-NLS-1$
                   + testData[i]
-                  + "\n      from local cache: "
+                  + "\n      from local cache: " //$NON-NLS-1$
                   + data[i];
             return false;
          }
@@ -587,11 +585,11 @@ public class TileTest extends Harness
          if (smallData[i] != testData[i])
          {
             error =
-               "From getPixels - tile data does not match at "
+               "From getPixels - tile data does not match at " //$NON-NLS-1$
                   + i
-                  + "\n      from Tile:        "
+                  + "\n      from Tile:        " //$NON-NLS-1$
                   + testData[i]
-                  + "\n      from local cache: "
+                  + "\n      from local cache: " //$NON-NLS-1$
                   + data[i];
             return false;
          }
@@ -676,11 +674,11 @@ public class TileTest extends Harness
          if (testData[i] != data[i])
          {
             error =
-               "From retrieved data array - tile data does not match at "
+               "From retrieved data array - tile data does not match at " //$NON-NLS-1$
                   + i
-                  + "\n      from Tile:        "
+                  + "\n      from Tile:        " //$NON-NLS-1$
                   + testData[i]
-                  + "\n      from local cache: "
+                  + "\n      from local cache: " //$NON-NLS-1$
                   + data[i];
             return false;
          }
@@ -701,11 +699,11 @@ public class TileTest extends Harness
          if (smallData[i] != testData[i])
          {
             error =
-               "From getPixels - tile data does not match at "
+               "From getPixels - tile data does not match at " //$NON-NLS-1$
                   + i
-                  + "\n      from Tile:        "
+                  + "\n      from Tile:        " //$NON-NLS-1$
                   + testData[i]
-                  + "\n      from local cache: "
+                  + "\n      from local cache: " //$NON-NLS-1$
                   + data[i];
             return false;
          }
@@ -723,28 +721,28 @@ public class TileTest extends Harness
       {
          tempFile =
             File.createTempFile(
-               "testCache",
+               "testCache", //$NON-NLS-1$
                null,
-               new File(System.getProperty("java.io.tmpdir")));
+               new File(System.getProperty("java.io.tmpdir"))); //$NON-NLS-1$
       }
       catch (IOException ioe)
       {
-         console.println("Could not create temporary file:");
+         console.println("Could not create temporary file:"); //$NON-NLS-1$
          console.printStackTrace(ioe);
          return null;
       }
 
-      System.out.println("Cache file: " + tempFile);
+      System.out.println("Cache file: " + tempFile); //$NON-NLS-1$
 
       tempFile.deleteOnExit();
 
       try
       {
-         file = new RandomAccessFile(tempFile, "rws");
+         file = new RandomAccessFile(tempFile, "rws"); //$NON-NLS-1$
       }
       catch (FileNotFoundException fnfe)
       {
-         console.println("Cache file not found.");
+         console.println("Cache file not found."); //$NON-NLS-1$
          console.printStackTrace(fnfe);
          return null;
       }
@@ -756,7 +754,7 @@ public class TileTest extends Harness
       }
       catch (IOException ioe)
       {
-         console.println("Could not set file length: ");
+         console.println("Could not set file length: "); //$NON-NLS-1$
          console.printStackTrace(ioe);
       }
 

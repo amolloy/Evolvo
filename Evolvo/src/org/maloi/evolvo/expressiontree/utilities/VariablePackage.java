@@ -46,10 +46,10 @@ public class VariablePackage implements Serializable
     */
    private VariablePackage()
    {
-      vars.put("x", new Variable(0.0, "x"));
-      vars.put("y", new Variable(0.0, "y"));
-      vars.put("r", new Variable(0.0, "r"));
-      vars.put("theta", new Variable(0.0, "theta"));
+      vars.put("x", new Variable(0.0, "x")); //$NON-NLS-1$ //$NON-NLS-2$
+      vars.put("y", new Variable(0.0, "y")); //$NON-NLS-1$ //$NON-NLS-2$
+      vars.put("r", new Variable(0.0, "r")); //$NON-NLS-1$ //$NON-NLS-2$
+      vars.put("theta", new Variable(0.0, "theta")); //$NON-NLS-1$ //$NON-NLS-2$
    }
 
    public static VariablePackage getInstance()

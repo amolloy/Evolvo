@@ -115,35 +115,35 @@ public class Machine
          switch (program[i].type)
          {
             case Instruction.TYPE_OPERATOR :
-               theString.append(program[i].op.getName()).append("\n");
+               theString.append(program[i].op.getName()).append("\n"); //$NON-NLS-1$
                break;
             case Instruction.TYPE_REGISTER :
                int reg = program[i].reg;
                String regName;
                if (reg == REGISTER_X)
                {
-                  regName = "REG_X";
+                  regName = "REG_X"; //$NON-NLS-1$
                }
                else if (reg == REGISTER_Y)
                {
-                  regName = "REG_Y";
+                  regName = "REG_Y"; //$NON-NLS-1$
                }
                else if (reg == REGISTER_R)
                {
-                  regName = "REG_R";
+                  regName = "REG_R"; //$NON-NLS-1$
                }
                else if (reg == REGISTER_THETA)
                {
-                  regName = "REG_THETA";
+                  regName = "REG_THETA"; //$NON-NLS-1$
                }
                else
                {
-                  regName = "REG_" + Integer.toHexString(reg);
+                  regName = "REG_" + Integer.toHexString(reg); //$NON-NLS-1$
                }
-               theString.append(regName).append("\n");
+               theString.append(regName).append("\n"); //$NON-NLS-1$
                break;
             case Instruction.TYPE_VALUE :
-               theString.append(program[i].value).append("\n");
+               theString.append(program[i].value).append("\n"); //$NON-NLS-1$
                break;
          }
       }

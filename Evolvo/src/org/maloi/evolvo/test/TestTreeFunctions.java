@@ -34,6 +34,7 @@ import org.maloi.evolvo.expressiontree.mutator.mutators.MutatorInterface;
 import org.maloi.evolvo.expressiontree.utilities.ExpressionTreeGenerator;
 import org.maloi.evolvo.expressiontree.utilities.ExpressionTreeParser;
 import org.maloi.evolvo.expressiontree.utilities.SyntaxErrorException;
+import org.maloi.evolvo.expressiontree.vm.Machine;
 
 /**
  * @author Andy
@@ -45,22 +46,23 @@ public class TestTreeFunctions extends Harness
    public boolean test0()
    {
       String test =
-         "(mux3 (magnitude  (tripletSub  < y, (mandel x x 0.42280236786446224 y y x), 0.39181895639199005> (tripletAdd  < y, x, x> < y, y, x> ) ) ) (sin (ceil y)) (sub y (mux 0.475923575140631 (xor x y) (add y 0.6374955021356609) (mandel (not y) y y y 2.953070357227805E-4 0.8027840571248878) (ceil (beta y x)) y)) (ifs (ifs 0.27915636639743946 (add (not y) 0.7111752600490433) (sin y) (not (magnitude  < x, 0.314784367334743, 0.6250933160794659> )) (exp 0.31015252993712017) (mandel (not x) y (atan y) y x (mux3 x x x x)) 0.20717909891010633 y (mux3 (div 0.691187388766545 (arccos 0.4118630629517799)) x y (magnitude  < y, 0.19679439249476205, x> ))) (magnitude  (tripletAdd  < y, x, 0.43440377952834286> < x, y, y> ) ) (arcsin (cos 0.6716408319410063)) (ceil 0.135819838406531) (ifs y x (magnitude  < x, x, x> ) y (mandel y y y x (abs x) x) (div (floor y) y) y 0.7390436300379749 x) x (arcsin y) (not (and (abs x) y)) y))";
+         "(mux3 (magnitude  (tripletSub  < y, (mandel x x 0.42280236786446224 y y x), 0.39181895639199005> (tripletAdd  < y, x, x> < y, y, x> ) ) ) (sin (ceil y)) (sub y (mux 0.475923575140631 (xor x y) (add y 0.6374955021356609) (mandel (not y) y y y 2.953070357227805E-4 0.8027840571248878) (ceil (beta y x)) y)) (ifs (ifs 0.27915636639743946 (add (not y) 0.7111752600490433) (sin y) (not (magnitude  < x, 0.314784367334743, 0.6250933160794659> )) (exp 0.31015252993712017) (mandel (not x) y (atan y) y x (mux3 x x x x)) 0.20717909891010633 y (mux3 (div 0.691187388766545 (arccos 0.4118630629517799)) x y (magnitude  < y, 0.19679439249476205, x> ))) (magnitude  (tripletAdd  < y, x, 0.43440377952834286> < x, y, y> ) ) (arcsin (cos 0.6716408319410063)) (ceil 0.135819838406531) (ifs y x (magnitude  < x, x, x> ) y (mandel y y y x (abs x) x) (div (floor y) y) y 0.7390436300379749 x) x (arcsin y) (not (and (abs x) y)) y))"; //$NON-NLS-1$
 
       try
       {
          ExpressionTree parsed =
             ExpressionTreeParser.parse(
                new StreamTokenizer(new StringReader(test)));
+         parsed.buildMachine(new Machine());
       }
       catch (IOException ioe)
       {
-         System.err.println("IOException error!  Should never happen!");
+         System.err.println("IOException error!  Should never happen!"); //$NON-NLS-1$
          return false;
       }
       catch (SyntaxErrorException see)
       {
-         System.err.println("Syntax error");
+         System.err.println("Syntax error"); //$NON-NLS-1$
          System.err.println(test);
          System.err.println(see.toString());
 
@@ -86,16 +88,17 @@ public class TestTreeFunctions extends Harness
             parsed =
                ExpressionTreeParser.parse(
                   new StreamTokenizer(new StringReader(exp.toString())));
+				parsed.buildMachine(new Machine());                 
          }
          catch (IOException ioe)
          {
             System.err.println(
-               "IOException - this should never happen in this case.");
+               "IOException - this should never happen in this case."); //$NON-NLS-1$
             return false;
          }
          catch (SyntaxErrorException see)
          {
-            System.err.println("Syntax error");
+            System.err.println("Syntax error"); //$NON-NLS-1$
             System.err.println(see.toString());
             System.err.println(exp.toString());
             return false;
@@ -121,16 +124,17 @@ public class TestTreeFunctions extends Harness
             ExpressionTree parser =
                ExpressionTreeParser.parse(
                   new StreamTokenizer(new StringReader(exp.toString())));
+				parser.buildMachine(new Machine());
          }
          catch (IOException ioe)
          {
             System.err.println(
-               "IOException - this should never happen in this case.");
+               "IOException - this should never happen in this case."); //$NON-NLS-1$
             return false;
          }
          catch (SyntaxErrorException see)
          {
-            System.err.println("Syntax error");
+            System.err.println("Syntax error"); //$NON-NLS-1$
             System.err.println(see.toString());
             System.err.println(exp.toString());
             return false;
@@ -161,22 +165,23 @@ public class TestTreeFunctions extends Harness
                ExpressionTree parser =
                   ExpressionTreeParser.parse(
                      new StreamTokenizer(new StringReader(mutated.toString())));
+					parser.buildMachine(new Machine());
             }
          }
          catch (IOException ioe)
          {
             System.err.println(
-               "IOException - this should never happen in this case.");
+               "IOException - this should never happen in this case."); //$NON-NLS-1$
             return false;
          }
          catch (SyntaxErrorException see)
          {
             System.err.println(
-               "Error with mutator " + mutators[mutator].getDisplayName());
+               "Error with mutator " + mutators[mutator].getDisplayName()); //$NON-NLS-1$
             System.err.println(see.toString());
-            System.err.println("Original:");
+            System.err.println("Original:"); //$NON-NLS-1$
             System.err.println(exp.toString());
-            System.err.println("Mutated:");
+            System.err.println("Mutated:"); //$NON-NLS-1$
             System.err.println(mutated.toString());
             return false;
          }
@@ -206,22 +211,23 @@ public class TestTreeFunctions extends Harness
                ExpressionTree parser =
                   ExpressionTreeParser.parse(
                      new StreamTokenizer(new StringReader(mutated.toString())));
+					parser.buildMachine(new Machine());
             }
          }
          catch (IOException ioe)
          {
             System.err.println(
-               "IOException - this should never happen in this case.");
+               "IOException - this should never happen in this case."); //$NON-NLS-1$
             return false;
          }
          catch (SyntaxErrorException see)
          {
             System.err.println(
-               "Error with mutator " + mutators[mutator].getDisplayName());
+               "Error with mutator " + mutators[mutator].getDisplayName()); //$NON-NLS-1$
             System.err.println(see.toString());
-            System.err.println("Original:");
+            System.err.println("Original:"); //$NON-NLS-1$
             System.err.println(exp.toString());
-            System.err.println("Mutated:");
+            System.err.println("Mutated:"); //$NON-NLS-1$
             System.err.println(mutated.toString());
             return false;
          }
@@ -233,7 +239,6 @@ public class TestTreeFunctions extends Harness
    public boolean test5()
    {
       int i;
-      int mutator = 0;
 
       ExpressionTree mutated = null;
 
@@ -248,20 +253,21 @@ public class TestTreeFunctions extends Harness
             ExpressionTree parser =
                ExpressionTreeParser.parse(
                   new StreamTokenizer(new StringReader(mutated.toString())));
+				parser.buildMachine(new Machine());
          }
          catch (IOException ioe)
          {
             System.err.println(
-               "IOException - this should never happen in this case.");
+               "IOException - this should never happen in this case."); //$NON-NLS-1$
             return false;
          }
          catch (SyntaxErrorException see)
          {
-            System.err.println("Error with full mutator");
+            System.err.println("Error with full mutator"); //$NON-NLS-1$
             System.err.println(see.toString());
-            System.err.println("Original:");
+            System.err.println("Original:"); //$NON-NLS-1$
             System.err.println(exp.toString());
-            System.err.println("Mutated:");
+            System.err.println("Mutated:"); //$NON-NLS-1$
             System.err.println(mutated.toString());
             return false;
          }

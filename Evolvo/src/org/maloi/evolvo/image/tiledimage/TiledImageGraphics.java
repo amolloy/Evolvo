@@ -44,7 +44,7 @@ public class TiledImageGraphics extends Graphics
    {
       this.image = image;
 
-      console.println("TiledImageGraphics.constructor(" + image + ");");
+      console.println("TiledImageGraphics.constructor(" + image + ");"); //$NON-NLS-1$ //$NON-NLS-2$
    }
 
    /**
@@ -52,7 +52,7 @@ public class TiledImageGraphics extends Graphics
     */
    public Graphics create()
    {
-      console.println("TiledImageGraphics.create();");
+      console.println("TiledImageGraphics.create();"); //$NON-NLS-1$
 
       return this;
    }
@@ -62,7 +62,7 @@ public class TiledImageGraphics extends Graphics
     */
    public void translate(int x, int y)
    {
-      console.println("TiledImageGraphics.translate(" + x + ", " + y + ");");
+      console.println("TiledImageGraphics.translate(" + x + ", " + y + ");"); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
    }
 
    /**
@@ -70,7 +70,7 @@ public class TiledImageGraphics extends Graphics
     */
    public Color getColor()
    {
-      console.println("TiledImageGraphics.getColor();");
+      console.println("TiledImageGraphics.getColor();"); //$NON-NLS-1$
 
       return null;
    }
@@ -80,7 +80,7 @@ public class TiledImageGraphics extends Graphics
     */
    public void setColor(Color c)
    {
-      console.println("TiledImageGraphics.setColor(" + c + ");");
+      console.println("TiledImageGraphics.setColor(" + c + ");"); //$NON-NLS-1$ //$NON-NLS-2$
    }
 
    /**
@@ -88,7 +88,7 @@ public class TiledImageGraphics extends Graphics
     */
    public void setPaintMode()
    {
-      console.println("TiledImageGraphics.setPaintMode();");
+      console.println("TiledImageGraphics.setPaintMode();"); //$NON-NLS-1$
    }
 
    /**
@@ -96,7 +96,7 @@ public class TiledImageGraphics extends Graphics
     */
    public void setXORMode(Color c1)
    {
-      console.println("TiledImageGraphics.setXORMode(" + c1 + ");");
+      console.println("TiledImageGraphics.setXORMode(" + c1 + ");"); //$NON-NLS-1$ //$NON-NLS-2$
    }
 
    /**
@@ -104,7 +104,7 @@ public class TiledImageGraphics extends Graphics
     */
    public Font getFont()
    {
-      console.println("TiledImageGraphics.getFont();");
+      console.println("TiledImageGraphics.getFont();"); //$NON-NLS-1$
 
       return null;
    }
@@ -114,7 +114,7 @@ public class TiledImageGraphics extends Graphics
     */
    public void setFont(Font font)
    {
-      console.println("TiledImageGraphics.setFont(" + font + ");");
+      console.println("TiledImageGraphics.setFont(" + font + ");"); //$NON-NLS-1$ //$NON-NLS-2$
    }
 
    /**
@@ -122,7 +122,7 @@ public class TiledImageGraphics extends Graphics
     */
    public FontMetrics getFontMetrics(Font f)
    {
-      console.println("TiledImageGraphics.getFontMetrics(" + f + ");");
+      console.println("TiledImageGraphics.getFontMetrics(" + f + ");"); //$NON-NLS-1$ //$NON-NLS-2$
 
       return null;
    }
@@ -132,7 +132,7 @@ public class TiledImageGraphics extends Graphics
     */
    public Rectangle getClipBounds()
    {
-      console.println("TiledImageGraphics.getClipBounds();");
+      console.println("TiledImageGraphics.getClipBounds();"); //$NON-NLS-1$
 
       return null;
    }
@@ -143,15 +143,15 @@ public class TiledImageGraphics extends Graphics
    public void clipRect(int x, int y, int width, int height)
    {
       console.println(
-         "TiledImageGraphics.clipRect("
+         "TiledImageGraphics.clipRect(" //$NON-NLS-1$
             + x
-            + ", "
+            + ", " //$NON-NLS-1$
             + y
-            + ", "
+            + ", " //$NON-NLS-1$
             + width
-            + ", "
+            + ", " //$NON-NLS-1$
             + height
-            + ");");
+            + ");"); //$NON-NLS-1$
    }
 
    /**
@@ -160,15 +160,15 @@ public class TiledImageGraphics extends Graphics
    public void setClip(int x, int y, int width, int height)
    {
       console.println(
-         "TiledImageGraphics.setClip("
+         "TiledImageGraphics.setClip(" //$NON-NLS-1$
             + x
-            + ", "
+            + ", " //$NON-NLS-1$
             + y
-            + ", "
+            + ", " //$NON-NLS-1$
             + width
-            + ", "
+            + ", " //$NON-NLS-1$
             + height
-            + ");");
+            + ");"); //$NON-NLS-1$
    }
 
    /**
@@ -176,7 +176,7 @@ public class TiledImageGraphics extends Graphics
     */
    public Shape getClip()
    {
-      console.println("TiledImageGraphics.getClip();");
+      console.println("TiledImageGraphics.getClip();"); //$NON-NLS-1$
 
       return null;
    }
@@ -186,7 +186,7 @@ public class TiledImageGraphics extends Graphics
     */
    public void setClip(Shape clip)
    {
-      console.println("TiledImageGraphics.setClip(" + clip + ");");
+      console.println("TiledImageGraphics.setClip(" + clip + ");"); //$NON-NLS-1$ //$NON-NLS-2$
    }
 
    /**
@@ -195,19 +195,19 @@ public class TiledImageGraphics extends Graphics
    public void copyArea(int x, int y, int width, int height, int dx, int dy)
    {
       console.println(
-         "TiledImageGraphics.copyArea("
+         "TiledImageGraphics.copyArea(" //$NON-NLS-1$
             + x
-            + ", "
+            + ", " //$NON-NLS-1$
             + y
-            + ", "
+            + ", " //$NON-NLS-1$
             + width
-            + ", "
+            + ", " //$NON-NLS-1$
             + height
-            + ", "
+            + ", " //$NON-NLS-1$
             + dx
-            + ", "
+            + ", " //$NON-NLS-1$
             + dy
-            + ");");
+            + ");"); //$NON-NLS-1$
    }
 
    /**
@@ -216,15 +216,15 @@ public class TiledImageGraphics extends Graphics
    public void drawLine(int x1, int y1, int x2, int y2)
    {
       console.println(
-         "TiledImageGraphics.drawLine("
+         "TiledImageGraphics.drawLine(" //$NON-NLS-1$
             + x1
-            + ", "
+            + ", " //$NON-NLS-1$
             + y1
-            + ", "
+            + ", " //$NON-NLS-1$
             + x2
-            + ", "
+            + ", " //$NON-NLS-1$
             + y2
-            + ");");
+            + ");"); //$NON-NLS-1$
    }
 
    /**
@@ -233,15 +233,15 @@ public class TiledImageGraphics extends Graphics
    public void fillRect(int x, int y, int width, int height)
    {
       console.println(
-         "TiledImageGraphics.fillRect("
+         "TiledImageGraphics.fillRect(" //$NON-NLS-1$
             + x
-            + ", "
+            + ", " //$NON-NLS-1$
             + y
-            + ", "
+            + ", " //$NON-NLS-1$
             + width
-            + ", "
+            + ", " //$NON-NLS-1$
             + height
-            + ");");
+            + ");"); //$NON-NLS-1$
    }
 
    /**
@@ -250,15 +250,15 @@ public class TiledImageGraphics extends Graphics
    public void clearRect(int x, int y, int width, int height)
    {
       console.println(
-         "TiledImageGraphics.clearRect("
+         "TiledImageGraphics.clearRect(" //$NON-NLS-1$
             + x
-            + ", "
+            + ", " //$NON-NLS-1$
             + y
-            + ", "
+            + ", " //$NON-NLS-1$
             + width
-            + ", "
+            + ", " //$NON-NLS-1$
             + height
-            + ");");
+            + ");"); //$NON-NLS-1$
    }
 
    /**
@@ -273,19 +273,19 @@ public class TiledImageGraphics extends Graphics
       int arcHeight)
    {
       console.println(
-         "TiledImageGraphics.drawRoundRect("
+         "TiledImageGraphics.drawRoundRect(" //$NON-NLS-1$
             + x
-            + ", "
+            + ", " //$NON-NLS-1$
             + y
-            + ", "
+            + ", " //$NON-NLS-1$
             + width
-            + ", "
+            + ", " //$NON-NLS-1$
             + height
-            + ", "
+            + ", " //$NON-NLS-1$
             + arcWidth
-            + ", "
+            + ", " //$NON-NLS-1$
             + arcHeight
-            + ");");
+            + ");"); //$NON-NLS-1$
    }
 
    /**
@@ -300,19 +300,19 @@ public class TiledImageGraphics extends Graphics
       int arcHeight)
    {
       console.println(
-         "TiledImageGraphics.fillRoundRect("
+         "TiledImageGraphics.fillRoundRect(" //$NON-NLS-1$
             + x
-            + ",. "
+            + ",. " //$NON-NLS-1$
             + y
-            + ", "
+            + ", " //$NON-NLS-1$
             + width
-            + ", "
+            + ", " //$NON-NLS-1$
             + height
-            + ", "
+            + ", " //$NON-NLS-1$
             + arcWidth
-            + ", "
+            + ", " //$NON-NLS-1$
             + arcHeight
-            + ");");
+            + ");"); //$NON-NLS-1$
    }
 
    /**
@@ -321,15 +321,15 @@ public class TiledImageGraphics extends Graphics
    public void drawOval(int x, int y, int width, int height)
    {
       console.println(
-         "TiledImageGraphics.drawOval("
+         "TiledImageGraphics.drawOval(" //$NON-NLS-1$
             + x
-            + ", "
+            + ", " //$NON-NLS-1$
             + y
-            + ", "
+            + ", " //$NON-NLS-1$
             + width
-            + ", "
+            + ", " //$NON-NLS-1$
             + height
-            + ");");
+            + ");"); //$NON-NLS-1$
    }
 
    /**
@@ -338,15 +338,15 @@ public class TiledImageGraphics extends Graphics
    public void fillOval(int x, int y, int width, int height)
    {
       console.println(
-         "TiledImageGraphics.fillOval("
+         "TiledImageGraphics.fillOval(" //$NON-NLS-1$
             + x
-            + ", "
+            + ", " //$NON-NLS-1$
             + y
-            + ", "
+            + ", " //$NON-NLS-1$
             + width
-            + ", "
+            + ", " //$NON-NLS-1$
             + height
-            + ");");
+            + ");"); //$NON-NLS-1$
    }
 
    /**
@@ -361,19 +361,19 @@ public class TiledImageGraphics extends Graphics
       int arcAngle)
    {
       console.println(
-         "TiledImageGraphics.drawArc("
+         "TiledImageGraphics.drawArc(" //$NON-NLS-1$
             + x
-            + ", "
+            + ", " //$NON-NLS-1$
             + y
-            + ", "
+            + ", " //$NON-NLS-1$
             + width
-            + ", "
+            + ", " //$NON-NLS-1$
             + height
-            + ", "
+            + ", " //$NON-NLS-1$
             + startAngle
-            + ", "
+            + ", " //$NON-NLS-1$
             + arcAngle
-            + ");");
+            + ");"); //$NON-NLS-1$
    }
 
    /**
@@ -388,19 +388,19 @@ public class TiledImageGraphics extends Graphics
       int arcAngle)
    {
       console.println(
-         "TiledImageGraphics.fillArc("
+         "TiledImageGraphics.fillArc(" //$NON-NLS-1$
             + x
-            + ", "
+            + ", " //$NON-NLS-1$
             + y
-            + ", "
+            + ", " //$NON-NLS-1$
             + width
-            + ", "
+            + ", " //$NON-NLS-1$
             + height
-            + ", "
+            + ", " //$NON-NLS-1$
             + startAngle
-            + ", "
+            + ", " //$NON-NLS-1$
             + arcAngle
-            + ");");
+            + ");"); //$NON-NLS-1$
    }
 
    /**
@@ -408,7 +408,7 @@ public class TiledImageGraphics extends Graphics
     */
    public void drawPolyline(int[] xPoints, int[] yPoints, int nPoints)
    {
-      console.println("TiledImageGraphics.drawPolyline(int[], int[], int);");
+      console.println("TiledImageGraphics.drawPolyline(int[], int[], int);"); //$NON-NLS-1$
    }
 
    /**
@@ -416,7 +416,7 @@ public class TiledImageGraphics extends Graphics
     */
    public void drawPolygon(int[] xPoints, int[] yPoints, int nPoints)
    {
-      console.println("TiledImageGraphics.drawPolygon(int[], int[], int);");
+      console.println("TiledImageGraphics.drawPolygon(int[], int[], int);"); //$NON-NLS-1$
    }
 
    /**
@@ -424,7 +424,7 @@ public class TiledImageGraphics extends Graphics
     */
    public void fillPolygon(int[] xPoints, int[] yPoints, int nPoints)
    {
-      console.println("TiledImageGraphics.fillPolygon(int[], int[], int);");
+      console.println("TiledImageGraphics.fillPolygon(int[], int[], int);"); //$NON-NLS-1$
    }
 
    /**
@@ -433,13 +433,13 @@ public class TiledImageGraphics extends Graphics
    public void drawString(String str, int x, int y)
    {
       console.println(
-         "TiledImageGraphics.drawString(\""
+         "TiledImageGraphics.drawString(\"" //$NON-NLS-1$
             + str
-            + "\", "
+            + "\", " //$NON-NLS-1$
             + x
-            + ", "
+            + ", " //$NON-NLS-1$
             + y
-            + ");");
+            + ");"); //$NON-NLS-1$
    }
 
    /**
@@ -448,13 +448,13 @@ public class TiledImageGraphics extends Graphics
    public void drawString(AttributedCharacterIterator iterator, int x, int y)
    {
       console.println(
-         "TiledImageGraphics.drawString("
+         "TiledImageGraphics.drawString(" //$NON-NLS-1$
             + iterator
-            + ", "
+            + ", " //$NON-NLS-1$
             + x
-            + ", "
+            + ", " //$NON-NLS-1$
             + y
-            + ");");
+            + ");"); //$NON-NLS-1$
    }
 
    /**
@@ -463,15 +463,15 @@ public class TiledImageGraphics extends Graphics
    public boolean drawImage(Image img, int x, int y, ImageObserver observer)
    {
       console.println(
-         "TiledImageGraphics.drawImage("
+         "TiledImageGraphics.drawImage(" //$NON-NLS-1$
             + img
-            + ", "
+            + ", " //$NON-NLS-1$
             + x
-            + ", "
+            + ", " //$NON-NLS-1$
             + y
-            + ", "
+            + ", " //$NON-NLS-1$
             + observer
-            + ");");
+            + ");"); //$NON-NLS-1$
 
       return false;
    }
@@ -488,19 +488,19 @@ public class TiledImageGraphics extends Graphics
       ImageObserver observer)
    {
       console.println(
-         "TiledImageGraphics.drawImage("
+         "TiledImageGraphics.drawImage(" //$NON-NLS-1$
             + img
-            + ", "
+            + ", " //$NON-NLS-1$
             + startX
-            + ", "
+            + ", " //$NON-NLS-1$
             + startY
-            + ", "
+            + ", " //$NON-NLS-1$
             + newWidth
-            + ", "
+            + ", " //$NON-NLS-1$
             + newHeight
-            + ", "
+            + ", " //$NON-NLS-1$
             + observer
-            + ");");
+            + ");"); //$NON-NLS-1$
 
       return false;
    }
@@ -516,17 +516,17 @@ public class TiledImageGraphics extends Graphics
       ImageObserver observer)
    {
       console.println(
-         "TileImageGraphics.drawImage("
+         "TileImageGraphics.drawImage(" //$NON-NLS-1$
             + img
-            + ", "
+            + ", " //$NON-NLS-1$
             + x
-            + ", "
+            + ", " //$NON-NLS-1$
             + y
-            + ", "
+            + ", " //$NON-NLS-1$
             + bgcolor
-            + ", "
+            + ", " //$NON-NLS-1$
             + observer
-            + ");");
+            + ");"); //$NON-NLS-1$
 
       return false;
    }
@@ -544,21 +544,21 @@ public class TiledImageGraphics extends Graphics
       ImageObserver observer)
    {
       console.println(
-         "TileImageGraphics.drawImage("
+         "TileImageGraphics.drawImage(" //$NON-NLS-1$
             + img
-            + ", "
+            + ", " //$NON-NLS-1$
             + x
-            + ", "
+            + ", " //$NON-NLS-1$
             + y
-            + ", "
+            + ", " //$NON-NLS-1$
             + width
-            + ", "
+            + ", " //$NON-NLS-1$
             + height
-            + ", "
+            + ", " //$NON-NLS-1$
             + bgcolor
-            + ", "
+            + ", " //$NON-NLS-1$
             + observer
-            + ");");
+            + ");"); //$NON-NLS-1$
 
       return false;
    }
@@ -579,25 +579,25 @@ public class TiledImageGraphics extends Graphics
       ImageObserver observer)
    {
       console.println(
-         "TiledImageGraphics.drawImage("
+         "TiledImageGraphics.drawImage(" //$NON-NLS-1$
             + dx1
-            + ", "
+            + ", " //$NON-NLS-1$
             + dy1
-            + ", "
+            + ", " //$NON-NLS-1$
             + dx2
-            + ", "
+            + ", " //$NON-NLS-1$
             + dy2
-            + ", "
+            + ", " //$NON-NLS-1$
             + sx1
-            + ", "
+            + ", " //$NON-NLS-1$
             + sy1
-            + ", "
+            + ", " //$NON-NLS-1$
             + sx2
-            + ", "
+            + ", " //$NON-NLS-1$
             + sy2
-            + ", "
+            + ", " //$NON-NLS-1$
             + observer
-            + ");");
+            + ");"); //$NON-NLS-1$
 
       return false;
    }
@@ -619,27 +619,27 @@ public class TiledImageGraphics extends Graphics
       ImageObserver observer)
    {
       console.println(
-         "TiledImageGraphics.drawImage("
+         "TiledImageGraphics.drawImage(" //$NON-NLS-1$
             + dx1
-            + ", "
+            + ", " //$NON-NLS-1$
             + dy1
-            + ", "
+            + ", " //$NON-NLS-1$
             + dx2
-            + ", "
+            + ", " //$NON-NLS-1$
             + dy2
-            + ", "
+            + ", " //$NON-NLS-1$
             + sx1
-            + ", "
+            + ", " //$NON-NLS-1$
             + sy1
-            + ", "
+            + ", " //$NON-NLS-1$
             + sx2
-            + ", "
+            + ", " //$NON-NLS-1$
             + sy2
-            + ", "
+            + ", " //$NON-NLS-1$
             + bgcolor
-            + ", "
+            + ", " //$NON-NLS-1$
             + observer
-            + ");");
+            + ");"); //$NON-NLS-1$
 
       return false;
    }
@@ -649,7 +649,7 @@ public class TiledImageGraphics extends Graphics
     */
    public void dispose()
    {
-      console.println("TiledImageGraphics.dispose();");
+      console.println("TiledImageGraphics.dispose();"); //$NON-NLS-1$
    }
 
 }

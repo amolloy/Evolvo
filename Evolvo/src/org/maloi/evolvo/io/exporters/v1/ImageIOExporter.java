@@ -32,7 +32,7 @@ import javax.imageio.ImageIO;
 
 public class ImageIOExporter implements ExporterInterface, ImageObserver
 {
-   final String name = "Java ImageIO Exporter";
+   final String name = "Java ImageIO Exporter"; //$NON-NLS-1$
 
    String descriptions[];
 
@@ -52,13 +52,13 @@ public class ImageIOExporter implements ExporterInterface, ImageObserver
 
    public String[] getFormatExtensions(String format)
    {
-      if (format.equals("jpg"))
+      if (format.equals("jpg")) //$NON-NLS-1$
       {
-         return new String[] { "JPG", "JPEG" };
+         return new String[] { "JPG", "JPEG" }; //$NON-NLS-1$ //$NON-NLS-2$
       }
-      if (format.equals("png"))
+      if (format.equals("png")) //$NON-NLS-1$
       {
-         return new String[] { "PNG" };
+         return new String[] { "PNG" }; //$NON-NLS-1$
       }
 
       return new String[] { format };
@@ -107,7 +107,7 @@ public class ImageIOExporter implements ExporterInterface, ImageObserver
       // Now get rid of duplicate jpeg (same as jpg)
       for (i = 0; i < newLen; i++)
       {
-         if (!formatNames[i].equals("jpeg"))
+         if (!formatNames[i].equals("jpeg")) //$NON-NLS-1$
          {
             filtered[j++] = formatNames[i];
          }
@@ -128,7 +128,8 @@ public class ImageIOExporter implements ExporterInterface, ImageObserver
    {
       try
       {
-         Class testClass = Class.forName("javax.imageio.ImageIO");
+         Class testClass = Class.forName("javax.imageio.ImageIO"); //$NON-NLS-1$
+         testClass.getName(); // no real reason
       }
       catch (ClassNotFoundException e)
       {
@@ -142,11 +143,11 @@ public class ImageIOExporter implements ExporterInterface, ImageObserver
    {
       descriptions = getWriterFormatNames();
 
-      for (int i = 0; i < descriptions.length; i++)
-      {
-         String exts[] = getFormatExtensions(descriptions[i]);
-         Integer I = new Integer(i);
-      }
+//      for (int i = 0; i < descriptions.length; i++)
+//      {
+//         String exts[] = getFormatExtensions(descriptions[i]);
+//         Integer I = new Integer(i);
+//      }
    }
 
    public boolean imageUpdate(

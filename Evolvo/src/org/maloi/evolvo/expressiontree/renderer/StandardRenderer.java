@@ -131,7 +131,6 @@ public class StandardRenderer implements RendererInterface, Runnable
    {
       int y;
       int x;
-      int i;
       int offset;
       double red;
       double green;

@@ -65,7 +65,7 @@ import quicktime.std.image.GraphicsExporter;
 public class QuickTimeExporter
    implements ExporterInterface, StdQTConstants, IOConstants, Errors
 {
-   final String name = "QuickTime Exporter";
+   final String name = "QuickTime Exporter"; //$NON-NLS-1$
 
    int subTypes[];
    String descriptions[];
@@ -88,25 +88,25 @@ public class QuickTimeExporter
 
    public String[] getFormatExtensions(String format)
    {
-      if (format.equals("Photoshop"))
+      if (format.equals("Photoshop")) //$NON-NLS-1$
       {
-         return new String[] { "PSD" };
+         return new String[] { "PSD" }; //$NON-NLS-1$
       }
-      if (format.equals("JPEG"))
+      if (format.equals("JPEG")) //$NON-NLS-1$
       {
-         return new String[] { "JPG", "JPEG" };
+         return new String[] { "JPG", "JPEG" }; //$NON-NLS-1$ //$NON-NLS-2$
       }
-      if (format.equals("MacPaint"))
+      if (format.equals("MacPaint")) //$NON-NLS-1$
       {
-         return new String[] { "MAC" };
+         return new String[] { "MAC" }; //$NON-NLS-1$
       }
-      if (format.equals("TIFF"))
+      if (format.equals("TIFF")) //$NON-NLS-1$
       {
-         return new String[] { "TIF", "TIFF" };
+         return new String[] { "TIF", "TIFF" }; //$NON-NLS-1$ //$NON-NLS-2$
       }
-      if (format.equals("QuickTime Image"))
+      if (format.equals("QuickTime Image")) //$NON-NLS-1$
       {
-         return new String[] { "QIF" };
+         return new String[] { "QIF" }; //$NON-NLS-1$
       }
 
       return new String[] { format };
@@ -146,7 +146,7 @@ public class QuickTimeExporter
       else
       {
          console.println(
-            "QuickTimeExporter: Don't know what to do with this: " + inImage);
+            "QuickTimeExporter: Don't know what to do with this: " + inImage); //$NON-NLS-1$
          return;
       }
 
@@ -181,13 +181,13 @@ public class QuickTimeExporter
          ge.requestSettings();
 
          ge.setOutputFile(exportFile);
-         int size = ge.doExport();
+         ge.doExport();
 
          QTSession.close();
       }
       catch (QTException e)
       {
-         console.println("QTException");
+         console.println("QTException"); //$NON-NLS-1$
 
          console.printStackTrace(e);
       }
@@ -201,7 +201,8 @@ public class QuickTimeExporter
    {
       try
       {
-         Class testClass = Class.forName("quicktime.QTSession");
+         Class testClass = Class.forName("quicktime.QTSession"); //$NON-NLS-1$
+         testClass.getName(); // no real reason
       }
       catch (ClassNotFoundException e)
       {
@@ -241,7 +242,7 @@ public class QuickTimeExporter
                String name = tempCD.getName();
                int subType = tempCD.getSubType();
 
-               if ((!name.equals("SGI")) && (!name.equals("MacPaint")))
+               if ((!name.equals("SGI")) && (!name.equals("MacPaint"))) //$NON-NLS-1$ //$NON-NLS-2$
                {
                   descriptionVector.add(name);
                   subTypeVector.add(new Integer(subType));

@@ -147,7 +147,6 @@ public class Tile
    {
       int x;
       int y;
-      int i;
 
       int endX = startX + w;
       int endY = startY + h;
@@ -215,8 +214,7 @@ public class Tile
 
       int x;
       int y;
-      int i;
-
+      
       int endX = startX + w;
       int endY = startY + h;
 
@@ -288,7 +286,7 @@ public class Tile
       }
       catch (IOException ioe)
       {
-         console.println("Could not write tile to disk.");
+         console.println(TiledImageMessages.getString("Tile.Could_not_write_tile_to_disk.")); //$NON-NLS-1$
       }
 
       location = LOCATION_DISK;
@@ -307,7 +305,7 @@ public class Tile
       }
       catch (IOException ioe)
       {
-         console.println("Could not read tile from disk.");
+         console.println(TiledImageMessages.getString("Tile.Could_not_read_tile_from_disk.")); //$NON-NLS-1$
          console.printStackTrace(ioe);
       }
 

@@ -153,7 +153,6 @@ public class TiledRenderer implements RendererInterface, Runnable
       int ycount;
       int xleftover;
       int yleftover;
-      int i;
 
       theMachine = expression.getMachine();
 

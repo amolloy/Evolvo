@@ -85,9 +85,9 @@ public class ExpressionTreeGenerator
       // Start by making a new expressionTree
       ExpressionTree root = new ExpressionTree(null ,null);
 
-      double c = settings.getDoubleProperty("complexity");
-      double d = settings.getDoubleProperty("depreciation");
-      double v = settings.getDoubleProperty("variable.probability");
+      double c = settings.getDoubleProperty("complexity"); //$NON-NLS-1$
+      double d = settings.getDoubleProperty("depreciation"); //$NON-NLS-1$
+      double v = settings.getDoubleProperty("variable.probability"); //$NON-NLS-1$
 
       // Since the process is recursive, and complexity (c) is not passed as 
       // a parameter, we subtract the depreciation (d) value from it, 
@@ -150,36 +150,36 @@ public class ExpressionTreeGenerator
                   // This is really very messy and should be rewritten soon
                   if (variabletype < 0.25)
                   {
-                     if (chance < settings.getDoubleProperty("variable.x"))
+                     if (chance < settings.getDoubleProperty("variable.x")) //$NON-NLS-1$
                      {
                         flag = true;
-                        root = variables.getVariable("x");
+                        root = variables.getVariable("x"); //$NON-NLS-1$
                      }
                   }
                   else if (variabletype < 0.5)
                   {
-                     if (chance < settings.getDoubleProperty("variable.y"))
+                     if (chance < settings.getDoubleProperty("variable.y")) //$NON-NLS-1$
                      {
                         flag = true;
-                        root = variables.getVariable("y");
+                        root = variables.getVariable("y"); //$NON-NLS-1$
                      }
 
                   }
                   else if (variabletype < 0.75)
                   {
-                     if (chance < settings.getDoubleProperty("variable.r"))
+                     if (chance < settings.getDoubleProperty("variable.r")) //$NON-NLS-1$
                      {
                         flag = true;
-                        root = variables.getVariable("r");
+                        root = variables.getVariable("r"); //$NON-NLS-1$
                      }
 
                   }
                   else
                   {
-                     if (chance < settings.getDoubleProperty("variable.theta"))
+                     if (chance < settings.getDoubleProperty("variable.theta")) //$NON-NLS-1$
                      {
                         flag = true;
-                        root = variables.getVariable("theta");
+                        root = variables.getVariable("theta"); //$NON-NLS-1$
                      }
                   }
                   // messy

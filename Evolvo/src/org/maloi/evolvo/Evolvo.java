@@ -76,16 +76,16 @@ public class Evolvo extends JFrame implements ActionListener
 
    static {
       // Set some OS X specific settings (has no affect on other platforms)
-      System.setProperty("apple.laf.useScreenMenuBar", "true");
+      System.setProperty("apple.laf.useScreenMenuBar", "true"); //$NON-NLS-1$ //$NON-NLS-2$
       //System.setProperty("com.apple.mrj.application.apple.menu.about.name",
       //   "Evolvo");
       //System.setProperty("apple.awt.brushMetalLook", "true");
-      System.setProperty("apple.awt.textantialising", "true");
+      System.setProperty("apple.awt.textantialising", "true"); //$NON-NLS-1$ //$NON-NLS-2$
    }
 
    public Evolvo()
    {
-      super("Evolvo");
+      super(Messages.getString("Evolvo.Program_Title")); //$NON-NLS-1$
 
       if (!Constants.isMac)
       {
@@ -104,26 +104,26 @@ public class Evolvo extends JFrame implements ActionListener
 
       logSystemInfo();
 
-      console.println("Creating splash screen");
+      console.println(Messages.getString("Evolvo.Creating_splash_screen_6")); //$NON-NLS-1$
 
       SplashWindow Splash = new SplashWindow(false, this);
 
-      Splash.setMessage("Loading preferences...");
+      Splash.setMessage(Messages.getString("Evolvo.Loading_preferences..._7")); //$NON-NLS-1$
       settings = GlobalSettings.getInstance();
 
-      Splash.setMessage("Creating preferences dialog...");
+      Splash.setMessage(Messages.getString("Evolvo.Creating_preferences_dialog..._8")); //$NON-NLS-1$
       settingsDialogBox = SettingsDialog.getInstance();
 
-      Splash.setMessage("Creating file chooser dialog...");
+      Splash.setMessage(Messages.getString("Evolvo.Creating_file_chooser_dialog..._9")); //$NON-NLS-1$
       genericFileChooser = CustomFileChooser.getInstance();
 
-      Splash.setMessage("Reading preferences...");
+      Splash.setMessage(Messages.getString("Evolvo.Reading_preferences..._10")); //$NON-NLS-1$
       prop = settings.getProperties();
 
-      Splash.setMessage("Configuring variables...");
+      Splash.setMessage(Messages.getString("Evolvo.Configuring_variables..._11")); //$NON-NLS-1$
       variables = VariablePackage.getInstance();
 
-      Splash.setMessage("Creating main window...");
+      Splash.setMessage(Messages.getString("Evolvo.Creating_main_window..._12")); //$NON-NLS-1$
       getContentPane().setLayout(new BorderLayout());
 
       JMenuBar menubar = makeMenuBar();
@@ -166,13 +166,13 @@ public class Evolvo extends JFrame implements ActionListener
    {
       Properties sysProps = System.getProperties();
 
-      console.println("System Properties:");
+      console.println(Messages.getString("Evolvo.System_Properties__13")); //$NON-NLS-1$
 
       for (Enumeration e = sysProps.propertyNames(); e.hasMoreElements();)
       {
          String key = (String)e.nextElement();
 
-         console.println(key + "=" + sysProps.getProperty(key));
+         console.println(key + "=" + sysProps.getProperty(key)); //$NON-NLS-1$
       }
    }
 
@@ -185,11 +185,11 @@ public class Evolvo extends JFrame implements ActionListener
       JMenu helpMenu;
 
       // Make the File Menu
-      fileMenu = new JMenu("File");
+      fileMenu = new JMenu(Messages.getString("Evolvo.File_15")); //$NON-NLS-1$
       fileMenu.setMnemonic(KeyEvent.VK_F);
 
       // Save menu item
-      menuitem = new JMenuItem("Save Genotype");
+      menuitem = new JMenuItem(Messages.getString("Evolvo.Save_Genotype_Menu")); //$NON-NLS-1$
       menuitem.setMnemonic(KeyEvent.VK_S);
       menuitem.setAccelerator(
          KeyStroke.getKeyStroke(KeyEvent.VK_S, Constants.KEY_MASK));
@@ -197,7 +197,7 @@ public class Evolvo extends JFrame implements ActionListener
       fileMenu.add(menuitem);
 
       // Load menu item
-      menuitem = new JMenuItem("Load Genotype");
+      menuitem = new JMenuItem(Messages.getString("Evolvo.Load_Genotype_Menu")); //$NON-NLS-1$
       menuitem.setMnemonic(KeyEvent.VK_L);
       menuitem.setAccelerator(
          KeyStroke.getKeyStroke(KeyEvent.VK_L, Constants.KEY_MASK));
@@ -206,7 +206,7 @@ public class Evolvo extends JFrame implements ActionListener
       fileMenu.addSeparator();
 
       // Display
-      menuitem = new JMenuItem("Display Genotype");
+      menuitem = new JMenuItem(Messages.getString("Evolvo.Display_Genotype_Menu")); //$NON-NLS-1$
       menuitem.setMnemonic(KeyEvent.VK_D);
       menuitem.setAccelerator(
          KeyStroke.getKeyStroke(KeyEvent.VK_D, Constants.KEY_MASK));
@@ -214,7 +214,7 @@ public class Evolvo extends JFrame implements ActionListener
       fileMenu.add(menuitem);
 
       // render saved genotype menu item
-      menuitem = new JMenuItem("Render Saved Genotype");
+      menuitem = new JMenuItem(Messages.getString("Evolvo.Render_Saved_Genotype_Menu")); //$NON-NLS-1$
       menuitem.setMnemonic(KeyEvent.VK_E);
       menuitem.setAccelerator(
          KeyStroke.getKeyStroke(KeyEvent.VK_E, Constants.KEY_MASK));
@@ -224,7 +224,7 @@ public class Evolvo extends JFrame implements ActionListener
       fileMenu.addSeparator();
 
       // Display system console
-      menuitem = new JMenuItem("Display System Console");
+      menuitem = new JMenuItem(Messages.getString("Evolvo.Display_System_Console_Menu")); //$NON-NLS-1$
       menuitem.setMnemonic(KeyEvent.VK_C);
       menuitem.setAccelerator(
          KeyStroke.getKeyStroke(KeyEvent.VK_C, Constants.KEY_MASK));
@@ -238,13 +238,13 @@ public class Evolvo extends JFrame implements ActionListener
          fileMenu.addSeparator();
 
          // Preferences menu item
-         menuitem = new JMenuItem("Preferences");
+         menuitem = new JMenuItem(Messages.getString("Evolvo.Preferences_Menu")); //$NON-NLS-1$
          menuitem.setMnemonic(KeyEvent.VK_P);
          menuitem.addActionListener(this);
          fileMenu.add(menuitem);
 
          // Exit menu item
-         menuitem = new JMenuItem("Exit");
+         menuitem = new JMenuItem(Messages.getString("Evolvo.Exit_Menu")); //$NON-NLS-1$
          menuitem.setMnemonic(KeyEvent.VK_X);
          menuitem.setAccelerator(
             KeyStroke.getKeyStroke(KeyEvent.VK_X, Constants.KEY_MASK));
@@ -256,7 +256,7 @@ public class Evolvo extends JFrame implements ActionListener
          try
          {
             Class macHandlerClass =
-               Class.forName("org.maloi.evolvo.gui.MacMenu");
+               Class.forName("org.maloi.evolvo.gui.MacMenu"); //$NON-NLS-1$
             Constructor macHandlerConstructor =
                macHandlerClass.getConstructor(
                   new Class[] { ActionListener.class });
@@ -270,11 +270,11 @@ public class Evolvo extends JFrame implements ActionListener
       }
 
       // Make Render Menu
-      renderMenu = new JMenu("Render");
+      renderMenu = new JMenu(Messages.getString("Evolvo.Render_Menu")); //$NON-NLS-1$
       renderMenu.setMnemonic(KeyEvent.VK_R);
 
       // New Generation menu item
-      menuitem = new JMenuItem("New Generation");
+      menuitem = new JMenuItem(Messages.getString("Evolvo.New_Generation_Menu")); //$NON-NLS-1$
       menuitem.setMnemonic(KeyEvent.VK_N);
       menuitem.setAccelerator(
          KeyStroke.getKeyStroke(KeyEvent.VK_N, Constants.KEY_MASK));
@@ -283,7 +283,7 @@ public class Evolvo extends JFrame implements ActionListener
       renderMenu.addSeparator();
 
       // Render Image menu item
-      menuitem = new JMenuItem("Render Image");
+      menuitem = new JMenuItem(Messages.getString("Evolvo.Render_Image_Menu")); //$NON-NLS-1$
       menuitem.setMnemonic(KeyEvent.VK_R);
       menuitem.setAccelerator(
          KeyStroke.getKeyStroke(KeyEvent.VK_R, Constants.KEY_MASK));
@@ -291,7 +291,7 @@ public class Evolvo extends JFrame implements ActionListener
       renderMenu.add(menuitem);
 
       // Make stop menu item
-      menuitem = new JMenuItem("Stop");
+      menuitem = new JMenuItem(Messages.getString("Evolvo.Stop_Menu")); //$NON-NLS-1$
       menuitem.setMnemonic(KeyEvent.VK_T);
       menuitem.setAccelerator(
          KeyStroke.getKeyStroke(KeyEvent.VK_T, Constants.KEY_MASK));
@@ -299,7 +299,7 @@ public class Evolvo extends JFrame implements ActionListener
       renderMenu.add(menuitem);
 
       // Make Render Menu
-      helpMenu = new JMenu("Help");
+      helpMenu = new JMenu(Messages.getString("Evolvo.Help_Menu")); //$NON-NLS-1$
       helpMenu.setMnemonic(KeyEvent.VK_H);
 
       if (!Constants.isMac)
@@ -307,7 +307,7 @@ public class Evolvo extends JFrame implements ActionListener
          // On Macs, this is handled elsewhere...
 
          // About Evolvo menu item
-         menuitem = new JMenuItem("About Evolvo");
+         menuitem = new JMenuItem(Messages.getString("Evolvo.About_Evolvo_Menu")); //$NON-NLS-1$
          menuitem.setMnemonic(KeyEvent.VK_A);
          menuitem.setAccelerator(
             KeyStroke.getKeyStroke(KeyEvent.VK_A, Constants.KEY_MASK));
@@ -317,19 +317,19 @@ public class Evolvo extends JFrame implements ActionListener
       }
 
       // GPL License menu item
-      menuitem = new JMenuItem("GPL License");
+      menuitem = new JMenuItem(Messages.getString("Evolvo.GPL_License_Menu")); //$NON-NLS-1$
       menuitem.setMnemonic(KeyEvent.VK_G);
       menuitem.addActionListener(this);
       helpMenu.add(menuitem);
 
       // Warranty Info menu item
-      menuitem = new JMenuItem("Warranty Information");
+      menuitem = new JMenuItem(Messages.getString("Evolvo.Warranty_Information_Menu")); //$NON-NLS-1$
       menuitem.setMnemonic(KeyEvent.VK_W);
       menuitem.addActionListener(this);
       helpMenu.add(menuitem);
 
       // Redistribution Info menu item
-      menuitem = new JMenuItem("Redistribution Information");
+      menuitem = new JMenuItem(Messages.getString("Evolvo.Redistribution_Information_Menu")); //$NON-NLS-1$
       menuitem.setMnemonic(KeyEvent.VK_R);
       menuitem.addActionListener(this);
       helpMenu.add(menuitem);
@@ -351,8 +351,6 @@ public class Evolvo extends JFrame implements ActionListener
       mainPanel.add(buttonPanel);
       mainPanel.setVisible(true);
 
-      Dimension imageButtonPanelSize = buttonPanel.getPreferredSize();
-
       return mainPanel;
    }
 
@@ -361,13 +359,13 @@ public class Evolvo extends JFrame implements ActionListener
       JPanel auxPanel = new JPanel();
       JButton auxButton;
 
-      auxButton = new JButton("New Generation");
+      auxButton = new JButton(Messages.getString("Evolvo.New_Generation_33")); //$NON-NLS-1$
       auxButton.setMnemonic(KeyEvent.VK_N);
       auxButton.addActionListener(this);
 
       auxPanel.add(auxButton);
 
-      auxButton = new JButton("Render Image");
+      auxButton = new JButton(Messages.getString("Evolvo.Render_Image_34")); //$NON-NLS-1$
       auxButton.setMnemonic(KeyEvent.VK_R);
       auxButton.addActionListener(this);
 
@@ -379,7 +377,6 @@ public class Evolvo extends JFrame implements ActionListener
    private RendererInterface[] makeFirstGeneration()
    {
       int riIndex;
-      int exprIndex;
       ExpressionTree expression;
       Random r = new Random();
 
@@ -447,8 +444,8 @@ public class Evolvo extends JFrame implements ActionListener
       {
          JOptionPane.showMessageDialog(
             this,
-            "Please select a genotype to save.",
-            "Error",
+            Messages.getString("Evolvo.Select_Genotype_35"), //$NON-NLS-1$
+            Messages.getString("Evolvo.Error_Title"), //$NON-NLS-1$
             JOptionPane.ERROR_MESSAGE);
       }
       else
@@ -465,8 +462,8 @@ public class Evolvo extends JFrame implements ActionListener
       {
          JOptionPane.showMessageDialog(
             this,
-            "Please select a genotype to display.",
-            "Error",
+            Messages.getString("Evolvo.Select_Genotype_1"), //$NON-NLS-1$
+            Messages.getString("Evolvo.Error_Title"), //$NON-NLS-1$
             JOptionPane.ERROR_MESSAGE);
       }
       else
@@ -482,16 +479,19 @@ public class Evolvo extends JFrame implements ActionListener
    void renderLoadedImage()
    {
       ExpressionTree expression = GenotypeFileIO.getGenotypeFromFile(this);
+		RenderFrame theRenderFrame;
 
       if (expression != null)
       {
-         RenderFrame theRenderFrame =
+          theRenderFrame =
             new RenderFrame(
                new StandardRenderer(
                   expression,
-                  settings.getIntegerProperty("render.width"),
-                  settings.getIntegerProperty("render.height")),
+                  settings.getIntegerProperty("render.width"), //$NON-NLS-1$
+                  settings.getIntegerProperty("render.height")), //$NON-NLS-1$
                null);
+         
+			theRenderFrame.toFront();
       }
    }
 
@@ -500,9 +500,8 @@ public class Evolvo extends JFrame implements ActionListener
       int result =
          JOptionPane.showConfirmDialog(
             this,
-            "Loading a genotype will replace the image "
-               + "in the top left corner, are you sure you wish to do this?",
-            "Warning",
+            Messages.getString("Evolvo.Loading_Genotype_41"), //$NON-NLS-1$
+            Messages.getString("Evolvo.Warning_43"), //$NON-NLS-1$
             JOptionPane.YES_NO_OPTION);
       if (result == JOptionPane.NO_OPTION)
       {
@@ -525,21 +524,24 @@ public class Evolvo extends JFrame implements ActionListener
    void renderImage()
    {
       int selection = buttonPanel.getSelectedButton();
+		RenderFrame theRenderFrame;
 
       if (selection == -1)
       {
          JOptionPane.showMessageDialog(
             this,
-            "Please select an image to render.",
-            "Error",
+            Messages.getString("Evolvo.Select_Image_For_Render_44"), //$NON-NLS-1$
+            Messages.getString("Evolvo.Error_Title"), //$NON-NLS-1$
             JOptionPane.ERROR_MESSAGE);
       }
       else
       {
-         RenderFrame theRenderFrame =
+         theRenderFrame =
             new RenderFrame(
                ri[selection],
                buttonPanel.getImageForButton(selection));
+               
+         theRenderFrame.toFront();
       }
    }
 
@@ -547,65 +549,67 @@ public class Evolvo extends JFrame implements ActionListener
    {
       String cmd = e.getActionCommand();
 
-      if (cmd.equals("Save Genotype"))
+      if (cmd.equals(Messages.getString("Evolvo.Save_Genotype_Menu"))) //$NON-NLS-1$
       {
          saveGenotype();
       }
-      else if (cmd.equals("Load Genotype"))
+      else if (cmd.equals(Messages.getString("Evolvo.Load_Genotype_Menu"))) //$NON-NLS-1$
       {
          loadGenotype();
       }
-      else if (cmd.equals("Display Genotype"))
+      else if (cmd.equals(Messages.getString("Evolvo.Display_Genotype_Menu"))) //$NON-NLS-1$
       {
          displayGenotype();
       }
-      else if (cmd.equals("Display System Console"))
+      else if (cmd.equals(Messages.getString("Evolvo.Display_System_Console_Menu"))) //$NON-NLS-1$
       {
          console.setVisible(true);
       }
-      else if (cmd.equals("Render Saved Genotype"))
+      else if (cmd.equals(Messages.getString("Evolvo.Render_Saved_Genotype_Menu"))) //$NON-NLS-1$
       {
          renderLoadedImage();
       }
-      else if (cmd.equals("Preferences"))
+      else if (cmd.equals(Messages.getString("Evolvo.Preferences_Menu"))) //$NON-NLS-1$
       {
          doPreferencesDialog();
       }
-      else if (cmd.equals("Exit"))
+      else if (cmd.equals(Messages.getString("Evolvo.Exit_Menu"))) //$NON-NLS-1$
       {
          System.exit(0);
       }
-      else if (cmd.equals("New Generation"))
+      else if (cmd.equals(Messages.getString("Evolvo.New_Generation_Menu"))) //$NON-NLS-1$
       {
          makeNewGeneration();
       }
-      else if (cmd.equals("Render Image"))
+      else if (cmd.equals(Messages.getString("Evolvo.Render_Image_Menu"))) //$NON-NLS-1$
       {
          renderImage();
       }
-      else if (cmd.equals("Stop"))
+      else if (cmd.equals(Messages.getString("Evolvo.Stop_Menu"))) //$NON-NLS-1$
       {
          buttonPanel.stop();
       }
-      else if (cmd.equals("About Evolvo"))
+      else if (cmd.equals(Messages.getString("Evolvo.About_Evolvo_Menu"))) //$NON-NLS-1$
       {
-         SplashWindow Splash = new SplashWindow(true, this);
+         SplashWindow splash = new SplashWindow(true, this);
+         
+         splash.toFront();
       }
-      else if (cmd.equals("GPL License"))
+      else if (cmd.equals(Messages.getString("Evolvo.GPL_License_Menu"))) //$NON-NLS-1$
       {
          showLicenseDialog(0);
       }
-      else if (cmd.equals("Warranty Information"))
+      else if (cmd.equals(Messages.getString("Evolvo.Warranty_Information_Menu"))) //$NON-NLS-1$
       {
          showLicenseDialog(LicenseText.warrantyInfoStart);
       }
-      else if (cmd.equals("Redistribution Information"))
+      else if (cmd.equals(Messages.getString("Evolvo.Redistribution_Information_Menu"))) //$NON-NLS-1$
       {
          showLicenseDialog(LicenseText.redistributeInfoStart);
       }
       else
       {
-         console.println("Unknown ActionCommand: " + cmd);
+         console.println(Messages.getString("Evolvo.Unknown_ActionCommand___60") + cmd); //$NON-NLS-1$
       }
    }
 

@@ -111,18 +111,18 @@ public class TiledRaster extends WritableRaster
 
       tiles = new Tile[tileWidth * tileHeight];
 
-      MAX_RESIDENT_TILES = settings.getIntegerProperty("tilecache.maxtiles");
+      MAX_RESIDENT_TILES = settings.getIntegerProperty("tilecache.maxtiles"); //$NON-NLS-1$
 
       try
       {
          tempFile =
             File.createTempFile(
-               "evo",
+               "evo", //$NON-NLS-1$
                null);
       }
       catch (IOException ioe)
       {
-         console.println("Could not create temporary file:");
+         console.println(TiledImageMessages.getString("TiledRaster.Could_not_create_temporary_file")); //$NON-NLS-1$
          console.printStackTrace(ioe);
       }
 
@@ -133,11 +133,11 @@ public class TiledRaster extends WritableRaster
 
       try
       {
-         raFile = new RandomAccessFile(tempFile, "rwd");
+         raFile = new RandomAccessFile(tempFile, "rwd"); //$NON-NLS-1$
       }
       catch (FileNotFoundException fnfe)
       {
-         console.println("Cache file not found.");
+         console.println(TiledImageMessages.getString("TiledRaster.Cache_file_not_found.")); //$NON-NLS-1$
          console.printStackTrace(fnfe);
       }
 
@@ -150,7 +150,7 @@ public class TiledRaster extends WritableRaster
       }
       catch (IOException ioe)
       {
-         console.println("Could not set file length: ");
+         console.println(TiledImageMessages.getString("TiledRaster.Could_not_set_file_length")); //$NON-NLS-1$
          console.printStackTrace(ioe);
       }
 

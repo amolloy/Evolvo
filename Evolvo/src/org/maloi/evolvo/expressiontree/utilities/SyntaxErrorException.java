@@ -42,6 +42,6 @@ public class SyntaxErrorException extends Exception
    {
       String linenoString = new Integer(lineno).toString();
 
-      return "Error on line " + linenoString + ": " + description;
+      return "Error on line " + linenoString + ": " + description; //$NON-NLS-1$ //$NON-NLS-2$
    }
 }

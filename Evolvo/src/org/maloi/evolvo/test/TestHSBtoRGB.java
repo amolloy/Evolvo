@@ -26,8 +26,8 @@ public class TestHSBtoRGB extends Harness
 
       int fromTools = Tools.HSVtoRGB(h, s, v);
 
-      console.println("fromJava: " + Integer.toHexString(fromJava));
-      console.println("fromTools: " + Integer.toHexString(fromTools));
+      console.println("fromJava: " + Integer.toHexString(fromJava)); //$NON-NLS-1$
+      console.println("fromTools: " + Integer.toHexString(fromTools)); //$NON-NLS-1$
 
       return (fromJava == fromTools);
 
