@@ -27,7 +27,8 @@ import java.awt.image.DataBuffer;
 import java.awt.image.SampleModel;
 import java.awt.image.SinglePixelPackedSampleModel;
 import java.io.IOException;
-import java.io.RandomAccessFile;
+import java.nio.ByteBuffer;
+import java.nio.channels.FileChannel;
 
 public class Tile
 {
@@ -38,7 +39,7 @@ public class Tile
    static final int LOCATION_MEMORY = 0x01; // the tile is in memory
    static final int LOCATION_DISK = 0x02; // the tile has been swapped to disk
 
-   RandomAccessFile file; // the file where the disk cache is kept
+   FileChannel file; // the file where the disk cache is kept
    int fposition; // this tile's location in the disk cache
 
    int xloc; // the tile's x location in the image
@@ -50,7 +51,7 @@ public class Tile
 
    SampleModel sm;
 
-   public Tile(int tilex, int tiley, RandomAccessFile file, int fposition)
+   public Tile(int tilex, int tiley, FileChannel file, int fposition)
    {
       this.file = file;
       this.fposition = fposition;
@@ -103,7 +104,8 @@ public class Tile
    {
       for (int i = 0; i < this.data.length; i++)
       {
-         this.data[i] = data[i];
+         // restrict the data to the bottom 3 bytes
+         this.data[i] = data[i] & 0x00FFFFFF;
       }
    }
 
@@ -147,12 +149,10 @@ public class Tile
       {
          for (y = startY; y < endY; y++)
          {
-            x = startX;
-
             srcYOffset = (y - startY) * srcScansize + off;
-            dstYOffset = (y - yloc) * TILE_SIZE;
+            dstYOffset = (y - yloc) * TILE_SIZE +  startX - xloc;
 
-            data[dstYOffset + x - xloc] = src[srcYOffset + (x - startX)];
+            data[dstYOffset] = src[srcYOffset];
          }
       }
       else
@@ -182,7 +182,7 @@ public class Tile
       int h,
       int dest[],
       int off,
-      int srcScansize)
+      int destScansize)
    {
       if (dest == null)
       {
@@ -203,7 +203,7 @@ public class Tile
       {
          y = startY;
 
-         destYOffset = (y - startY) * srcScansize + off;
+         destYOffset = (y - startY) * destScansize + off;
          dataYOffset = (y - yloc) * TILE_SIZE;
 
          for (x = startX; x < endX; x++)
@@ -217,7 +217,7 @@ public class Tile
          {
             x = startX;
 
-            destYOffset = (y - startY) * srcScansize + off;
+            destYOffset = (y - startY) * destScansize + off;
             dataYOffset = (y - yloc) * TILE_SIZE;
 
             dest[destYOffset + (x - startX)] = data[dataYOffset + x - xloc];
@@ -227,7 +227,7 @@ public class Tile
       {
          for (y = startY; y < endY; y++)
          {
-            destYOffset = (y - startY) * srcScansize + off;
+            destYOffset = (y - startY) * destScansize + off;
             dataYOffset = (y - yloc) * TILE_SIZE;
 
             for (x = startX; x < endX; x++)
@@ -246,19 +246,26 @@ public class Tile
 
       for (int i = 0; i < data.length; i++)
       {
-         diskdata[dataOffset++] = (byte) (data[i] | 0x000000FF);
-         diskdata[dataOffset++] = (byte) ((data[i] | 0x0000FF00) >> 8);
-         diskdata[dataOffset++] = (byte) ((data[i] | 0x00FF0000) >> 16);
+         diskdata[dataOffset] =  (byte) (data[i] & 0x0000000FF);
+         diskdata[dataOffset + 1] = (byte) ((data[i] & 0x0000FF00) >> 8);
+         diskdata[dataOffset + 2] = (byte) ((data[i] & 0x00FF0000) >> 16);
+
+         dataOffset += 3;
       }
 
       try
       {
-         file.write(diskdata, fposition, diskdata.length);
+         file.position(fposition);
+         file.write(ByteBuffer.wrap(diskdata));
+         file.force(true);
       }
       catch (IOException ioe)
       {
          System.err.println("Could not write tile to disk.");
       }
+
+      location = LOCATION_DISK;
+      data = null;
    }
 
    public void loadTile()
@@ -268,7 +275,8 @@ public class Tile
 
       try
       {
-         file.read(diskdata, fposition, diskdata.length);
+         file.position(fposition);
+         file.read(ByteBuffer.wrap(diskdata));
       }
       catch (IOException ioe)
       {
@@ -277,11 +285,13 @@ public class Tile
 
       int dataOffset = 0;
 
+      data = new int[TILE_SIZE * TILE_SIZE];
+
       for (int i = 0; i < data.length; i++)
       {
-         data[i] = diskdata[dataOffset++] | 0x000000FF;
-         data[i] += diskdata[dataOffset++] << 8;
-         data[i] += diskdata[dataOffset++] << 16;
+         data[i] = diskdata[dataOffset++] & 0x000000FF;
+         data[i] |= diskdata[dataOffset++] << 8;
+         data[i] |= diskdata[dataOffset++] << 16;
       }
 
       location = LOCATION_MEMORY;
@@ -311,7 +321,7 @@ public class Tile
    {
       return new Point(xloc, yloc);
    }
-   
+
    public SampleModel getSampleModel()
    {
       return sm;

@@ -33,6 +33,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.nio.channels.FileChannel;
 
 import org.maloi.evolvo.debugtools.CallLogger;
 import org.maloi.evolvo.settings.GlobalSettings;
@@ -54,7 +55,7 @@ public class TiledRaster extends WritableRaster
 
    int numResidentTiles = 0; // how many tiles currently in memory (valid)
 
-   RandomAccessFile file; // file containing the disk cache
+   FileChannel file; // file containing the disk cache
    File tempFile; // abstract file pointing to the temp file
 
    int width; // the image's width
@@ -110,9 +111,11 @@ public class TiledRaster extends WritableRaster
 
       tempFile.deleteOnExit();
 
+      RandomAccessFile raFile = null;
+
       try
       {
-         file = new RandomAccessFile(tempFile, "rw");
+         raFile = new RandomAccessFile(tempFile, "rwd");
       }
       catch (FileNotFoundException fnfe)
       {
@@ -123,13 +126,15 @@ public class TiledRaster extends WritableRaster
       // the image is 3 bytes per pixel, made up of tileWidth * tileHeight tiles, each of which contains TILE_SIZE x TILE_SIZE pixels
       try
       {
-         file.setLength((tileWidth * tileHeight) * (TILE_SIZE * TILE_SIZE) * 3);
+         raFile.setLength((tileWidth * tileHeight) * (TILE_SIZE * TILE_SIZE) * 3);
       }
       catch (IOException ioe)
       {
          System.err.println("Could not set file length: ");
          ioe.printStackTrace();
       }
+
+      file = raFile.getChannel();
 
       int foffset = 0;
       int foffset_inc = 3 * TILE_SIZE * TILE_SIZE;
@@ -247,21 +252,24 @@ public class TiledRaster extends WritableRaster
          System.err.println("Horizontal line.");
 
          tileOffset = startTileY * tileWidth;
+         tileY = startTileY;
 
          for (tileX = startTileX; tileX < endTileX; tileX++)
          {
-            tiles[tileOffset + tileX].validate();
+            validateTile(tileX, tileY);
          }
       }
       else if (startTileX == endTileX)
       {
          System.err.println("Vertical line");
 
+         tileX = startTileX;
+
          for (tileY = startTileY; tileY < endTileY; tileY++)
          {
             tileOffset = tileY * tileWidth;
 
-            tiles[tileOffset + startTileX].validate();
+            validateTile(tileX, tileY);
          }
       }
       else
@@ -274,7 +282,7 @@ public class TiledRaster extends WritableRaster
 
             for (tileX = startTileX; tileX < endTileX; tileX++)
             {
-               tiles[tileOffset + tileX].validate();
+               validateTile(tileX, tileY);
             }
          }
       }
