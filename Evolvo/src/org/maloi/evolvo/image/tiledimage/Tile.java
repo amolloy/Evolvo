@@ -58,6 +58,8 @@ public class Tile
 
    SystemConsole console = SystemConsole.getInstance();
 
+   long lastused;
+   
    public Tile(int tilex, int tiley, FileChannel file, int fposition)
    {
       this(
@@ -92,22 +94,39 @@ public class Tile
 
       //validate(); // go ahead and validate this tile
       // on second thought, let's be lazy about it...
+   
+      lastused = System.currentTimeMillis();
    }
 
    public void validate(int[] mem)
    {
-   	data = mem;
-   	
-   	switch (location)
-   	{
-   		case LOCATION_MEMORY: break;
-   		case LOCATION_DISK: loadTile(); break;
-   		case LOCATION_INVALID: location = LOCATION_MEMORY; break;
-   	}
+      	data = mem;
+      	
+      	switch (location)
+      	{
+      		case LOCATION_MEMORY: break;
+      		case LOCATION_DISK: loadTile(); break;
+      		case LOCATION_INVALID: 
+               // now that we share data space with other
+               // tiles, we need to reset new tiles to 0's 
+               // if we're invalid, else we'll get some 
+               // other tile's crap in our scratch space
+               location = LOCATION_MEMORY; 
+               
+               for (int i = 0; i < data.length; i++)
+               {
+                  data[i] = 0;
+               }
+               
+               break;
+      	}
+   
+      	lastused = System.currentTimeMillis();
    }
 
    public int[] getData()
    {
+      lastused = System.currentTimeMillis();
       return data;
    }
 
@@ -117,11 +136,15 @@ public class Tile
       {
          this.data[i] = data[i];
       }
+      
+      lastused = System.currentTimeMillis();
    }
 
    public void setPixel(int x, int y, int value)
    {
       data[(x - xloc) + ((y - yloc) * TILE_SIZE)] = fixPixel(value);
+   
+      lastused = System.currentTimeMillis();
    }
 
    public void setPixels(
@@ -179,10 +202,13 @@ public class Tile
             }
          }
       }
+      
+      lastused = System.currentTimeMillis();
    }
 
    public int getPixel(int x, int y)
    {
+      lastused = System.currentTimeMillis();
       return data[(x - xloc) + ((y - yloc) * TILE_SIZE)];
    }
 
@@ -195,6 +221,8 @@ public class Tile
       int off,
       int destScansize)
    {
+      lastused = System.currentTimeMillis();
+      
       if (dest == null)
       {
          dest = new int[w * h];
@@ -292,6 +320,7 @@ public class Tile
 
       location = LOCATION_DISK;
       data = null;
+      lastused = System.currentTimeMillis();
    }
 
    public void loadTile()
@@ -324,30 +353,37 @@ public class Tile
       }
 
       location = LOCATION_MEMORY;
+      
+      lastused = System.currentTimeMillis();
    }
 
    public boolean isValid()
    {
+      lastused = System.currentTimeMillis();
       return location == LOCATION_MEMORY;
    }
 
    public int getXLocation()
    {
+      lastused = System.currentTimeMillis();
       return xloc;
    }
 
    public int getYLocation()
    {
+      lastused = System.currentTimeMillis();
       return yloc;
    }
 
    public Point getLocation()
    {
+      lastused = System.currentTimeMillis();
       return new Point(xloc, yloc);
    }
 
    public SampleModel getSampleModel()
    {
+      lastused = System.currentTimeMillis();
       return sm;
    }
 
@@ -376,5 +412,10 @@ public class Tile
       }
 
       return p;
+   }
+   
+   public long lastUsedAt()
+   {
+      return lastused;
    }
 }

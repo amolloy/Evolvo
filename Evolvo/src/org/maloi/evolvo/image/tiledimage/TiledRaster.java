@@ -61,11 +61,13 @@ public class TiledRaster extends WritableRaster
    int tileWidth; // the image's width in tiles
    int tileHeight; // the image's height in tiles
    
-   int tileCache[];
-   int cacheCursor;
+   // keeps track of which tiles are in the cache
+   int[] tileCache;
    
    // pool of arrays for the tiles
    int[][] cachePool;
+   
+   int cacheCursor = 0; // only used until the cache is full
    
    Tile tiles[]; // the actual tiles
 
@@ -118,16 +120,15 @@ public class TiledRaster extends WritableRaster
 
       MAX_RESIDENT_TILES = settings.getIntegerProperty("tilecache.maxtiles"); //$NON-NLS-1$
 
+      // set up our list of cached tiles and our scratch area
       tileCache = new int[MAX_RESIDENT_TILES];
       cachePool = new int[MAX_RESIDENT_TILES][];
+      
       for (int i = 0; i < MAX_RESIDENT_TILES; i++)
       {
-         tileCache[i] = -1;
-         cachePool[i] = new int[TILE_SIZE * TILE_SIZE * 3];
+         cachePool[i] = new int[TILE_SIZE * TILE_SIZE];
       }
-      
-      cacheCursor = 0;
-      
+            
       try
       {
             tempFile = File.createTempFile("evo", //$NON-NLS-1$
@@ -139,7 +140,6 @@ public class TiledRaster extends WritableRaster
          console.printStackTrace(ioe);
       }
 
-      // this doesn't appear to actually work...
       tempFile.deleteOnExit();
 
       RandomAccessFile raFile = null;
@@ -216,38 +216,58 @@ public class TiledRaster extends WritableRaster
       tiles = new Tile[1];
 
       tiles[0] = tile;
-
-      tileCache = new int[0];
-      tileCache[0] = 1;
-      cacheCursor = 0;
    }
 
    synchronized void validateTile(int tilex, int tiley)
    {
       int whichTile = (tiley * tileWidth) + tilex;
-
+      int slot = -1;
+      
       if (tiles[whichTile].isValid())
       {
          return;
       }
 
-		// first expire any tile that might already be in this spot...
-		if (tileCache[cacheCursor] != -1)
-		{
-			tiles[tileCache[cacheCursor]].expire();
-		}
-
-      // The tile isn't in memory, so we need to validate it, then make sure we 
-      // haven't loaded too many tiles
-      tiles[whichTile].validate(cachePool[cacheCursor]);
-      
-      tileCache[cacheCursor] = whichTile;
-
-      cacheCursor++;
-      if (cacheCursor == MAX_RESIDENT_TILES)
+      // tile is not in the cache right now
+      // so we need to bring it in
+      // check to see if the cache is full yet...
+      if (cacheCursor < MAX_RESIDENT_TILES)
       {
-         cacheCursor = 0;
+         // the cache is not yet full, so just use the
+         // next slot.
+         slot = cacheCursor;
+         cacheCursor++;
       }
+      else
+      {
+         // okay, we're full, we need to find the LRU
+         // tile and expire it
+         long minTime = Long.MAX_VALUE;
+         long ttime;
+         
+         for (int i = 0; i < MAX_RESIDENT_TILES; i++)
+         {
+            ttime = tiles[tileCache[i]].lastUsedAt();
+            
+            if (ttime < minTime)
+            {
+               minTime = ttime;
+               slot = i;
+            }
+         }
+
+         // okay, we've found the LRU tile, expire it
+         tiles[tileCache[slot]].expire();
+      }
+      
+      // now we know which slot to put it in...
+      // put it in the slot...
+      tileCache[slot] = whichTile;
+      
+      // then validate it
+      tiles[whichTile].validate(cachePool[slot]);
+
+      // we're all done here.
    }
 
    public void flush()
