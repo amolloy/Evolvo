@@ -139,7 +139,34 @@
     </tar>
 
     <zip destfile="${inst.dir}/evolvo.zip" basedir="${inst.dir}/evolvo"/>
-    <!--<delete dir="${inst.dir}/evolvo"/>-->
+    <delete dir="${inst.dir}/evolvo"/>
+    
+    <!-- Create the Mac OS X Application -->
+    <echo message="Creating OS X Package..."/>
+    <echo message="Copying application skeleton to installer directory."/>
+    
+    <copy todir="${inst.dir}/Evolvo.app">
+       <fileset dir="${src}/MacOSX/Evolvo.app"/>
+    </copy>
+    
+    <echo message="Copying OS X icon file into application skeleton."/>
+    
+    <copy file="${src}/Resources/Evolvo.icns" 
+    	  todir="${inst.dir}/Evolvo.app/Contents/Resources"/>
+    
+    <echo message="Copying Java jar file into application skeleton."/>
+    
+    <copy file="${inst.jar}/Evolvo.jar" 
+    	  todir="${inst.dir}/Evolvo.app/Contents/Resources/Java"/>
+    
+	<echo message="tar'ing OS X application package (to ease copying to an OS X box)"/>    
+    
+    <tar destfile="${inst.dir}/Evolvo.app.tar.gz" compression="gzip">
+       <tarfileset dir="${inst.dir}/Evolvo.app" prefix ="Evolvo.app"/>
+    </tar>
+    
+    <echo message="OS X Application Package created succesfully."/>
+    <!-- End of Mac OS X Application package section -->
 </target>
    
 </project>
