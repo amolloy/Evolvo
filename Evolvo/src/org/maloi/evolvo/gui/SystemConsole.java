@@ -29,7 +29,7 @@ public class SystemConsole extends TextDialog
    
    static int lastRow = 0;
 
-   public SystemConsole()
+   private SystemConsole()
    {
       super(MessageStrings.getString("SystemConsole.Initializing_system_console.")); //$NON-NLS-1$
    }
@@ -59,9 +59,16 @@ public class SystemConsole extends TextDialog
    public void printStackTrace(Exception e)
    {
       StackTraceElement[] elements = e.getStackTrace();
-      int length = elements.length;
-      
+     
       println(e.toString());
+
+      if (elements == null)
+      {
+      	println("No stack trace."); //$NON-NLS-1$
+      	return;
+      }
+      
+		int length = elements.length;
       
       for (int i = 0; i < length; i++)
       {

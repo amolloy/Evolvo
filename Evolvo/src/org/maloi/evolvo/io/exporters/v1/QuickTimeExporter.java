@@ -206,7 +206,10 @@ public class QuickTimeExporter
       }
       catch (ClassNotFoundException e)
       {
-         return false;
+      	console.println("Quicktime Exporter not available:"); //$NON-NLS-1$
+      	console.printStackTrace(e);
+      	
+      	return false;
       }
 
       return true;

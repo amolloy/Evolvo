@@ -56,13 +56,12 @@ public class TiledImage implements RenderedImage, ImageProducer, TiledImageInter
 
    public TiledImage(int width, int height, ImageProducer source)
    {
-      this.width = width;
+		this.width = width;
       this.height = height;
 
       raster = new TiledRaster(width, height);
 
-      cm =
-         (new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB).getColorModel());
+      cm = new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB).getColorModel();
 
       consumers = new Vector(2);
       observers = new Vector(2);

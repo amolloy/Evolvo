@@ -51,9 +51,6 @@ public class TiledRaster extends WritableRaster
 {
    public final static int TILE_SIZE = Tile.TILE_SIZE;
 
-   int MAX_RESIDENT_TILES;
-   // total number of tiles to allow in memory at a time
-
    int numResidentTiles = 0; // how many tiles currently in memory (valid)
 
    FileChannel file; // file containing the disk cache
@@ -66,13 +63,13 @@ public class TiledRaster extends WritableRaster
 
    Tile tiles[]; // the actual tiles
 
-   GlobalSettings settings = GlobalSettings.getInstance();
+   Raster parent = null;
 
+   static GlobalSettings settings = GlobalSettings.getInstance();
    static SampleModel tileSampleModel;
-
    static int[] masks;
-
-   SystemConsole console = SystemConsole.getInstance();
+   static SystemConsole console = SystemConsole.getInstance();
+   static int MAX_RESIDENT_TILES; // total number of tiles to allow in memory
 
    static {
       BufferedImage image;
@@ -82,7 +79,7 @@ public class TiledRaster extends WritableRaster
 
       tileSampleModel = image.getSampleModel();
 
-      masks = ((SinglePixelPackedSampleModel) tileSampleModel).getBitMasks();
+      masks = ((SinglePixelPackedSampleModel)tileSampleModel).getBitMasks();
    }
 
    public TiledRaster(int width, int height)
@@ -93,8 +90,9 @@ public class TiledRaster extends WritableRaster
    public TiledRaster(int width, int height, int startX, int startY)
    {
       super(
-         new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB)
-            .getSampleModel(),
+         new BufferedImage(1, 1, BufferedImage.TYPE_INT_RGB)
+            .getSampleModel()
+            .createCompatibleSampleModel(width, height),
          new Point(startX, startY));
 
       minX = 0;
@@ -116,10 +114,8 @@ public class TiledRaster extends WritableRaster
 
       try
       {
-         tempFile =
-            File.createTempFile(
-               "evo", //$NON-NLS-1$
-               null);
+            tempFile = File.createTempFile("evo", //$NON-NLS-1$
+   null);
       }
       catch (IOException ioe)
       {
@@ -385,7 +381,27 @@ public class TiledRaster extends WritableRaster
       int childMinY,
       int[] bandlist)
    {
-      return this;
+      BufferedImage bi =
+         new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+
+      bi.setRGB(
+         childMinX,
+         childMinY,
+         width,
+         height,
+         getData(parentX, parentY, width, height, null),
+         0,
+         0);
+
+      DataBuffer db = bi.getRaster().getDataBuffer();
+
+      Raster r =
+         Raster.createRaster(
+            bi.getSampleModel(),
+            db,
+            new Point(childMinX, childMinY));
+
+      return r;
    }
 
    public Raster getTile(int tileX, int tileY)
@@ -412,5 +428,10 @@ public class TiledRaster extends WritableRaster
          theTile.getData());
 
       return returnRaster;
+   }
+
+   public Raster getParent()
+   {
+      return parent;
    }
 }

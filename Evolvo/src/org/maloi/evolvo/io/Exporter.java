@@ -30,6 +30,8 @@ import java.lang.reflect.Method;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
+import org.apache.log4j.*;
+
 import org.maloi.evolvo.gui.SystemConsole;
 import org.maloi.evolvo.io.exporters.v1.ExporterInterface;
 import org.maloi.evolvo.localization.MessageStrings;
@@ -37,10 +39,8 @@ import org.maloi.evolvo.settings.GlobalSettings;
 
 public class Exporter
 {
-   static String pluginList[] =
-      {
-         "org.maloi.evolvo.io.exporters.v1.ImageIOExporter", //$NON-NLS-1$
-         "org.maloi.evolvo.io.exporters.v1.QuickTimeExporter" }; //$NON-NLS-1$
+   static String pluginList[] = { "org.maloi.evolvo.io.exporters.v1.ImageIOExporter", //$NON-NLS-1$
+      "org.maloi.evolvo.io.exporters.v1.QuickTimeExporter" }; //$NON-NLS-1$
 
    static String exporterNames[];
 
@@ -56,6 +56,8 @@ public class Exporter
    static SystemConsole console = SystemConsole.getInstance();
 
    static boolean available = false;
+
+   static Logger logger = null;
 
    static {
       init();
@@ -88,8 +90,7 @@ public class Exporter
 
       if (userPlugins != null)
       {
-         StringTokenizer tokenizer =
-            new StringTokenizer(userPlugins, ",", false); //$NON-NLS-1$
+         StringTokenizer tokenizer = new StringTokenizer(userPlugins, ",", false); //$NON-NLS-1$
 
          for (; tokenizer.hasMoreTokens();)
          {
@@ -116,7 +117,7 @@ public class Exporter
 
       for (i = 0; i < tempArray.length; i++)
       {
-         pluginList[i] = (String) tempArray[i];
+         pluginList[i] = (String)tempArray[i];
       }
 
       for (i = 0; i < exporterNames.length; i++)
@@ -134,8 +135,7 @@ public class Exporter
 
          theExporterObject = theExporter.newInstance();
 
-         Method initialize =
-            theExporter.getDeclaredMethod("initialize", new Class[] { //$NON-NLS-1$
+         Method initialize = theExporter.getDeclaredMethod("initialize", new Class[] { //$NON-NLS-1$
          });
 
          initialize.invoke(theExporterObject, null);
@@ -143,20 +143,14 @@ public class Exporter
          getName = theExporter.getDeclaredMethod("getName", new Class[] { //$NON-NLS-1$
          });
 
-         getFormatDescriptions =
-            theExporter
-               .getDeclaredMethod("getFormatDescriptions", new Class[] { //$NON-NLS-1$
+         getFormatDescriptions = theExporter.getDeclaredMethod("getFormatDescriptions", new Class[] { //$NON-NLS-1$
          });
 
-         getFormatExtensions =
-            theExporter.getDeclaredMethod(
-               "getFormatExtensions", //$NON-NLS-1$
-               new Class[] { String.class });
+            getFormatExtensions = theExporter.getDeclaredMethod("getFormatExtensions", //$NON-NLS-1$
+   new Class[] { String.class });
 
-         write =
-            theExporter.getDeclaredMethod(
-               "write", //$NON-NLS-1$
-               new Class[] { RenderedImage.class, int.class, File.class });
+            write = theExporter.getDeclaredMethod("write", //$NON-NLS-1$
+   new Class[] { RenderedImage.class, int.class, File.class });
 
          available = true;
       }
@@ -175,7 +169,7 @@ public class Exporter
             Object retval =
                getFormatDescriptions.invoke(theExporterObject, null);
 
-            return (String[]) retval;
+            return (String[])retval;
          }
          catch (Exception e)
          {
@@ -197,7 +191,7 @@ public class Exporter
                   theExporterObject,
                   new Object[] { writer });
 
-            return (String[]) retval;
+            return (String[])retval;
          }
          catch (Exception e)
          {
@@ -211,6 +205,14 @@ public class Exporter
    public static void write(RenderedImage i, int which, File f)
       throws IOException
    {
+      if (logger == null)
+      {
+         logger = Logger.getLogger("org.maloi.evolvo"); //$NON-NLS-1$
+      }
+
+      logger.setLevel(Level.DEBUG);
+      logger.debug("--- BEGINNING IMAGE EXPORT ---"); //$NON-NLS-1$
+
       if (available)
       {
          try
@@ -221,9 +223,13 @@ public class Exporter
          }
          catch (Exception e)
          {
+            logger.debug("Exporter Exception...", e); //$NON-NLS-1$
             console.printStackTrace(e);
          }
       }
+
+      logger.debug("--- FINISHED IMAGE EXPORT ---"); //$NON-NLS-1$
+      logger.setLevel(Level.WARN);
    }
 
    static Vector checkPlugins(Vector pluginVector)
@@ -239,7 +245,7 @@ public class Exporter
          try
          {
             Class pluginClass =
-               Class.forName((String) pluginVector.elementAt(i));
+               Class.forName((String)pluginVector.elementAt(i));
 
             Class interfaces[] = pluginClass.getInterfaces();
 
@@ -257,16 +263,14 @@ public class Exporter
             {
                Object pluginObject = pluginClass.newInstance();
 
-               Method isAvailable =
-                  pluginClass.getDeclaredMethod("isAvailable", new Class[] { //$NON-NLS-1$
+               Method isAvailable = pluginClass.getDeclaredMethod("isAvailable", new Class[] { //$NON-NLS-1$
                });
 
-               Boolean avail = (Boolean) isAvailable.invoke(pluginObject, null);
+               Boolean avail = (Boolean)isAvailable.invoke(pluginObject, null);
 
                if (avail.booleanValue())
                {
-                  Method getName =
-                     pluginClass.getDeclaredMethod("getName", new Class[] { //$NON-NLS-1$
+                  Method getName = pluginClass.getDeclaredMethod("getName", new Class[] { //$NON-NLS-1$
                   });
 
                   nameVector.add(getName.invoke(pluginObject, null));
@@ -303,7 +307,7 @@ public class Exporter
 
       for (i = 0; i < exporterNames.length; i++)
       {
-         exporterNames[i] = (String) tempArray[i];
+         exporterNames[i] = (String)tempArray[i];
       }
 
       return trimmed;
