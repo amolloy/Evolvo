@@ -59,6 +59,7 @@ import org.maloi.evolvo.expressiontree.operators.triplet.CrossProduct;
 import org.maloi.evolvo.expressiontree.operators.triplet.Gradient;
 import org.maloi.evolvo.expressiontree.operators.triplet.HSVtoRGB;
 import org.maloi.evolvo.expressiontree.operators.triplet.Normalize;
+import org.maloi.evolvo.expressiontree.operators.triplet.RGBtoHSV;
 import org.maloi.evolvo.expressiontree.operators.triplet.Scale;
 import org.maloi.evolvo.expressiontree.operators.triplet.SphereMux;
 import org.maloi.evolvo.expressiontree.operators.triplet.SphericalToCartesian;
@@ -76,7 +77,7 @@ public class OperatorList
 {
    static HashMap operatorHash;
    static OperatorInterface scalarList[] = new OperatorInterface[30];
-   static OperatorInterface tripletList[] = new OperatorInterface[10];
+   static OperatorInterface tripletList[] = new OperatorInterface[11];
    static OperatorInterface completeList[];
 
    static {
@@ -124,7 +125,8 @@ public class OperatorList
       tripletList[6] = new SphericalToCartesian();
       tripletList[7] = new Gradient();
       tripletList[8] = new HSVtoRGB();
-      tripletList[9] = new SphereMux();
+      tripletList[9] = new RGBtoHSV();
+      tripletList[10] = new SphereMux();
       
       int count = 0;
 

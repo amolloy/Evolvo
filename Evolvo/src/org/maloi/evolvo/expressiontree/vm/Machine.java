@@ -22,6 +22,8 @@
 
 package org.maloi.evolvo.expressiontree.vm;
 
+import org.maloi.evolvo.expressiontree.utilities.Tools;
+
 /**
  * Very simple stack machine, and code for it to execute.
  */
@@ -104,6 +106,36 @@ public class Machine
       }
 
       return programStack;
+   }
+   
+   public int executeToPixel()
+   {
+      Stack stack = execute();
+      double red, green, blue;
+      int rInt, bInt, gInt, pixel;
+      
+      double colorTriplet[] = stack.popTriplet();
+      colorTriplet = Tools.normalize(colorTriplet);
+      
+      //red = Tools.map(stack.pop());
+      //green = Tools.map(stack.pop());
+      //blue = Tools.map(stack.pop());
+
+      red = (colorTriplet[0] + 1.0) * 0.5;
+      green = (colorTriplet[1] + 1.0) * 0.5;
+      blue = (colorTriplet[2] + 1.0) * 0.5;
+      
+      rInt = (int) (red * 255.0);
+      gInt = (int) (green * 255.0);
+      bInt = (int) (blue * 255.0);
+
+      pixel = 0;
+
+      pixel |= (rInt << Tools.offsets[0]) & Tools.masks[0];
+      pixel |= (gInt << Tools.offsets[1]) & Tools.masks[1];
+      pixel |= (bInt << Tools.offsets[2]) & Tools.masks[2];
+      
+      return pixel;
    }
 
    public String toString()

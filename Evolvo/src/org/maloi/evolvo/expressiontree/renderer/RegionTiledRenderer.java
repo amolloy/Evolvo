@@ -33,7 +33,6 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import org.maloi.evolvo.expressiontree.ExpressionTree;
-import org.maloi.evolvo.expressiontree.utilities.Tools;
 import org.maloi.evolvo.expressiontree.vm.Machine;
 import org.maloi.evolvo.expressiontree.vm.Stack;
 import org.maloi.evolvo.gui.CustomProgressMonitor;
@@ -302,23 +301,7 @@ public class RegionTiledRenderer implements RendererInterface, Runnable
                Math.sqrt((tx * tx) + (ty * ty)));
             theMachine.setRegister(Machine.REGISTER_THETA, Math.atan2(tx, ty));
 
-            stack = theMachine.execute();
-
-            red = Tools.map(stack.pop());
-            green = Tools.map(stack.pop());
-            blue = Tools.map(stack.pop());
-
-            int rInt = (int) (red * 255.0);
-            int gInt = (int) (green * 255.0);
-            int bInt = (int) (blue * 255.0);
-
-            int pixel = 0;
-
-            pixel |= (rInt << Tools.offsets[0]) & Tools.masks[0];
-            pixel |= (gInt << Tools.offsets[1]) & Tools.masks[1];
-            pixel |= (bInt << Tools.offsets[2]) & Tools.masks[2];
-
-            data[offset + x] = pixel;
+            data[offset + x] = theMachine.executeToPixel();
 
          }
 

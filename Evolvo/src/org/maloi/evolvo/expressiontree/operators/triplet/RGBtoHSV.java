@@ -19,20 +19,20 @@
 /**
  *  $Id$
  */
+ 
+/*
+ * Created on Mar 9, 2004
+ */
 
 package org.maloi.evolvo.expressiontree.operators.triplet;
 
 import org.maloi.evolvo.expressiontree.operators.OperatorInterface;
-import org.maloi.evolvo.expressiontree.utilities.Tools;
 import org.maloi.evolvo.expressiontree.vm.Stack;
 
 /**
  * @author amolloy
- *
- * To change the template for this generated type comment go to
- * Window>Preferences>Java>Code Generation>Code and Comments
  */
-public class SphericalToCartesian implements OperatorInterface
+public class RGBtoHSV implements OperatorInterface
 {
 
    /* (non-Javadoc)
@@ -40,7 +40,7 @@ public class SphericalToCartesian implements OperatorInterface
     */
    public String getName()
    {
-      return "SphericalToCartesian";
+      return "RGBtoHSV";
    }
 
    /* (non-Javadoc)
@@ -79,19 +79,53 @@ public class SphericalToCartesian implements OperatorInterface
     */
    public void perform(Stack theStack)
    {
-      double a[] = theStack.popTriplet();
+      double r, g, b, h, s, v;
+      double min, max, delta;
       
-      double m;
-      double theta;
-      double phi;
+      r = theStack.pop();
+      g = theStack.pop();
+      b = theStack.pop();
       
-      m = a[0];
-      theta = a[1] * Math.PI;
-      phi = a[2] * Tools.PI_OVER_TWO;
+      min = Math.min(r, Math.min(g, b));
+      max = Math.max(r, Math.max(g, b));
       
-      theStack.push(m * Math.cos(theta) * Math.sin(phi));
-      theStack.push(m * Math.sin(theta) * Math.sin(phi));
-      theStack.push(m * Math.cos(phi));
+      v = max;
+      
+      delta = max - min;
+      
+      if ( max != 0 )
+      {
+         s = delta / max;
+      }
+      else
+      {
+         s = 0;
+         h = -1;
+      
+         theStack.push(h);
+         theStack.push(s);
+         theStack.push(v);
+         return;
+      }
+      
+      if (r == max)
+      {
+         h = (g - b) / delta; // between yellow and magenta
+      }
+      else if (g == max)
+      {
+         h = 2 + (b - r) / delta; // between cyan and yellow
+      }
+      else
+      {
+         h = 4 + (r - g) / delta; // between magenta and cyan
+      }
+      
+      h = h * 60.0 / 360.0;
+      
+      theStack.push(h);
+      theStack.push(s);
+      theStack.push(v);
    }
 
 }
