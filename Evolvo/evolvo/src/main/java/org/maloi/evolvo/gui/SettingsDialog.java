@@ -32,6 +32,7 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
@@ -66,6 +67,7 @@ public class SettingsDialog implements ActionListener
    DoubleFieldSlider x, y, r, theta;
    DoubleFieldSlider complexity, depreciation, variableProb;
    IntegerField widthField, heightField;
+   JCheckBox greyscale;
 
    DoubleFieldSlider mutate_change,
       mutate_new_expression,
@@ -102,6 +104,12 @@ public class SettingsDialog implements ActionListener
             generationOptionsBorder,
             MessageStrings.getString("SettingsDialog.Generation_Options"))); //$NON-NLS-1$
 
+      greyscale =
+         new JCheckBox(
+            MessageStrings.getString("SettingsDialog.Greyscale"),
+            settings.getBooleanProperty("greyscale") //$NON-NLS-1
+         );
+
       complexity =
          new DoubleFieldSlider(
             settings.getDoubleProperty("complexity"), //$NON-NLS-1$
@@ -127,6 +135,7 @@ public class SettingsDialog implements ActionListener
             4,
             MessageStrings.getString("SettingsDialog.Variable_Probability")); //$NON-NLS-1$
 
+      generationOptions.add(greyscale);
       generationOptions.add(complexity);
       generationOptions.add(depreciation);
       generationOptions.add(variableProb);
@@ -456,6 +465,7 @@ public class SettingsDialog implements ActionListener
             }
             else
             {
+               settings.setBooleanProperty("greyscale", greyscale.isSelected()); //$NON-NLS-1$
                settings.setDoubleProperty("complexity", complexity.getValue()); //$NON-NLS-1$
                settings.setDoubleProperty(
                   "depreciation", //$NON-NLS-1$

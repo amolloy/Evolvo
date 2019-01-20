@@ -57,6 +57,11 @@ public class Stack
       theStack[stackPointer++] = value;
    }
 
+   public Boolean canPopTriplet()
+   {
+      return stackPointer >= 3;
+   }
+
    public double pop()
    {
       if (stackPointer == 0)
