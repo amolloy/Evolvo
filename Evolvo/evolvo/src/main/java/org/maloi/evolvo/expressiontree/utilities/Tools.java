@@ -29,7 +29,6 @@ import java.util.Random;
 import org.maloi.evolvo.expressiontree.ExpressionTree;
 import org.maloi.evolvo.expressiontree.operators.OperatorInterface;
 import org.maloi.evolvo.expressiontree.operators.OperatorList;
-import org.maloi.evolvo.resources.Constants;
 import org.maloi.evolvo.settings.GlobalSettings;
 
 public class Tools
@@ -88,7 +87,7 @@ public class Tools
          chance = whichOp.nextDouble();
          if (chance
             < settings.getDoubleProperty(
-               Constants.operatorPrefix + pick.getName()))
+               "operator." + pick.getName()))
          {
             flag = true;
          }

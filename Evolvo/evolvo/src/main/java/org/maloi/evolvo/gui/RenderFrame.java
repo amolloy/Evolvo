@@ -23,6 +23,7 @@
 package org.maloi.evolvo.gui;
 
 import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -46,7 +47,6 @@ import org.maloi.evolvo.expressiontree.renderer.TiledRenderer;
 import org.maloi.evolvo.io.Exporter;
 import org.maloi.evolvo.io.GenotypeFileIO;
 import org.maloi.evolvo.localization.MessageStrings;
-import org.maloi.evolvo.resources.Constants;
 import org.maloi.evolvo.settings.GlobalSettings;
 
 public class RenderFrame extends JFrame
@@ -90,14 +90,14 @@ public class RenderFrame extends JFrame
       exportMenuItem.setEnabled(false);
       exportMenuItem.setMnemonic(KeyEvent.VK_E);
       exportMenuItem.setAccelerator(
-         KeyStroke.getKeyStroke(KeyEvent.VK_E, Constants.KEY_MASK));
+         KeyStroke.getKeyStroke(KeyEvent.VK_E, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
       exportMenuItem.addActionListener(new exportPerformer());
       fileMenu.add(exportMenuItem);
 
       menuitem = new JMenuItem(MessageStrings.getString("RenderFrame.Save_Genotype_Menu")); //$NON-NLS-1$
       menuitem.setMnemonic(KeyEvent.VK_S);
       menuitem.setAccelerator(
-         KeyStroke.getKeyStroke(KeyEvent.VK_S, Constants.KEY_MASK));
+         KeyStroke.getKeyStroke(KeyEvent.VK_S, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
       menuitem.addActionListener(new ActionListener()
       {
          public void actionPerformed(ActionEvent e)
@@ -113,7 +113,7 @@ public class RenderFrame extends JFrame
       menuitem = new JMenuItem(MessageStrings.getString("RenderFrame.Close_Menu")); //$NON-NLS-1$
       menuitem.setMnemonic(KeyEvent.VK_C);
       menuitem.setAccelerator(
-         KeyStroke.getKeyStroke(KeyEvent.VK_C, Constants.KEY_MASK));
+         KeyStroke.getKeyStroke(KeyEvent.VK_C, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
       menuitem.addActionListener(new renderActionListener());
 
       fileMenu.add(menuitem);
@@ -135,14 +135,7 @@ public class RenderFrame extends JFrame
 
       ri.setProgressMonitor(pm);
 
-      if (Constants.USE_TILEDIMAGEPANEL)
-      {
-         panel = new TiledImagePanel(ri, thumb);
-      }
-      else
-      {
-         panel = new SwingImagePanel(ri, thumb);
-      }
+      panel = new SwingImagePanel(ri, thumb);
 
       JScrollPane scrollPane =
          new JScrollPane(

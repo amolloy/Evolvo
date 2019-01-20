@@ -181,8 +181,6 @@ public class Evolvo extends JFrame implements ActionListener
       JMenu renderMenu;
       JMenu helpMenu;
 
-      var mask = Toolkit.getDefaultToolkit ().getMenuShortcutKeyMaskEx();
-
       // Make the File Menu
       fileMenu = new JMenu(MessageStrings.getString("Evolvo.File_15")); //$NON-NLS-1$
       fileMenu.setMnemonic(KeyEvent.VK_F);
@@ -191,7 +189,7 @@ public class Evolvo extends JFrame implements ActionListener
       menuitem = new JMenuItem(MessageStrings.getString("Evolvo.Save_Genotype_Menu")); //$NON-NLS-1$
       menuitem.setMnemonic(KeyEvent.VK_S);
       menuitem.setAccelerator(
-         KeyStroke.getKeyStroke(KeyEvent.VK_S, mask));
+         KeyStroke.getKeyStroke(KeyEvent.VK_S, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
       menuitem.addActionListener(this);
       fileMenu.add(menuitem);
 
@@ -199,7 +197,7 @@ public class Evolvo extends JFrame implements ActionListener
       menuitem = new JMenuItem(MessageStrings.getString("Evolvo.Load_Genotype_Menu")); //$NON-NLS-1$
       menuitem.setMnemonic(KeyEvent.VK_L);
       menuitem.setAccelerator(
-         KeyStroke.getKeyStroke(KeyEvent.VK_L, mask));
+         KeyStroke.getKeyStroke(KeyEvent.VK_L, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
       menuitem.addActionListener(this);
       fileMenu.add(menuitem);
       fileMenu.addSeparator();
@@ -208,7 +206,7 @@ public class Evolvo extends JFrame implements ActionListener
       menuitem = new JMenuItem(MessageStrings.getString("Evolvo.Display_Genotype_Menu")); //$NON-NLS-1$
       menuitem.setMnemonic(KeyEvent.VK_D);
       menuitem.setAccelerator(
-         KeyStroke.getKeyStroke(KeyEvent.VK_D, mask));
+         KeyStroke.getKeyStroke(KeyEvent.VK_D, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
       menuitem.addActionListener(this);
       fileMenu.add(menuitem);
 
@@ -216,7 +214,7 @@ public class Evolvo extends JFrame implements ActionListener
       menuitem = new JMenuItem(MessageStrings.getString("Evolvo.Render_Saved_Genotype_Menu")); //$NON-NLS-1$
       menuitem.setMnemonic(KeyEvent.VK_R);
       menuitem.setAccelerator(
-         KeyStroke.getKeyStroke(KeyEvent.VK_R, mask | InputEvent.SHIFT_DOWN_MASK));
+         KeyStroke.getKeyStroke(KeyEvent.VK_R, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx() | InputEvent.SHIFT_DOWN_MASK));
       menuitem.addActionListener(this);
       fileMenu.add(menuitem);
 
@@ -226,7 +224,7 @@ public class Evolvo extends JFrame implements ActionListener
       menuitem = new JMenuItem(MessageStrings.getString("Evolvo.Display_System_Console_Menu")); //$NON-NLS-1$
       menuitem.setMnemonic(KeyEvent.VK_C);
       menuitem.setAccelerator(
-         KeyStroke.getKeyStroke(KeyEvent.VK_C, mask));
+         KeyStroke.getKeyStroke(KeyEvent.VK_C, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
       menuitem.addActionListener(this);
       fileMenu.add(menuitem);
 
@@ -242,7 +240,7 @@ public class Evolvo extends JFrame implements ActionListener
       menuitem = new JMenuItem(MessageStrings.getString("Evolvo.Exit_Menu")); //$NON-NLS-1$
       menuitem.setMnemonic(KeyEvent.VK_X);
       menuitem.setAccelerator(
-         KeyStroke.getKeyStroke(KeyEvent.VK_X, mask));
+         KeyStroke.getKeyStroke(KeyEvent.VK_X, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
       menuitem.addActionListener(this);
       fileMenu.add(menuitem);
 
@@ -254,7 +252,7 @@ public class Evolvo extends JFrame implements ActionListener
       menuitem = new JMenuItem(MessageStrings.getString("Evolvo.New_Generation_Menu")); //$NON-NLS-1$
       menuitem.setMnemonic(KeyEvent.VK_N);
       menuitem.setAccelerator(
-         KeyStroke.getKeyStroke(KeyEvent.VK_N, mask));
+         KeyStroke.getKeyStroke(KeyEvent.VK_N, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
       menuitem.addActionListener(this);
       renderMenu.add(menuitem);
       renderMenu.addSeparator();
@@ -263,7 +261,7 @@ public class Evolvo extends JFrame implements ActionListener
       menuitem = new JMenuItem(MessageStrings.getString("Evolvo.Render_Image_Menu")); //$NON-NLS-1$
       menuitem.setMnemonic(KeyEvent.VK_R);
       menuitem.setAccelerator(
-         KeyStroke.getKeyStroke(KeyEvent.VK_R, mask));
+         KeyStroke.getKeyStroke(KeyEvent.VK_R, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
       menuitem.addActionListener(this);
       renderMenu.add(menuitem);
 
@@ -271,7 +269,7 @@ public class Evolvo extends JFrame implements ActionListener
       menuitem = new JMenuItem(MessageStrings.getString("Evolvo.Stop_Menu")); //$NON-NLS-1$
       menuitem.setMnemonic(KeyEvent.VK_T);
       menuitem.setAccelerator(
-         KeyStroke.getKeyStroke(KeyEvent.VK_T, mask));
+         KeyStroke.getKeyStroke(KeyEvent.VK_T, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
       menuitem.addActionListener(this);
       renderMenu.add(menuitem);
 
@@ -283,7 +281,7 @@ public class Evolvo extends JFrame implements ActionListener
       menuitem = new JMenuItem(MessageStrings.getString("Evolvo.About_Evolvo_Menu")); //$NON-NLS-1$
       menuitem.setMnemonic(KeyEvent.VK_A);
       menuitem.setAccelerator(
-         KeyStroke.getKeyStroke(KeyEvent.VK_A, mask));
+         KeyStroke.getKeyStroke(KeyEvent.VK_A, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
       menuitem.addActionListener(this);
       helpMenu.add(menuitem);
       helpMenu.addSeparator();

@@ -33,7 +33,6 @@ import javax.swing.JOptionPane;
 import org.maloi.evolvo.expressiontree.operators.OperatorInterface;
 import org.maloi.evolvo.expressiontree.operators.OperatorList;
 import org.maloi.evolvo.localization.MessageStrings;
-import org.maloi.evolvo.resources.Constants;
 
 /**
  * Stores all settings information for this application.  Most of the 
@@ -79,7 +78,7 @@ public class GlobalSettings
          int index;
          for (index = 0; index < ops.length; index++)
          {
-            props.put(Constants.operatorPrefix + ops[index].getName(), "1.0"); //$NON-NLS-1$
+            props.put("operator." + ops[index].getName(), "1.0"); //$NON-NLS-1$
          }
          props.put("complexity", "1.0"); //$NON-NLS-1$ //$NON-NLS-2$
          props.put("depreciation", "0.25"); //$NON-NLS-1$ //$NON-NLS-2$

@@ -45,7 +45,6 @@ import javax.swing.border.Border;
 import org.maloi.evolvo.expressiontree.operators.OperatorInterface;
 import org.maloi.evolvo.io.Exporter;
 import org.maloi.evolvo.localization.MessageStrings;
-import org.maloi.evolvo.resources.Constants;
 import org.maloi.evolvo.settings.GlobalSettings;
 
 /**
@@ -472,7 +471,7 @@ public class SettingsDialog implements ActionListener
                for (int i = 0; i < fields.length; i++)
                {
                   settings.setDoubleProperty(
-                     Constants.operatorPrefix + ops[i].getName(),
+                     "operator." + ops[i].getName(),
                      fields[i].getValue());
                }
 
@@ -542,7 +541,7 @@ public class SettingsDialog implements ActionListener
          fields[index] =
             new DoubleFieldSlider(
                settings.getDoubleProperty(
-                  Constants.operatorPrefix + ops[index].getName()),
+                  "operator." + ops[index].getName()),
                0.0,
                0.0,
                1.0,
