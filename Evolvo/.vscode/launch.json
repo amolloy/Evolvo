@@ -1,0 +1,11 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "CodeLens (Launch) - Evolvo",
+            "request": "launch",
+            "mainClass": "org.maloi.evolvo.Evolvo",
+            "projectName": "evolvo"
+        }
+    ]
+}
