@@ -35,7 +35,7 @@ public class OperatorList
 {
    static HashMap<String, OperatorInterface> operatorHash;
    static OperatorInterface scalarList[] = new OperatorInterface[31];
-   static OperatorInterface tripletList[] = new OperatorInterface[11];
+   static OperatorInterface tripletList[] = new OperatorInterface[12];
    static OperatorInterface completeList[];
 
    static {
@@ -86,6 +86,7 @@ public class OperatorList
       tripletList[8] = new RGBtoHSV();
       tripletList[9] = new SphereMux();
       tripletList[10] = new GreyToRGB();
+      tripletList[11] = new ColorNoise();
       
       int count = 0;
 
