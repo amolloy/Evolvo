@@ -23,14 +23,13 @@ import java.io.Serializable;
 import java.util.Random;
 
 import org.maloi.evolvo.expressiontree.operators.OperatorInterface;
-import org.maloi.evolvo.expressiontree.vm.Machine;
 import org.maloi.evolvo.expressiontree.vm.Stack;
 import org.maloi.evolvo.math.NoiseSampler;
 
 /**
 * Returns some noise in grayscale space
 */
-public class ColorNoise implements OperatorInterface, Serializable
+public class WarperColorNoise implements OperatorInterface, Serializable
 {
     private static final long serialVersionUID = 1L;
     
@@ -40,12 +39,11 @@ public class ColorNoise implements OperatorInterface, Serializable
     {
         long seed = (long)theStack.pop();
         double scale = theStack.pop();
+        double y = theStack.pop();
+        double x = theStack.pop();
 
         // This is arbitrary, but gets us closer to Sims' supposed original
-        scale /= 2;
-
-        double x = registers[Machine.REGISTER_X];
-        double y = registers[Machine.REGISTER_Y];
+        scale /= 1;
 
         Random r = new Random(seed);
 
@@ -62,7 +60,7 @@ public class ColorNoise implements OperatorInterface, Serializable
     @Override
     public String getName()
     {
-        return "color-noise"; //$NON-NLS-1$
+        return "warped-color-noise"; //$NON-NLS-1$
     }
     
     /** Performs any initialization the operator requires. */
@@ -75,7 +73,7 @@ public class ColorNoise implements OperatorInterface, Serializable
     @Override
     public int getNumberOfScalarParameters()
     {
-        return 2;
+        return 4;
     }
     
     /* (non-Javadoc)

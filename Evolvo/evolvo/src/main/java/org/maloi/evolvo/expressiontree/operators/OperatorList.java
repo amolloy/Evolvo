@@ -34,8 +34,8 @@ import org.maloi.evolvo.expressiontree.operators.triplet.*;
 public class OperatorList
 {
    static HashMap<String, OperatorInterface> operatorHash;
-   static OperatorInterface scalarList[] = new OperatorInterface[31];
-   static OperatorInterface tripletList[] = new OperatorInterface[12];
+   static OperatorInterface scalarList[] = new OperatorInterface[32];
+   static OperatorInterface tripletList[] = new OperatorInterface[13];
    static OperatorInterface completeList[];
 
    static {
@@ -74,6 +74,7 @@ public class OperatorList
       scalarList[28] = new Magnitude();
       scalarList[29] = new DotProduct();
       scalarList[30] = new BWNoise();
+      scalarList[31] = new WarpedBWNoise();
    
       tripletList[0] = new TripletAdd();
       tripletList[1] = new TripletSubtract();
@@ -87,6 +88,7 @@ public class OperatorList
       tripletList[9] = new SphereMux();
       tripletList[10] = new GreyToRGB();
       tripletList[11] = new ColorNoise();
+      tripletList[12] = new WarperColorNoise();
       
       int count = 0;
 

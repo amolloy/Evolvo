@@ -37,12 +37,13 @@ public class BWNoise implements OperatorInterface, Serializable
     @Override
     public void perform(Stack theStack, final double registers[])
     {
-        double scale = theStack.pop();
         long seed = (long)theStack.pop();
+        double scale = theStack.pop();
         double x = registers[Machine.REGISTER_X];
         double y = registers[Machine.REGISTER_Y];
 
-        double noise = NoiseSampler.sampleNoise(scale, seed, x, y);
+        // Arbitrary scale modification - This just gets us something similar to Sims original
+        double noise = NoiseSampler.sampleNoise(scale  / 5.0, seed, x, y);
 
         theStack.push(noise);
     }
@@ -51,7 +52,7 @@ public class BWNoise implements OperatorInterface, Serializable
     @Override
     public String getName()
     {
-        return "bwnoise"; //$NON-NLS-1$
+        return "bw-noise"; //$NON-NLS-1$
     }
     
     /** Performs any initialization the operator requires. */
