@@ -16,9 +16,6 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-/**
- *  $Id$
- */
 
 package org.maloi.evolvo.expressiontree;
 
@@ -238,18 +235,7 @@ public class ExpressionTree implements Serializable
     */
    protected boolean isTrimmable()
    {
-      int numScalarParams = operator.getNumberOfScalarParameters();
-      int numTripletParams = operator.getNumberOfTripletParameters();
-
-      for (int i = 0; i < numScalarParams + numTripletParams; i++)
-      {
-         if (!params[i].isTrimmable())
-         {
-            return false;
-         }
-      }
-
-      return true;
+      return false;
    }
 
    /**

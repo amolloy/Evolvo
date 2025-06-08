@@ -16,9 +16,6 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-/**
- *  $Id$
- */
 
 package org.maloi.evolvo.expressiontree.operators.scalar;
 
@@ -32,7 +29,7 @@ public class Not implements OperatorInterface, Serializable
    private static final long serialVersionUID = -2498684590962540412L;
 
    /** Perform the operation. */
-   public void perform(Stack theStack)
+   public void perform(Stack theStack, final double registers[])
    {
       long a, b;
       a = Double.doubleToLongBits(theStack.pop());

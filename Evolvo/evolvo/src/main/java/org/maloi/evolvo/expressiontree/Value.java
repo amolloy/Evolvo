@@ -16,13 +16,8 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-/**
- *  $Id$
- */
 
 package org.maloi.evolvo.expressiontree;
-
-import java.io.Serializable;
 
 import org.maloi.evolvo.expressiontree.vm.Instruction;
 import org.maloi.evolvo.expressiontree.vm.Machine;
@@ -30,7 +25,7 @@ import org.maloi.evolvo.expressiontree.vm.Machine;
 /**
  * Terminal node for an expressionTree that stores a double value.
  */
-public class Value extends ExpressionTree implements Serializable
+public class Value extends ExpressionTree
 {
    private static final long serialVersionUID = -8387108471764010790L;
    /** The value being stored goes into cachedValue. */
@@ -104,11 +99,6 @@ public class Value extends ExpressionTree implements Serializable
       compile(myMachine);
 
       return myMachine;
-   }
-
-   protected boolean isTrimmable()
-   {
-	   return true;
    }
 
    protected void compile(Machine myMachine)

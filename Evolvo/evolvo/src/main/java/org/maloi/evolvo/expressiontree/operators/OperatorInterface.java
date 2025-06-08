@@ -16,9 +16,6 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-/**
- *  $Id$
- */
 
 package org.maloi.evolvo.expressiontree.operators;
 
@@ -46,5 +43,5 @@ public interface OperatorInterface
    /** Executes this operator on values in the given stack.
     *  Pushes its result back onto the stack.
     */
-   public void perform(Stack theStack);
+   public void perform(Stack theStack, final double registers[]);
 }

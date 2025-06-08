@@ -16,7 +16,7 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-/**
+/*
  *  $Id$
  */
 
@@ -42,14 +42,13 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 
 import org.maloi.evolvo.expressiontree.ExpressionTree;
 import org.maloi.evolvo.expressiontree.mutator.Mutator;
 import org.maloi.evolvo.expressiontree.renderer.RendererInterface;
 import org.maloi.evolvo.expressiontree.renderer.StandardRenderer;
 import org.maloi.evolvo.expressiontree.utilities.ExpressionTreeGenerator;
-import org.maloi.evolvo.expressiontree.utilities.VariablePackage;
-import org.maloi.evolvo.gui.SaveGenomeFileChooser;
 import org.maloi.evolvo.gui.ExplorerFrame;
 import org.maloi.evolvo.gui.ImageButtonPanel;
 import org.maloi.evolvo.gui.RenderFrame;
@@ -63,14 +62,11 @@ import org.maloi.evolvo.resources.Constants;
 import org.maloi.evolvo.resources.LicenseText;
 import org.maloi.evolvo.settings.GlobalSettings;
 
-public class Evolvo extends JFrame implements ActionListener
+public final class Evolvo extends JFrame implements ActionListener
 {
    private static final long serialVersionUID = 2104303697937004832L;
    static GlobalSettings settings;
    static SettingsDialog settingsDialogBox;
-   SaveGenomeFileChooser saveFileChooser;
-   Properties prop;
-   VariablePackage variables;
    ImageButtonPanel buttonPanel;
    RendererInterface[] ri = new RendererInterface[9];
    SystemConsole console;
@@ -93,7 +89,7 @@ public class Evolvo extends JFrame implements ActionListener
       {
          UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
       }
-      catch (Exception e)
+      catch (ClassNotFoundException | IllegalAccessException | InstantiationException | UnsupportedLookAndFeelException e)
       {
          //Do nothing-will automatically use default L&F if failure occurs  
       }
@@ -106,21 +102,10 @@ public class Evolvo extends JFrame implements ActionListener
 
       console.println(MessageStrings.getString("Evolvo.Creating_splash_screen_6")); //$NON-NLS-1$
 
-      SplashWindow Splash = new SplashWindow(false, this);
-
-      Splash.setMessage(MessageStrings.getString("Evolvo.Loading_preferences..._7")); //$NON-NLS-1$
       settings = GlobalSettings.getInstance();
 
-      Splash.setMessage(MessageStrings.getString("Evolvo.Creating_preferences_dialog..._8")); //$NON-NLS-1$
       settingsDialogBox = SettingsDialog.getInstance();
 
-      Splash.setMessage(MessageStrings.getString("Evolvo.Reading_preferences..._10")); //$NON-NLS-1$
-      prop = settings.getProperties();
-
-      Splash.setMessage(MessageStrings.getString("Evolvo.Configuring_variables..._11")); //$NON-NLS-1$
-      variables = VariablePackage.getInstance();
-
-      Splash.setMessage(MessageStrings.getString("Evolvo.Creating_main_window..._12")); //$NON-NLS-1$
       getContentPane().setLayout(new BorderLayout());
 
       JMenuBar menubar = makeMenuBar();
@@ -152,8 +137,6 @@ public class Evolvo extends JFrame implements ActionListener
       pack();
       setResizable(false);
       setVisible(true);
-
-      Splash.close();
    }
 
    /**
@@ -547,6 +530,7 @@ public class Evolvo extends JFrame implements ActionListener
 		}
 	}
 
+   @Override
    public void actionPerformed(ActionEvent e)
    {
       String cmd = e.getActionCommand();
@@ -631,6 +615,7 @@ public class Evolvo extends JFrame implements ActionListener
       JFrame f = new Evolvo();
       f.addWindowListener(new WindowAdapter()
       {
+         @Override
          public void windowClosing(WindowEvent we)
          {
             System.exit(0);

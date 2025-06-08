@@ -16,15 +16,10 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-/**
- *  $Id$
- */
 
 package org.maloi.evolvo.gui;
 
-import java.io.Serializable;
 import java.util.Enumeration;
-import java.util.Vector;
 
 import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
@@ -37,18 +32,16 @@ import javax.swing.ButtonModel;
  *  button is selected.
  */
 
-public class CustomButtonGroup extends ButtonGroup implements Serializable
+public class CustomButtonGroup extends ButtonGroup
 {
 
    private static final long serialVersionUID = 7400115433305841491L;
 
-   // the list of buttons participating in this group
-   protected Vector<AbstractButton> buttons = new Vector<AbstractButton>();
 
    /**
     * The current choice.
     */
-   ButtonModel selection = null;
+   transient ButtonModel selection = null;
 
    /**
     * Creates a new ButtonGroup.
@@ -60,13 +53,14 @@ public class CustomButtonGroup extends ButtonGroup implements Serializable
    /**
     * Adds the button to the group.
     */
+   @Override
    public void add(AbstractButton b)
    {
       if (b == null)
       {
          return;
       }
-      buttons.addElement(b);
+      buttons.add(b);
       if (selection == null && b.isSelected())
       {
          selection = b.getModel();
@@ -77,13 +71,14 @@ public class CustomButtonGroup extends ButtonGroup implements Serializable
    /**
     * Removes the button from the group.
     */
+   @Override
    public void remove(AbstractButton b)
    {
       if (b == null)
       {
          return;
       }
-      buttons.removeElement(b);
+      buttons.remove(b);
       if (b.getModel() == selection)
       {
          selection = null;
@@ -95,6 +90,7 @@ public class CustomButtonGroup extends ButtonGroup implements Serializable
     * Return all the buttons that are participating in
     * this group.
     */
+   @Override
    public Enumeration<AbstractButton> getElements()
    {
       return buttons.elements();
@@ -103,6 +99,7 @@ public class CustomButtonGroup extends ButtonGroup implements Serializable
    /**
     * Return the selected button model.
     */
+   @Override
    public ButtonModel getSelection()
    {
       return selection;
@@ -111,6 +108,7 @@ public class CustomButtonGroup extends ButtonGroup implements Serializable
    /**
     * Sets the selected value for the button.
     */
+   @Override
    public void setSelected(ButtonModel m, boolean b)
    {
       if (b && m != selection)
@@ -136,6 +134,7 @@ public class CustomButtonGroup extends ButtonGroup implements Serializable
    /**
     * Returns the selected value for the button.
     */
+   @Override
    public boolean isSelected(ButtonModel m)
    {
       return (m == selection);
@@ -144,6 +143,7 @@ public class CustomButtonGroup extends ButtonGroup implements Serializable
    /**
     * Returns the number of buttons in the group.
     */
+   @Override
    public int getButtonCount()
    {
       if (buttons == null)
@@ -155,5 +155,9 @@ public class CustomButtonGroup extends ButtonGroup implements Serializable
          return buttons.size();
       }
    }
+
+    public void setSelection(ButtonModel selection) {
+        this.selection = selection;
+    }
 
 }

@@ -16,54 +16,13 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-/**
- *  $Id$
- */
 
 package org.maloi.evolvo.expressiontree.operators;
 
 import java.util.HashMap;
 
-import org.maloi.evolvo.expressiontree.operators.scalar.Absolute;
-import org.maloi.evolvo.expressiontree.operators.scalar.Addition;
-import org.maloi.evolvo.expressiontree.operators.scalar.And;
-import org.maloi.evolvo.expressiontree.operators.scalar.Arccos;
-import org.maloi.evolvo.expressiontree.operators.scalar.Arcsin;
-import org.maloi.evolvo.expressiontree.operators.scalar.Arctan;
-import org.maloi.evolvo.expressiontree.operators.scalar.Atan2;
-import org.maloi.evolvo.expressiontree.operators.scalar.Beta;
-import org.maloi.evolvo.expressiontree.operators.scalar.Ceil;
-import org.maloi.evolvo.expressiontree.operators.scalar.Cosine;
-import org.maloi.evolvo.expressiontree.operators.scalar.Division;
-import org.maloi.evolvo.expressiontree.operators.scalar.DotProduct;
-import org.maloi.evolvo.expressiontree.operators.scalar.Exponent;
-import org.maloi.evolvo.expressiontree.operators.scalar.Floor;
-import org.maloi.evolvo.expressiontree.operators.scalar.Ifs;
-import org.maloi.evolvo.expressiontree.operators.scalar.Invert;
-import org.maloi.evolvo.expressiontree.operators.scalar.Magnitude;
-import org.maloi.evolvo.expressiontree.operators.scalar.Mandel;
-import org.maloi.evolvo.expressiontree.operators.scalar.Maximum;
-import org.maloi.evolvo.expressiontree.operators.scalar.Minimum;
-import org.maloi.evolvo.expressiontree.operators.scalar.Multiplication;
-import org.maloi.evolvo.expressiontree.operators.scalar.Mux3;
-import org.maloi.evolvo.expressiontree.operators.scalar.Mux5;
-import org.maloi.evolvo.expressiontree.operators.scalar.Not;
-import org.maloi.evolvo.expressiontree.operators.scalar.Or;
-import org.maloi.evolvo.expressiontree.operators.scalar.Remainder;
-import org.maloi.evolvo.expressiontree.operators.scalar.Rint;
-import org.maloi.evolvo.expressiontree.operators.scalar.Sine;
-import org.maloi.evolvo.expressiontree.operators.scalar.Subtraction;
-import org.maloi.evolvo.expressiontree.operators.scalar.Xor;
-import org.maloi.evolvo.expressiontree.operators.triplet.CartesianToSpherical;
-import org.maloi.evolvo.expressiontree.operators.triplet.CrossProduct;
-import org.maloi.evolvo.expressiontree.operators.triplet.HSVtoRGB;
-import org.maloi.evolvo.expressiontree.operators.triplet.Normalize;
-import org.maloi.evolvo.expressiontree.operators.triplet.RGBtoHSV;
-import org.maloi.evolvo.expressiontree.operators.triplet.Scale;
-import org.maloi.evolvo.expressiontree.operators.triplet.SphereMux;
-import org.maloi.evolvo.expressiontree.operators.triplet.SphericalToCartesian;
-import org.maloi.evolvo.expressiontree.operators.triplet.TripletAdd;
-import org.maloi.evolvo.expressiontree.operators.triplet.TripletSubtract;
+import org.maloi.evolvo.expressiontree.operators.scalar.*;
+import org.maloi.evolvo.expressiontree.operators.triplet.*;
 
 /**
  * Creates a list of the currently available operators.
@@ -75,8 +34,8 @@ import org.maloi.evolvo.expressiontree.operators.triplet.TripletSubtract;
 public class OperatorList
 {
    static HashMap<String, OperatorInterface> operatorHash;
-   static OperatorInterface scalarList[] = new OperatorInterface[30];
-   static OperatorInterface tripletList[] = new OperatorInterface[10];
+   static OperatorInterface scalarList[] = new OperatorInterface[31];
+   static OperatorInterface tripletList[] = new OperatorInterface[11];
    static OperatorInterface completeList[];
 
    static {
@@ -114,6 +73,7 @@ public class OperatorList
       scalarList[27] = new Mux3();
       scalarList[28] = new Magnitude();
       scalarList[29] = new DotProduct();
+      scalarList[30] = new BWNoise();
    
       tripletList[0] = new TripletAdd();
       tripletList[1] = new TripletSubtract();
@@ -125,6 +85,7 @@ public class OperatorList
       tripletList[7] = new HSVtoRGB();
       tripletList[8] = new RGBtoHSV();
       tripletList[9] = new SphereMux();
+      tripletList[10] = new GreyToRGB();
       
       int count = 0;
 

@@ -16,9 +16,6 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-/**
- *  $Id$
- */
 
 package org.maloi.evolvo.io;
 
@@ -28,7 +25,7 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.StringTokenizer;
-import java.util.Vector;
+import java.util.ArrayList;
 
 import org.maloi.evolvo.gui.SystemConsole;
 import org.maloi.evolvo.io.exporters.v1.ExporterInterface;
@@ -44,7 +41,6 @@ public class Exporter
 
    static Class<?> theExporter;
    static Object theExporterObject;
-   static Method getName;
    static Method getFormatDescriptions;
    static Method getFormatExtensions;
    static Method write;
@@ -76,12 +72,12 @@ public class Exporter
    {
       GlobalSettings settings = GlobalSettings.getInstance();
       String userPlugins = settings.getStringProperty("plugins"); //$NON-NLS-1$
-      Vector<String> pluginVector = new Vector<String>();
+      ArrayList<String> pluginArrayList = new ArrayList<>();
       int i;
 
       for (i = 0; i < pluginList.length; i++)
       {
-         pluginVector.add(pluginList[i]);
+         pluginArrayList.add(pluginList[i]);
       }
 
       if (userPlugins != null)
@@ -90,24 +86,24 @@ public class Exporter
 
          for (; tokenizer.hasMoreTokens();)
          {
-            StringBuffer nameBuffer = new StringBuffer(tokenizer.nextToken());
+            StringBuilder nameBuffer = new StringBuilder(tokenizer.nextToken());
 
             nameBuffer.insert(0, "FileIO.ExporterPlugins.v1."); //$NON-NLS-1$
 
-            pluginVector.add(nameBuffer.toString());
+            pluginArrayList.add(nameBuffer.toString());
          }
       }
 
-      pluginVector = checkPlugins(pluginVector);
+      pluginArrayList = checkPlugins(pluginArrayList);
 
-      if (pluginVector.size() == 0)
+      if (pluginArrayList.isEmpty())
       {
          available = false;
          console.println(MessageStrings.getString("Exporter.No_exporters_available")); //$NON-NLS-1$
          return;
       }
 
-      Object tempArray[] = pluginVector.toArray();
+      Object tempArray[] = pluginArrayList.toArray();
 
       pluginList = new String[tempArray.length];
 
@@ -131,26 +127,23 @@ public class Exporter
 
          theExporterObject = theExporter.getDeclaredConstructor().newInstance();
 
-         Method initialize = theExporter.getDeclaredMethod("initialize", new Class[] { //$NON-NLS-1$
+         Method initialize = theExporter.getDeclaredMethod("initialize", new Class<?>[] { //$NON-NLS-1$
          });
 
          initialize.invoke(theExporterObject);
 
-         getName = theExporter.getDeclaredMethod("getName", new Class[] { //$NON-NLS-1$
-         });
-
-         getFormatDescriptions = theExporter.getDeclaredMethod("getFormatDescriptions", new Class[] { //$NON-NLS-1$
+         getFormatDescriptions = theExporter.getDeclaredMethod("getFormatDescriptions", new Class<?>[] { //$NON-NLS-1$
          });
 
             getFormatExtensions = theExporter.getDeclaredMethod("getFormatExtensions", //$NON-NLS-1$
-   new Class[] { String.class });
+   new Class<?>[] { String.class });
 
             write = theExporter.getDeclaredMethod("write", //$NON-NLS-1$
-   new Class[] { RenderedImage.class, int.class, File.class });
+   new Class<?>[] { RenderedImage.class, int.class, File.class });
 
          available = true;
       }
-      catch (Exception e)
+      catch (ClassNotFoundException | IllegalAccessException | IllegalArgumentException | InstantiationException | NoSuchMethodException | SecurityException | InvocationTargetException e)
       {
          console.printStackTrace(e);
       }
@@ -167,7 +160,7 @@ public class Exporter
 
             return (String[])retval;
          }
-         catch (Exception e)
+         catch (IllegalAccessException | InvocationTargetException e)
          {
             console.printStackTrace(e);
          }
@@ -189,7 +182,7 @@ public class Exporter
 
             return (String[])retval;
          }
-         catch (Exception e)
+         catch (IllegalAccessException | InvocationTargetException e)
          {
             console.printStackTrace(e);
          }
@@ -207,29 +200,29 @@ public class Exporter
          {
             write.invoke(
                theExporterObject,
-               new Object[] { i, Integer.valueOf(which), f });
+               new Object[] { i, which, f });
          }
-         catch (Exception e)
+         catch (IllegalAccessException | InvocationTargetException e)
          {
             console.printStackTrace(e);
          }
       }
    }
 
-   static Vector<String> checkPlugins(Vector<String> pluginVector)
+   static ArrayList<String> checkPlugins(ArrayList<String> pluginArrayList)
    {
       int i;
       int j;
-      var nameVector = new Vector<String>(15);
-      var trimmed = new Vector<String>(15);
+      ArrayList<String> nameArrayList = new ArrayList<>(15);
+      ArrayList<String> trimmed = new ArrayList<>(15);
       boolean flag;
 
-      for (i = 0; i < pluginVector.size(); i++)
+      for (i = 0; i < pluginArrayList.size(); i++)
       {
          try
          {
             Class<?> pluginClass =
-               Class.forName((String)pluginVector.elementAt(i));
+               Class.forName(pluginArrayList.get(i));
 
             Class<?> interfaces[] = pluginClass.getInterfaces();
 
@@ -239,7 +232,7 @@ public class Exporter
                if (interfaces[j] == ExporterInterface.class)
                {
                   flag = true;
-                  continue;
+                  break;
                }
             }
 
@@ -247,45 +240,27 @@ public class Exporter
             {
                Object pluginObject = pluginClass.getDeclaredConstructor().newInstance();
 
-               Method isAvailable = pluginClass.getDeclaredMethod("isAvailable", new Class[] { //$NON-NLS-1$
+               Method isAvailable = pluginClass.getDeclaredMethod("isAvailable", new Class<?>[] { //$NON-NLS-1$
                });
 
                Boolean avail = (Boolean)isAvailable.invoke(pluginObject);
 
-               if (avail.booleanValue())
+               if (avail)
                {
-                  Method getName = pluginClass.getDeclaredMethod("getName", new Class[] { //$NON-NLS-1$
+                  Method getName = pluginClass.getDeclaredMethod("getName", new Class<?>[] { //$NON-NLS-1$
                   });
 
-                  nameVector.add((String)getName.invoke(pluginObject));
-                  trimmed.add(pluginVector.elementAt(i));
+                  nameArrayList.add((String)getName.invoke(pluginObject));
+                  trimmed.add(pluginArrayList.get(i));
                }
             }
          }
-         catch (NoClassDefFoundError e)
-         {
-         }
-         catch (ClassNotFoundException e)
-         {
-         }
-         catch (InstantiationException e)
-         {
-         }
-         catch (IllegalAccessException e)
-         {
-         }
-         catch (NoSuchMethodException e)
-         {
-         }
-         catch (InvocationTargetException e)
-         {
-         }
-         catch (ClassCastException e)
+         catch (NoClassDefFoundError | ClassNotFoundException | InstantiationException | IllegalAccessException | NoSuchMethodException | InvocationTargetException | ClassCastException e)
          {
          }
       }
 
-      Object tempArray[] = nameVector.toArray();
+      Object tempArray[] = nameArrayList.toArray();
 
       exporterNames = new String[tempArray.length];
 

@@ -6,7 +6,7 @@
 <property name="DEBUG" value="Off"/>
 
 <!-- set global properties for this build -->
-<property name="src"        value="src"/>
+<property name="src"        value="evolvo/src/main"/>
 <property name="build"      value="build"/>
 <property name="dist"       value="dist"/>
 <property name="debug_dist" value="debug"/>
@@ -27,7 +27,7 @@
 	<copy file="${src}/Resources/splash.png" todir="${build}/Resources"/>
    
    <!-- Get the localization properties file in the build directory -->
-   <copy file="${src}/org/maloi/evolvo/localization/EvolvoStrings_en_US.properties" todir="${build}/org/maloi/evolvo/localization"/>
+   <copy file="${src}/java/org/maloi/evolvo/localization/EvolvoStrings_en_US.properties" todir="${build}/org/maloi/evolvo/localization"/>
 
 	<!-- Check what image exporters we have available -->
 	<available property="ImageIO" classname="javax.imageio.ImageIO"/>
@@ -61,7 +61,7 @@
 	<!-- Compile the java code from ${src} into ${build} -->
 	<javac srcdir="${src}" destdir="${build}" 
 		debug="${DEBUG}" optimize="${optimize}"
-      target="1.4" source="1.4">
+        release="8">
 		<exclude name="org/maloi/evolvo/io/exporters/v1/ImageIOExporter.java"
 		 unless="ImageIO"/>
 

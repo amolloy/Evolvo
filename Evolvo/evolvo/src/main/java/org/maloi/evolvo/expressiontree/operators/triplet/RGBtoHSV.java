@@ -16,9 +16,6 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-/**
- *  $Id$
- */
  
 /*
  * Created on Mar 9, 2004
@@ -77,7 +74,7 @@ public class RGBtoHSV implements OperatorInterface
    /* (non-Javadoc)
     * @see org.maloi.evolvo.expressiontree.operators.OperatorInterface#perform(org.maloi.evolvo.expressiontree.vm.Stack)
     */
-   public void perform(Stack theStack)
+   public void perform(Stack theStack, final double registers[])
    {
       double r, g, b, h, s, v;
       double min, max, delta;

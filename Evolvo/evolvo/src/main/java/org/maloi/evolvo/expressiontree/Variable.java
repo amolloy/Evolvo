@@ -16,13 +16,8 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-/**
- *  $Id$
- */
 
 package org.maloi.evolvo.expressiontree;
-
-import java.io.Serializable;
 
 import org.maloi.evolvo.expressiontree.vm.Instruction;
 import org.maloi.evolvo.expressiontree.vm.Machine;
@@ -31,7 +26,7 @@ import org.maloi.evolvo.gui.SystemConsole;
 /**
  * Terminal node for expressionTree that stores a variable.
  */
-public class Variable extends ExpressionTree implements Cloneable, Serializable
+public class Variable extends ExpressionTree implements Cloneable
 {
    private static final long serialVersionUID = -2682627840160900321L;
    /** The variable's value. */
@@ -67,6 +62,7 @@ public class Variable extends ExpressionTree implements Cloneable, Serializable
       setName(""); //$NON-NLS-1$
    }
 
+   @Override
    public ExpressionTree getClone()
    {
       // We don't actually need to deep clone variable's, so just return this
@@ -74,6 +70,7 @@ public class Variable extends ExpressionTree implements Cloneable, Serializable
    }
 
    /** Returns the variable's name as a String. */
+   @Override
    public String toString()
    {
       return name;
@@ -86,29 +83,34 @@ public class Variable extends ExpressionTree implements Cloneable, Serializable
    }
 
    /** Returns the number of scalar parameters this node expects. */
+   @Override
    public int getNumberOfScalarParams()
    {
       return 0;
    }
 
    /** Returns the number of triplet parameters this node expects. */
+   @Override
    public int getNumberOfTripletParams()
    {
       return 0;
    }
 
    /** Returns true if this node's operator returns a triplet.  Always false. */
+   @Override
    public boolean returnsTriplet()
    {
       return false;
    }
 
    /** Returns the parameters this node is holding. */
+   @Override
    public ExpressionTree[] getParams()
    {
       return null;
    }
 
+   @Override
    public void setParams(ExpressionTree[] dummy)
    {
    }
@@ -117,6 +119,7 @@ public class Variable extends ExpressionTree implements Cloneable, Serializable
     *  Simply creates a new machine and passes it on to 
     *  the buildMachine(machine) method.
     */
+   @Override
    public Machine getMachine()
    {
       Machine myMachine = new Machine();
@@ -126,6 +129,7 @@ public class Variable extends ExpressionTree implements Cloneable, Serializable
       return myMachine;
    }
 
+   @Override
    protected void compile(Machine myMachine)
    {
       Instruction inst = new Instruction();
@@ -136,35 +140,31 @@ public class Variable extends ExpressionTree implements Cloneable, Serializable
       myMachine.addInstruction(inst);
    }
 
-   protected boolean isTrimmable()
-   {
-	   return false;
-   }
-
    private void setName(String n)
    {
       name = n;
 
-      if (n.equals("x")) //$NON-NLS-1$
-      {
-         reg = Machine.REGISTER_X;
-      }
-      else if (n.equals("y")) //$NON-NLS-1$
-      {
-         reg = Machine.REGISTER_Y;
-      }
-      else if (n.equals("r")) //$NON-NLS-1$
-      {
-         reg = Machine.REGISTER_R;
-      }
-      else if (n.equals("theta")) //$NON-NLS-1$
-      {
-         reg = Machine.REGISTER_THETA;
-      }
-      else
-      {
-         console.println("Unimplemented variable: " + name); //$NON-NLS-1$
-         reg = 0;
-      }
+       switch (n) {
+       //$NON-NLS-1$
+           case "x":
+               reg = Machine.REGISTER_X;
+               break;
+       //$NON-NLS-1$
+           case "y":
+               reg = Machine.REGISTER_Y;
+               break;
+       //$NON-NLS-1$
+           case "r":
+               reg = Machine.REGISTER_R;
+               break;
+       //$NON-NLS-1$
+           case "theta":
+               reg = Machine.REGISTER_THETA;
+               break;
+           default:
+               console.println("Unimplemented variable: " + name); //$NON-NLS-1$
+               reg = 0;
+               break;
+       }
    }
 }

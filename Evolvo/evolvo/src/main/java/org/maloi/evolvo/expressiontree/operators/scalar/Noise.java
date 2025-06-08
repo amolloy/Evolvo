@@ -84,7 +84,7 @@ public class Noise implements OperatorInterface, Serializable
    }
 
    /** Perform the operation. */
-   public void perform(Stack theStack)
+   public void perform(Stack theStack, final double registers[])
    {
       double x, y, z;
       int ix, iy, iz;

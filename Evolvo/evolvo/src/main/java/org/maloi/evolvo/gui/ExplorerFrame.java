@@ -16,14 +16,9 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-/**
- *  $Id$
- */
 
 package org.maloi.evolvo.gui;
 
-import java.awt.Dimension;
-import java.awt.Graphics;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -31,7 +26,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
@@ -53,22 +47,20 @@ import org.maloi.evolvo.expressiontree.renderer.RendererInterface;
 import org.maloi.evolvo.io.Exporter;
 import org.maloi.evolvo.io.GenotypeFileIO;
 import org.maloi.evolvo.localization.MessageStrings;
-import org.maloi.evolvo.settings.GlobalSettings;
 
-public class ExplorerFrame extends JFrame
+final public class ExplorerFrame extends JFrame
 {
    private static final long serialVersionUID = 3506051221530473010L;
-   TiledImagePanel panel = null;
-   RendererInterface ri;
-   GlobalSettings settings = GlobalSettings.getInstance();
-   explorerActionListener aL;
-   explorerMouseListener mL;
+   SwingImagePanel panel = null;
+   transient RendererInterface ri;
+   transient explorerActionListener aL;
+   transient explorerMouseListener mL;
    boolean canClick = false;
 
    final JMenuItem exportMenuItem = new JMenuItem(MessageStrings.getString("RenderFrame.Export_Menu")); //$NON-NLS-1$
 
-   private int height;
-   private int width;
+   private final int height;
+   private final int width;
    double x1, y1, x2, y2;
    int lx1, ly1, lx2, ly2;
    boolean dirty;
@@ -139,12 +131,8 @@ public class ExplorerFrame extends JFrame
       menuitem.setMnemonic(KeyEvent.VK_S);
       menuitem.setAccelerator(
          KeyStroke.getKeyStroke(KeyEvent.VK_S, Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()));
-      menuitem.addActionListener(new ActionListener()
-      {
-         public void actionPerformed(ActionEvent e)
-         {
-            saveGenotype();
-         }
+      menuitem.addActionListener((ActionEvent e) -> {
+          saveGenotype();
       });
       fileMenu.add(menuitem);
 
@@ -211,7 +199,7 @@ public class ExplorerFrame extends JFrame
 
       if (panel == null)
       {
-         panel = new TiledImagePanel(ri, null);
+         panel = new SwingImagePanel(ri, null);
          panel.addMouseListener(mL);
          panel.addMouseMotionListener(mL);
       }
@@ -282,12 +270,12 @@ public class ExplorerFrame extends JFrame
       if (dirty)
       {
          System.err.println("Erasing: (" + lx1 + ", " + ly1 + ", " + lx2 + ", " + ly2 + ")");
-         panel.xorRectangle(lx1, ly1, lx2, ly2);
+         // TODO panel.xorRectangle(lx1, ly1, lx2, ly2);
       }
 
       System.err.println();
       System.err.println("Drawing: (" + x1 + ", " + y1 + ", " + x2 + ", " + y2 + ")");
-      panel.xorRectangle(x1, y1, x2, y2);
+      // TODO panel.xorRectangle(x1, y1, x2, y2);
       
       lx1 = x1;
       ly1 = y1;
@@ -339,6 +327,7 @@ public class ExplorerFrame extends JFrame
 
    class exportPerformer implements ActionListener
    {
+      @Override
       public void actionPerformed(ActionEvent e)
       {
          SaveImageFileChooser fileChooser = new SaveImageFileChooser(); 
@@ -357,8 +346,6 @@ public class ExplorerFrame extends JFrame
             return;
          }
 
-         String ext;
-
          String filename = theFile.getName();
          int length = filename.length();
          int i = filename.lastIndexOf('.');
@@ -367,13 +354,9 @@ public class ExplorerFrame extends JFrame
 
          int id = fileFilter.getID();
 
-         if (i > 0 && i < length - 1)
+         if (!(i > 0 && i < length - 1))
          {
-            ext = filename.substring(i + 1).toLowerCase();
-         }
-         else
-         {
-            ext = fileFilter.getExtensions()[0].toLowerCase();
+            String ext = fileFilter.getExtensions()[0].toLowerCase();
             filename = theFile.getPath().concat(".").concat(ext); //$NON-NLS-1$
             theFile = new File(filename);
          }
@@ -410,12 +393,14 @@ public class ExplorerFrame extends JFrame
    		this.dad = dad;
    	}
    	
+           @Override
 		public void mousePressed(MouseEvent e)
 		{
 			x1 = e.getX();
 			y1 = e.getY();
 		}
 		
+           @Override
 		public void mouseReleased(MouseEvent e)
 		{
 			x2 = e.getX();
@@ -424,6 +409,7 @@ public class ExplorerFrame extends JFrame
 			dad.zoomTo(x1, y1, x2, y2);
 		}
 		
+           @Override
 		public void mouseDragged(MouseEvent e)
 		{
 			x2 = e.getX();
@@ -435,6 +421,7 @@ public class ExplorerFrame extends JFrame
 
    class explorerWindowListener extends WindowAdapter
    {
+      @Override
       public void windowClosing(WindowEvent we)
       {
          ri.stop();
@@ -445,6 +432,7 @@ public class ExplorerFrame extends JFrame
 
    class explorerMenuListener implements MenuListener
    {
+      @Override
       public void menuSelected(MenuEvent e)
       {
          if (ri.isFinished() && Exporter.isAvailable())
@@ -453,10 +441,12 @@ public class ExplorerFrame extends JFrame
          }
       }
 
+      @Override
       public void menuDeselected(MenuEvent e)
       {
       }
 
+      @Override
       public void menuCanceled(MenuEvent e)
       {
       }
@@ -471,55 +461,27 @@ public class ExplorerFrame extends JFrame
          this.dad = dad;
       }
 
+      @Override
       public void actionPerformed(ActionEvent e)
       {
          String cmd = e.getActionCommand();
 
-         if (cmd.equals("Close"))
-         {
-            ri.stop();
-            processWindowEvent(
-               new WindowEvent(ExplorerFrame.this, WindowEvent.WINDOW_CLOSING));
-         }
-         else if (cmd.equals("Zoom Out"))
-         {
-            dad.zoomOut(2.0);
-         }
-         else if (cmd.equals("Zoom Way Out"))
-         {
-            dad.zoomOut(10.0);
-         }
+          switch (cmd) {
+              case "Close":
+                  ri.stop();
+                  processWindowEvent(
+                          new WindowEvent(ExplorerFrame.this, WindowEvent.WINDOW_CLOSING));
+                  break;
+              case "Zoom Out":
+                  dad.zoomOut(2.0);
+                  break;
+              case "Zoom Way Out":
+                  dad.zoomOut(10.0);
+                  break;
+              default:
+                  break;
+          }
       }
    }
    
-   class explorerImagePanel extends JPanel
-   {
-      private static final long serialVersionUID = -6892087835460309718L;
-      BufferedImage image;
-      int width, height;
-      
-      public explorerImagePanel(BufferedImage image)
-      {
-         this.image = image;
-         width = image.getWidth();
-         height = image.getHeight();
-      }
-      
-      public void paintComponent(Graphics g)
-      {
-         super.paintComponent(g);
-
-         if (image != null)
-         {
-            g.drawImage(image, 0, 0, this);
-         }
-
-         g.dispose();
-      }
-
-      public Dimension getPreferredSize()
-      {
-         return new Dimension(width, height);
-      }
-   }
 }

@@ -16,9 +16,6 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-/**
- *  $Id$
- */
 
 package org.maloi.evolvo.settings;
 
@@ -69,11 +66,12 @@ public class GlobalSettings
       props = new Properties();
       try
       {
-         FileInputStream fin = new FileInputStream("evolution.ini"); //$NON-NLS-1$
-         props.load(fin);
-         fin.close();
+          try (FileInputStream fin = new FileInputStream("evolution.ini") //$NON-NLS-1$
+          ) {
+              props.load(fin);
+          }
       }
-      catch (Exception e)
+      catch (IOException e)
       {
          int index;
          for (index = 0; index < ops.length; index++)
@@ -116,9 +114,10 @@ public class GlobalSettings
 
          try
          {
-            FileOutputStream fout = new FileOutputStream("evolution.ini"); //$NON-NLS-1$
-            props.store(fout, "Evolution Properties"); //$NON-NLS-1$
-            fout.close();
+             try (FileOutputStream fout = new FileOutputStream("evolution.ini") //$NON-NLS-1$
+             ) {
+                 props.store(fout, "Evolution Properties"); //$NON-NLS-1$
+             } //$NON-NLS-1$
          }
          catch (IOException ioe)
          {
@@ -199,8 +198,8 @@ public class GlobalSettings
 
    public boolean getBooleanProperty(String k)
    {
-      Boolean b = Boolean.parseBoolean(props.getProperty(k));
-      return b.booleanValue();
+      Boolean b = Boolean.valueOf(props.getProperty(k));
+      return b;
    }
 
    /** Stores the properties object in a file called evolution.ini.
@@ -215,9 +214,9 @@ public class GlobalSettings
    public void storeProperties(String fn)
       throws IOException, FileNotFoundException
    {
-      FileOutputStream fout = new FileOutputStream(fn);
-      props.store(fout, MessageStrings.getString("GlobalSettings.Evolution_Properties_69")); //$NON-NLS-1$
-      fout.close();
+       try (FileOutputStream fout = new FileOutputStream(fn)) {
+           props.store(fout, MessageStrings.getString("GlobalSettings.Evolution_Properties_69")); //$NON-NLS-1$
+       } //$NON-NLS-1$
    }
 
    /** Loads a Properties object from a file called evolution.ini.
@@ -232,8 +231,8 @@ public class GlobalSettings
    public void loadProperties(String fn)
       throws IOException, FileNotFoundException
    {
-      FileInputStream fin = new FileInputStream(fn);
-      props.load(fin);
-      fin.close();
+       try (FileInputStream fin = new FileInputStream(fn)) {
+           props.load(fin);
+       }
    }
 }

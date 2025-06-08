@@ -16,9 +16,6 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-/**
- *  $Id$
- */
 
 package org.maloi.evolvo.expressiontree.operators.pseudo;
 
@@ -77,7 +74,7 @@ public class SimpleTriplet implements PseudoOperatorInterface
    /* (non-Javadoc)
     * @see org.maloi.evolvo.expressiontree.operators.OperatorInterface#perform(org.maloi.evolvo.expressiontree.vm.Stack)
     */
-   public void perform(Stack theStack)
+   public void perform(Stack theStack, final double registers[])
    {
       // this does nothing.  The three values for this triplet will already be 
       // on the stack

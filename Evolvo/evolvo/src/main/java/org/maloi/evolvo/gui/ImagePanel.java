@@ -16,9 +16,6 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-/**
- *  $Id$
- */
 
 package org.maloi.evolvo.gui;
 
@@ -34,6 +31,7 @@ public abstract class ImagePanel extends JPanel implements ChangeListener
 {
    private static final long serialVersionUID = -7172562889022425835L;
 
+   @Override
    public Dimension getPreferredSize()
    {
       return null;
@@ -46,11 +44,9 @@ public abstract class ImagePanel extends JPanel implements ChangeListener
    
    public void flush()
    {
-      return;
    }   
    
 	public void replaceImage(RendererInterface ri)
 	{
-		return;
 	}
 }

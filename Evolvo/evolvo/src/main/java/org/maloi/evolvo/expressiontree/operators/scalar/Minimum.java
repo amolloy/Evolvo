@@ -16,9 +16,6 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-/**
- *  $Id$
- */
 
 package org.maloi.evolvo.expressiontree.operators.scalar;
 
@@ -35,7 +32,7 @@ public class Minimum implements OperatorInterface, Serializable
    private static final long serialVersionUID = -5833840632470912893L;
 
    /** Perform the operation. */
-   public void perform(Stack theStack)
+   public void perform(Stack theStack, final double registers[])
    {
       theStack.push(Math.min(theStack.pop(), theStack.pop()));
    }

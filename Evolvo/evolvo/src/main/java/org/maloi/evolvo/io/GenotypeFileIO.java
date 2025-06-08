@@ -16,9 +16,6 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-/**
- *  $Id$
- */
 
 package org.maloi.evolvo.io;
 
@@ -37,12 +34,9 @@ import org.maloi.evolvo.expressiontree.utilities.SyntaxErrorException;
 import org.maloi.evolvo.gui.LoadGenomeFileChooser;
 import org.maloi.evolvo.gui.SaveGenomeFileChooser;
 import org.maloi.evolvo.gui.GenericFileFilter;
-import org.maloi.evolvo.settings.GlobalSettings;
 
 public class GenotypeFileIO
 {
-   static GlobalSettings settings = GlobalSettings.getInstance();
-
    public static ExpressionTree getGenotypeFromFile(Component parent)
    {
       int result;
@@ -84,23 +78,22 @@ public class GenotypeFileIO
    {
       ExpressionTree expression;
 
-      FileReader reader = new FileReader(theFile);
-      StreamTokenizer st = new StreamTokenizer(reader);
-
-      // We wish to allow both C and C++ style comments
-      st.slashStarComments(true);
-      st.slashSlashComments(true);
-
-      // This is a simple, forgiving language, so ignore case
-      st.lowerCaseMode(true);
-
-      // Parses three expressionTrees
-      // They occur in this order:
-      // Hue, Saturation, Value
-
-      expression = ExpressionTreeParser.parse(st);
-
-      reader.close();
+       try (FileReader reader = new FileReader(theFile)) {
+           StreamTokenizer st = new StreamTokenizer(reader);
+           
+           // We wish to allow both C and C++ style comments
+           st.slashStarComments(true);
+           st.slashSlashComments(true);
+           
+           // This is a simple, forgiving language, so ignore case
+           st.lowerCaseMode(true);
+           
+           // Parses three expressionTrees
+           // They occur in this order:
+           // Hue, Saturation, Value
+           
+           expression = ExpressionTreeParser.parse(st);
+       }
 
       return expression;
    }
@@ -123,21 +116,15 @@ public class GenotypeFileIO
          return;
       }
 
-      String ext;
-
       String filename = theFile.getName();
       int length = filename.length();
       int i = filename.lastIndexOf('.');
       GenericFileFilter fileFilter =
          (GenericFileFilter) fileChooser.getFileFilter();
 
-      if (i > 0 && i < length - 1)
+      if (!(i > 0 && i < length - 1))
       {
-         ext = filename.substring(i + 1).toLowerCase();
-      }
-      else
-      {
-         ext = fileFilter.getExtensions()[0].toLowerCase();
+         String ext = fileFilter.getExtensions()[0].toLowerCase();
          filename = theFile.getPath().concat(".").concat(ext); //$NON-NLS-1$
          theFile = new File(filename);
       }
@@ -156,15 +143,13 @@ public class GenotypeFileIO
 
       try
       {
-         FileWriter writer = new FileWriter(theFile);
-
-         writer.write("// Evolvo Saved Genotype\n\n"); //$NON-NLS-1$
-
-         writer.write(expression.toString());
-
-         writer.close();
+          try (FileWriter writer = new FileWriter(theFile)) {
+              writer.write("// Evolvo Saved Genotype\n\n"); //$NON-NLS-1$
+              
+              writer.write(expression.toString());
+          } //$NON-NLS-1$
       }
-      catch (Exception e)
+      catch (IOException e)
       {
          System.out.println(e);
          JOptionPane.showMessageDialog(

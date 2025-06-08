@@ -16,9 +16,6 @@
  * Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
 
-/**
- *  $Id$
- */
 
 package org.maloi.evolvo.io.exporters.v1;
 
@@ -40,16 +37,19 @@ public class ImageIOExporter implements ExporterInterface, ImageObserver
    {
    }
 
+   @Override
    public String getName()
    {
       return name;
    }
 
+   @Override
    public String[] getFormatDescriptions()
    {
       return descriptions;
    }
 
+   @Override
    public String[] getFormatExtensions(String format)
    {
       if (format.equals("jpg")) //$NON-NLS-1$
@@ -64,6 +64,7 @@ public class ImageIOExporter implements ExporterInterface, ImageObserver
       return new String[] { format };
    }
 
+   @Override
    public void write(RenderedImage i, int which, File f) throws IOException
    {
       ImageIO.write(i, descriptions[which], f);
@@ -124,6 +125,7 @@ public class ImageIOExporter implements ExporterInterface, ImageObserver
       return formatNames;
    }
 
+   @Override
    public boolean isAvailable()
    {
       try
@@ -139,6 +141,7 @@ public class ImageIOExporter implements ExporterInterface, ImageObserver
       return true;
    }
 
+   @Override
    public void initialize()
    {
 		ImageIO.scanForPlugins();
@@ -146,6 +149,7 @@ public class ImageIOExporter implements ExporterInterface, ImageObserver
       descriptions = getWriterFormatNames();
    }
 
+   @Override
    public boolean imageUpdate(
       Image img,
       int infoflags,
